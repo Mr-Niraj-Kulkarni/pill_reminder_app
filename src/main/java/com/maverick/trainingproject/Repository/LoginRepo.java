@@ -14,25 +14,14 @@ public class LoginRepo{
     private PreparedStatement preparedStatement = null;
     private ResultSet rs = null;
     
-	// remove this constructor 
-	public LoginRepo() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/sample?user=root&password=26091998");
-			
-		}
-		catch(Exception e) {
-			System.out.println("Error: "+e);
-		}
 
-	}
 	
 	public boolean logincheck(loginModel login) {
 		try {
 			statement = connect.createStatement();
-			rs = statement.executeQuery("select * from email where email ='"+login.getEmail()+"' and password = '"+login.getPassword()+"'");
+			rs = statement.executeQuery("select userID from user_info where email ='"+login.getEmail()+"' and password = '"+login.getPassword()+"'");
             if(rs.next()) {
-            //System.out.println( rs.getString("email")+"    "+rs.getString("password"));
+            
             return true;
             }
 			
@@ -42,6 +31,9 @@ public class LoginRepo{
 		
 		return false;
 	}
+	
+	
+	
 	public boolean getEmailCheck(String useremail, String secretAns) {
 		// TODO Auto-generated method stub
 		try {

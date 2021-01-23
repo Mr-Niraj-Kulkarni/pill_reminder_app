@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 import com.maverick.trainingproject.Model.UserRegistrationInformation;
 
-public class RegistrationValidation {
+public class UserDataValidation {
 	
 	
 	//checks Strings are not empty 
@@ -15,7 +15,7 @@ public class RegistrationValidation {
 		
 		return true ;
 	}
-	
+		
 	
 	//check Contact Number validity
 	public boolean isValidContact(String contact) {

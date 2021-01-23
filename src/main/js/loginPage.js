@@ -39,6 +39,14 @@ const loginPage = {
 
 
     });
+    //forgot link event listener
+    document.getElementById("login-forgot").addEventListener("click", e => {
+      let forGot = document.getElementById("login");
+      forGot.innerHTML = forgotPage.render();
+      if (forgotPage.after_render()) {
+        forgotPage.after_render();
+      }
+    });
   },
   render: () => {
 
