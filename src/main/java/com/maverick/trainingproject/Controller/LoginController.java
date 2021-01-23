@@ -83,12 +83,12 @@ public class LoginController {
 	public String checkUser(@RequestBody UserForgotPasswordModel  userForgotPasswordModelObj ) throws SQLException {
 		
 		
-		PasswordEncryption encryption = new PasswordEncryption();
-		 String encryptedPassword=encryption.encryptPassword(userForgotPasswordModelObj.getUserPassword());
+		 PasswordEncryption encryption = new PasswordEncryption();
+		 String encryptedPassword = encryption.encryptPassword(userForgotPasswordModelObj.getUserPassword());
 		 userForgotPasswordModelObj.setUserPassword(encryptedPassword);
 		 
 		 ForgotPasswordService forgotPasswordServiceObj = new ForgotPasswordService() ;
-		 String message =forgotPasswordServiceObj.updateNewPassword(userForgotPasswordModelObj);
+		 String message = forgotPasswordServiceObj.updateNewPassword(userForgotPasswordModelObj);
 		 
 		 return message ;
 		

@@ -120,6 +120,61 @@ const userValidation = {
 
 
 
+  isValidEmailForForgotPassword: function () {
+    var forgotEmail = document.getElementById("mail").value;
+    let emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
+      "[a-zA-Z0-9_+&*-]+)*@" +
+      "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+      "A-Z]{2,7}$";
+
+    if (isBlank(forgotEmail)) {
+      document.getElementById("for-mail").innerHTML = "&#x274C;";
+      return false;
+    }
+    if (forgotEmail.match(emailRegex)) {
+      document.getElementById("for-mail").innerHTML = "&#x2705;";
+      return true;
+    }
+    else {
+      document.getElementById("for-mail").innerHTML = "&#x274C;";
+      return false;
+    }
+
+  },
+
+  isValidPasswordForForgotPassword: function () {
+    var password = document.getElementById("newPass").value;
+    let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/;
+    if (isBlank(password)) {
+      document.getElementById("for-npass").innerHTML = "&#x274C;";
+      return false;
+    }
+    if (password.match(passwordRegex)) {
+      document.getElementById("for-npass").innerHTML = "&#x2705;";
+      return true;
+    }else {
+
+      alert("1 Uppercase, 1 lowercase and 1 number along with 8-20 characters");
+      return false;
+    }
+  },
+
+  passwordCheckForForgotPassword: function () {
+    var password = document.getElementById("newPass").value;
+    var confirmpassword = document.getElementById("oldPass").value;
+    if (password.trim() === confirmpassword.trim()) {
+      document.getElementById("for-cpass").innerHTML = "&#x2705;";
+      return true;
+    }
+    else {
+      document.getElementById("for-cpass").innerHTML = "&#x274C;";
+      return false;
+    }
+  },
+
+
+
+
 
 }
 

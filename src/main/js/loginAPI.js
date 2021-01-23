@@ -1,7 +1,7 @@
 
 export const postLoginData = async (data) => {
   try {
-    const response = await fetch('http://localhost:8080/login', {
+    const response = await fetch('http://localhost:8090/login', {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export const postLoginData = async (data) => {
 
 export const postRegistrationData = async (data) => {
   try {
-    const response = await fetch('http://localhost:8080/register', {
+    const response = await fetch('http://localhost:8090/register', {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export const postRegistrationData = async (data) => {
 
 export const postForgotData = async (forgotdata) => {
   try {
-    const response = await fetch('http://localhost:8080/passwordUpdate', {
+    const response = await fetch('http://localhost:8090/passwordUpdate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -65,9 +65,7 @@ export const postForgotData = async (forgotdata) => {
       body: JSON.stringify(forgotdata)
 
     });
-    console.log("hiiii");
     const msg = await response.text();
-    console.log(msg);
     document.getElementById("responce-msg").innerHTML = msg;
 
   } catch (e) {
