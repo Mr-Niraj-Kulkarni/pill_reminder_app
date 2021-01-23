@@ -1,6 +1,6 @@
 import { postLoginData } from './loginAPI.js';
 import registrationPage from './registrationPage';
-
+import forgotPage from './forgotPage.js';
 /*function login_page(){
   return `
       <form id="login-f1" >
@@ -67,8 +67,8 @@ const loginPage = {
     let pwd = document.getElementById("login-pwd").value;
 
     const data = {
-      "email": email,
-      "password": pwd
+      "userEmail": email,
+      "userPassword": pwd
     }
 
     await postLoginData(data);

@@ -1,13 +1,15 @@
 package com.maverick.trainingproject.Service;
 
-import com.maverick.trainingproject.Model.UserRegistrationInformation;
-import com.maverick.trainingproject.Repository.LoginRepo;
+
+import com.maverick.trainingproject.Model.UserRegistrationInformationModel;
+import com.maverick.trainingproject.Repository.LoginRepository;
+
 
 public class UserRegistrationService {
 
-	public boolean registerUser(UserRegistrationInformation userObj) {
+	public boolean registerUser(UserRegistrationInformationModel userObj) {
 		// TODO Auto-generated method stub
-		RegistrationValidation registrationValidationObject = new RegistrationValidation() ;
+		UserDataValidation registrationValidationObject = new UserDataValidation() ;
 		
 		boolean isValidUserData=registrationValidationObject.validateUserRegistrationData(userObj) ;
 		
@@ -22,7 +24,7 @@ public class UserRegistrationService {
 				return false ;
 			}
 			
-			LoginRepo loginRepoObject= new  LoginRepo() ;
+			LoginRepository loginRepoObject= new  LoginRepository() ;
 			 
 			boolean isDataInserted =loginRepoObject.insertUserInformationToDB(userObj);
 			if(isDataInserted) {

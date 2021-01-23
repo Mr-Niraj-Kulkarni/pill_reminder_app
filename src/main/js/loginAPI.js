@@ -57,7 +57,7 @@ export const postRegistrationData = async (data) => {
 
 export const postForgotData = async (forgotdata) => {
   try {
-    const response = await fetch('http://localhost:8090/savechange', {
+    const response = await fetch('http://localhost:8080/passwordUpdate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

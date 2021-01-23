@@ -2,7 +2,8 @@ package com.maverick.trainingproject.Service;
 
 import java.util.regex.Pattern;
 
-import com.maverick.trainingproject.Model.UserRegistrationInformation;
+
+import com.maverick.trainingproject.Model.UserRegistrationInformationModel;
 
 public class UserDataValidation {
 	
@@ -64,7 +65,7 @@ public class UserDataValidation {
 	}
 	
 	
-	public boolean validateUserRegistrationData(UserRegistrationInformation userObj) {
+	public boolean validateUserRegistrationData(UserRegistrationInformationModel userObj) {
 		if(isBlank(userObj.getUserName()))
 			return false;
 		

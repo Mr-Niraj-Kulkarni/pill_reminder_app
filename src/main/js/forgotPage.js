@@ -67,9 +67,9 @@ const forgotPage = {
 
     if (Npwd == Opwd) {
       const forgotdata = {
-        "email": mail,
-        "secreateAnswer": Sans,
-        "password": Npwd
+        "userEmail": mail,
+        "userAnswer": Sans,
+        "userPassword": Npwd
       }
       console.log(forgotdata);
       await postForgotData(forgotdata);

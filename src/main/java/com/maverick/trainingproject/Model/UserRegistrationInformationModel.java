@@ -2,7 +2,7 @@ package com.maverick.trainingproject.Model;
 
 import java.sql.Date;
 
-public class UserRegistrationInformation {
+public class UserRegistrationInformationModel {
 	protected int userID ;
 	protected String  userName ;
 	protected String userEmail ;
