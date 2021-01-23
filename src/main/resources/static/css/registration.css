@@ -1,0 +1,50 @@
+
+form#reg-f1{
+  /*max-width: 500px;*/
+  justify-content: center;
+  align-items: center; 
+}
+table input{
+  height: 4vh;
+  width :41.4vh;
+  font-size: 2.2vh;
+}
+select,option{
+  max-width: 42.1vh;
+  height: 4vh;
+  font-size: 2.2vh;
+}
+h1{
+	text-align: center;
+}
+tr{
+  font-size: 2.2vh;
+}
+#reg-submit{
+  width: 41.4vh;
+  height: 4vh;
+  font-size: 2.2vh;
+}
+#p-reg-submit{
+  text-align: center;
+}
+.reg-left{
+  float:left;
+  font-size: 2vh;
+}
+.reg-right{
+  float:right;
+  font-size: 2vh;
+}
+.login{
+  padding: 5vh;
+  background-color: bisque;
+  /*width:70vh;
+  height: 30vh;*/
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+}
+

@@ -1,0 +1,59 @@
+.upper-container{
+  height:7vh;
+  background-color: green;
+  color: white;
+  text-align: center;
+  padding: 1.2vh;
+  text-underline-offset: 0.9vh;
+  font-size: 5vh;
+  font-family: Arial;
+  border-radius: 1vh;
+}
+.login{
+  padding: 5vh;
+  background-color: bisque;
+  /*width:70vh;
+  height: 30vh;*/
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+}
+.container{
+  height:88vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: aqua;
+}
+#login-email, #login-pwd{
+  height: 4vh;
+  width :41.4vh;
+  font-size: 2.2vh;
+}
+tr{
+  height:5vh;
+}
+#login-s1{
+  height: 4vh;
+  width: 42.2vh;
+  font-size: 2vh;
+}
+::placeholder{
+  font-size: 2.2vh;
+}
+.login-left{
+  float:left;
+  font-size: 2vh;
+}
+.login-right{
+  float:right;
+  font-size: 2vh;
+}
+#login-app{
+  font-size: 2.2vh;
+  text-align: center;
+  
+}
