@@ -3,8 +3,10 @@ import com.maverick.trainingproject.Model.UserForgotPasswordModel;
 import com.maverick.trainingproject.Model.UserLoginModel;
 
 import com.maverick.trainingproject.Model.UserRegistrationInformationModel;
-
+import com.maverick.trainingproject.Repository.LoginRepository;
 import com.maverick.trainingproject.Service.ForgotPasswordService;
+import com.maverick.trainingproject.Service.JwtResponse;
+import com.maverick.trainingproject.Service.JwtTokenUtil;
 import com.maverick.trainingproject.Service.LoginService;
 import com.maverick.trainingproject.Service.PasswordEncryption;
 import com.maverick.trainingproject.Service.UserRegistrationService;
@@ -13,6 +15,10 @@ import java.util.*;
 import java.io.*;
 import java.sql.SQLException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +36,9 @@ public class LoginController {
 	Scanner sc;
 	private String afterLoginMenu;
 	
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+	
 	
 	@CrossOrigin
 	@RequestMapping(value = "/" , method= {RequestMethod.GET})
@@ -40,24 +49,20 @@ public class LoginController {
 	@CrossOrigin
 	@RequestMapping(value = "/login" , method= {RequestMethod.POST})
 	@ResponseBody
-	public String login(@RequestBody UserLoginModel login) throws FileNotFoundException {
+	public ResponseEntity<?> login(@RequestBody UserLoginModel login){
 		loginRequestFromUser = new LoginService();
-		
-		File mainMenu = new File("E:\\Pill_Reminder_app\\trainingproject\\target\\classes\\static\\txt\\mainmenu.txt");
-		sc = new Scanner(mainMenu);
-		while(sc.hasNextLine()) {
-			afterLoginMenu = sc.nextLine();
-			
-		}
 		System.out.println(login.getUserEmail());
 		
 		boolean check = loginRequestFromUser.login(login);
 		if(check) {
-			
-			return afterLoginMenu;
+			final UserDetails userDetails = new User(login.getUserEmail(),login.getUserPassword(),
+					new ArrayList<>());
+			final String token = jwtTokenUtil.generateToken(userDetails);
+			return ResponseEntity.ok(new JwtResponse(token));
+			//return login.getUserId();
 		}
 		
-		return "false";
+		return ResponseEntity.ok(new JwtResponse(null));
 	}
 	
 
@@ -91,6 +96,32 @@ public class LoginController {
 		 String message =forgotPasswordServiceObj.updateNewPassword(userForgotPasswordModelObj);
 		 
 		 return message ;
+		
+		
+		
+	}
+	
+	
+	@CrossOrigin
+	@RequestMapping(value = "/home" , method= {RequestMethod.GET})
+	@ResponseBody
+	public String showHomePage() {
+		
+		 
+		 return "message" ;
+		
+		
+		
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/getSecretAns" , method= {RequestMethod.POST})
+	@ResponseBody
+	public String showSecretAns(@RequestBody UserLoginModel login) {
+		LoginRepository lr1 = new LoginRepository();
+		String ans = lr1.getsecretpassword(login);
+		 
+		 return ans ;
 		
 		
 		

@@ -1,26 +1,29 @@
 
 export const postLoginData = async (data) => {
   try {
+    //console.log(localStorage.getItem("jwtToken"));
     const response = await fetch('http://localhost:8080/login', {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',
+        'Authorization' : localStorage.getItem("jwtToken")
       },
       body: JSON.stringify(data)
     });
-    console.log("on line 11 ")
+    //console.log("on line 11 ")
     const isLoginDataValid = await response.text();
     console.log("login data", isLoginDataValid);
 
-    if (isLoginDataValid == "false") {
+    if (isLoginDataValid == 0) {
 
-      document.getElementById("login-app").innerHTML = "Error Signing in. Incorrect username / password";
+      alert("Error Signing in. Incorrect username / password");
     }
     else {
-      let raps = isLoginDataValid;
-
-      document.getElementById("container").innerHTML = isLoginDataValid;
-      console.log(raps);
+      //let raps = isLoginDataValid;
+      //document.getElementById("login").innerHTML = isLoginDataValid;
+      //window.location.href="#/home";
+      //console.log(raps);
+      getSecretAns(data);
     }
 
 
@@ -43,7 +46,7 @@ export const postRegistrationData = async (data) => {
     console.log("login data", isRegistrationDataValid);
 
 
-
+    //window.location.href = "http://localhost:8080/mainmenu";
     document.getElementById("login").innerHTML = isRegistrationDataValid;
 
 
@@ -73,4 +76,53 @@ export const postForgotData = async (forgotdata) => {
   } catch (e) {
     console.log("ERROR: ", e);
   }
+}
+
+export const getJwtToken = async (data) => {
+	  try {
+	    const response = await fetch('http://localhost:8080/login', {
+	      method: 'POST', // or 'PUT'
+	      headers: {
+	        'Content-Type': 'application/json',
+	      },
+	      body: JSON.stringify(data)
+	    });
+
+      const isRegistrationDataValid = await response.json();
+      console.log("on line 92",isRegistrationDataValid);
+      if(isRegistrationDataValid.token == null){
+        alert("Invalid Creds");
+
+      }
+      else{
+      console.log(isRegistrationDataValid);
+      localStorage.setItem("jwtToken",`Bearer `+isRegistrationDataValid.token);
+      console.log(localStorage.getItem("jwtToken"));
+      window.location.href="#/home";
+      getSecretAns(data);
+      }
+        
+      
+	  } catch (e) {
+	    console.log("ERROR: ", e);
+	  }
+	}
+
+const getSecretAns = async(data) =>{
+  console.log(data);
+	try{
+		const response = await fetch('http://localhost:8080/getSecretAns',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization' : localStorage.getItem("jwtToken")
+      },
+      body: JSON.stringify(data)
+    })
+      const returnFromServer = await response.text();
+      //console.log("haha",returnFromServer)
+      document.getElementById("home-page").innerHTML = returnFromServer;
+	} catch(e){
+		 console.log("ERROR: ", e);
+	}
 }

@@ -35,10 +35,15 @@
 }
 tr{
   height:5vh;
+  border: 1px solid red;
+  
+}
+td{
+	
 }
 #login-s1{
   height: 4vh;
-  width: 42.2vh;
+  width: 35vh;
   font-size: 2vh;
 }
 ::placeholder{
@@ -56,4 +61,11 @@ tr{
   font-size: 2.2vh;
   text-align: center;
   
+}
+.login-submit-btn{
+	text-align:center;
+}
+table{
+	
+	
 }

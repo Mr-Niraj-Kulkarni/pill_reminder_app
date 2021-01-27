@@ -8,7 +8,7 @@ public class DataBaseConnection {
 	public Connection databaseConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost/pill_reminder?user=root&password=26091998");
+			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost/pill_reminder?user=root&password=qwert12");
 			
 			return connect ;
 			
