@@ -30,7 +30,7 @@ const registrationPage = {
 
 
     document.getElementById("reg-backlogin").addEventListener("click", e => {
-      e.preventDefault();
+      //e.preventDefault();
       let divele = document.getElementById("login");
       divele.innerHTML = loginPage.render();
       if (loginPage.after_render()) {
@@ -312,9 +312,9 @@ const registrationPage = {
         <td id = "reg-td9"></td></tr>          
       </table><br>
       <p id="p-reg-submit"><input type = "submit" id = "reg-submit" value="REGISTER"/></p>
-    </form>
-    <p class="reg-left"><a href="#" id="reg-backlogin">Back to Login</a></p>
-          <p class="reg-right"><a href="#" id="reg-rules">Form Rules</a></p>
+    </form><nav>
+    <p class="reg-left"><a href="#/" id="reg-backlogin">Back to Login</a></p>
+          <p class="reg-right"><a href="#" id="reg-rules">Form Rules</a></p></nav>
   </div>
 
 `;

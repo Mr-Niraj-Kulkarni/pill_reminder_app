@@ -9,8 +9,11 @@ const forgotPage = {
     //save forgot data
     document.getElementById("save-data").addEventListener("click", e => {
       e.preventDefault();
+<<<<<<< HEAD
 
       alert("Password Updated")
+=======
+>>>>>>> cff86cabed5a6066cf6f9767f57845481a6f3c6c
       forgotPage.submitForgotData();
     });
 
@@ -22,7 +25,7 @@ const forgotPage = {
 
     //back to login page
     document.getElementById("cancel-data").addEventListener("click", e => {
-      e.preventDefault();
+    	//e.preventDefault();
       let divele = document.getElementById("login");
       divele.innerHTML = loginPage.render();
       if (loginPage.after_render()) {
@@ -70,10 +73,10 @@ const forgotPage = {
                 <td><input id = "oldPass" type = "password" /></td>
                 <td id = "for-cpass"></td>
               </tr>
-              <tr>
+              <tr><nav>
                 <td><br><a href = "#" ><button id = "save-data" type = "submit" style = "width:100%;">Save</button></a></td>
-                <td  align = "right"><br><a href = "#" ><button id = "cancel-data" style = "width:50%;">Cancel</button></a></td>
-              </tr>
+                <td  align = "right"><br><a href = "#/" ><button id = "cancel-data" style = "width:50%;" onclick="location.href='#/'"> cancel</button></a></td>
+              </nav></tr>
             </table>
           </form>
         

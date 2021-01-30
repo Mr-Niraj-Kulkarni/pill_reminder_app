@@ -4,7 +4,7 @@ package com.maverick.trainingproject.Model;
 
 
 public class UserLoginModel {
-	
+	private int userId;
 	private String userEmail;
 	private String userPassword;
 	public String getUserEmail() {
@@ -19,8 +19,16 @@ public class UserLoginModel {
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
-	
-
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	public UserLoginModel(String userEmail, String userPassword) {
+		setUserEmail(userEmail);
+		setUserPassword(userPassword);
+	}
 		
 	
 

@@ -21,13 +21,21 @@ public class UserProfileService {
 //			Date date, float userWeight, float userHeight, Blob userProfilePic, int userId,
 //			int userProfileId) 
 //	
+<<<<<<< HEAD
 	public String setProfileData(UserProfileModel model)
+=======
+	public String setProfileData(UserProfileModel model, String tokenEmail)
+>>>>>>> cff86cabed5a6066cf6f9767f57845481a6f3c6c
 	{
 		
 		ProfileRepositoryImplementation repo = new ProfileRepositoryImplementation();
 		int status = repo.setProfileData(model.getUserName(), model.getUserEmail(), model.getUserContact(),
 				model.getUserBloodGroup(), model.getUserDateOfBirth(), model.getUserWeight(),
+<<<<<<< HEAD
 				model.getUserHeight(), model.getUserProfilePic(), model.getUserId(), model.getUserProfileId());
+=======
+				model.getUserHeight(), model.getUserProfilePic(), model.getUserId(), model.getUserProfileId(),tokenEmail);
+>>>>>>> cff86cabed5a6066cf6f9767f57845481a6f3c6c
 		if (status == 0) {
 			return "New Email Id aldredy exist in database with other user, Try with Another Email Id.";
 		}else if (status == 1) {
@@ -45,10 +53,17 @@ public class UserProfileService {
 		return repo.getDependentProfileData(userEmail, dependentRelation, dependentName);
 	}
 
+<<<<<<< HEAD
 	public String setDependentProfileData(UserProfileModel dependentProfileModel) {
 		
 		ProfileRepositoryImplementation repo = new ProfileRepositoryImplementation();
 		int status = repo.setDependentProfileData(dependentProfileModel);
+=======
+	public String setDependentProfileData(UserProfileModel dependentProfileModel, String tokenEmail) {
+		
+		ProfileRepositoryImplementation repo = new ProfileRepositoryImplementation();
+		int status = repo.setDependentProfileData(dependentProfileModel, tokenEmail);
+>>>>>>> cff86cabed5a6066cf6f9767f57845481a6f3c6c
 		if (status == 0) {
 			return "This Email Id exist in Database with other user, try with another Email Id.";
 		}else if (status == 1) {

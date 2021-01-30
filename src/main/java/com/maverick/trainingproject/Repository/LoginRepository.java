@@ -22,9 +22,9 @@ public class LoginRepository{
 			Connection connect=dbObject.databaseConnection() ;
 			
 			statement = connect.createStatement();
-			rs = statement.executeQuery("select userID from user_info where email ='"+login.getUserEmail()+"' and password = '"+login.getUserPassword()+"'");
+			rs = statement.executeQuery("select userID from user_info where userEmail ='"+login.getUserEmail()+"' and userPassword = '"+login.getUserPassword()+"'");
             if(rs.next()) {
-            
+            	login.setUserId(rs.getInt("userId"));
             return true;
             }
 			
@@ -101,6 +101,42 @@ public class LoginRepository{
 			return false  ;
 		}
 		
+	}
+	
+	public String getsecretpassword(UserLoginModel login) {
+		try {
+			DataBaseConnection dbObject= new DataBaseConnection() ;
+			Connection connect=dbObject.databaseConnection() ;
+			
+			statement = connect.createStatement();
+			rs = statement.executeQuery("select secreteAnswer from user_info where userEmail ='"+login.getUserEmail()+"'");
+            if(rs.next()) {
+            	return rs.getString("secreteAnswer");
+            }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return "false";
+	}
+	
+	public boolean checkTokenEmailValid(String userEmail) {
+		try {
+			DataBaseConnection dbObject= new DataBaseConnection() ;
+			Connection connect=dbObject.databaseConnection() ;
+			
+			statement = connect.createStatement();
+			rs = statement.executeQuery("select userId from user_info where userEmail ='"+userEmail+"'");
+            if(rs.next()) {
+            	return true;
+            }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 	
 
