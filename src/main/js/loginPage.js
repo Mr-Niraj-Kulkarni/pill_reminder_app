@@ -1,6 +1,6 @@
 import { postLoginData } from './loginAPI.js';
 import registrationPage from './registrationPage';
-
+import forgotPage from './forgotPage.js';
 /*function login_page(){
   return `
       <form id="login-f1" >
@@ -39,6 +39,14 @@ const loginPage = {
 
 
     });
+    //forgot link event listener
+    document.getElementById("login-forgot").addEventListener("click", e => {
+      let forGot = document.getElementById("login");
+      forGot.innerHTML = forgotPage.render();
+      if (forgotPage.after_render()) {
+        forgotPage.after_render();
+      }
+    });
   },
   render: () => {
 
@@ -59,10 +67,10 @@ const loginPage = {
     let pwd = document.getElementById("login-pwd").value;
 
     const data = {
-      "email": email,
-      "password": pwd
+      "userEmail": email,
+      "userPassword": pwd
     }
-
+    console.log(JSON.stringify(JSON.stringify(data), JSON.stringify({ "flag": 1 })));
     await postLoginData(data);
 
   }

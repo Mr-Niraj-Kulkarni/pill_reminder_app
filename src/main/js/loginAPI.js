@@ -6,7 +6,7 @@ export const postLoginData = async (data) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(JSON.stringify(data))
     });
     console.log("on line 11 ")
     const isLoginDataValid = await response.text();
@@ -48,6 +48,27 @@ export const postRegistrationData = async (data) => {
 
 
 
+
+  } catch (e) {
+    console.log("ERROR: ", e);
+  }
+}
+
+
+export const postForgotData = async (forgotdata) => {
+  try {
+    const response = await fetch('http://localhost:8080/passwordUpdate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(forgotdata)
+
+    });
+    console.log("hiiii");
+    const msg = await response.text();
+    console.log(msg);
+    document.getElementById("responce-msg").innerHTML = msg;
 
   } catch (e) {
     console.log("ERROR: ", e);
