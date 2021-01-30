@@ -85,9 +85,9 @@ export const getJwtToken = async (data) => {
 	      headers: {
 	        'Content-Type': 'application/json',
 	      },
-	      body: JSON.stringify(data)
-	    });
-
+        body: JSON.stringify(data)
+      });
+      
       const isRegistrationDataValid = await response.json();
       console.log("on line 92",isRegistrationDataValid);
       if(isRegistrationDataValid.token == null){
@@ -121,7 +121,7 @@ const getSecretAns = async(data) =>{
     })
       const returnFromServer = await response.text();
       //console.log("haha",returnFromServer)
-      document.getElementById("home-page").innerHTML = returnFromServer;
+      //document.getElementById("home-page").innerHTML = returnFromServer;
 	} catch(e){
 		 console.log("ERROR: ", e);
 	}

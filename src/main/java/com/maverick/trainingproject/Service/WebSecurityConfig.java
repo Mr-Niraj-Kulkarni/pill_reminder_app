@@ -30,6 +30,7 @@ public void configure(WebSecurity web) throws Exception {
 	   web.ignoring().antMatchers("/favicon.ico");
 	   web.ignoring().antMatchers("/register");
 	   web.ignoring().antMatchers("/passwordUpdate");
+	   web.ignoring().antMatchers("/7492e3ec-facb-4029-a2d8-de263411715b");
 }
 
 @Autowired

@@ -48,7 +48,7 @@ const forgotPage = {
               </tr>
               <tr><nav>
                 <td><br><a href = "#" ><button id = "save-data" type = "submit" style = "width:100%;">Save</button></a></td>
-                <td  align = "right"><br><a href = "#/" ><button id = "cancel-data" style = "width:50%;">Cancel</button></a></td>
+                <td  align = "right"><br><a href = "#/" ><button id = "cancel-data" style = "width:50%;" onclick="location.href='#/'"> cancel</button></a></td>
               </nav></tr>
             </table>
           </form>

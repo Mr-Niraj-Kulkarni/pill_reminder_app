@@ -1,0 +1,80 @@
+.dependent-profile{
+  display:flex;
+  flex-direction: column;
+  height:87vh;
+  flex: 6;
+}
+.add-view-dependent{
+  border: 1px solid black;
+  flex:2;
+  text-align: right;
+}
+.dependent-form{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  flex: 10;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+#profile-photo{
+  width: 20vh;
+  height: 20vh;
+  border-radius: 50%;
+}
+#profile-photos{
+  display: flex;
+  border: 1px solid black;
+  height:87vh;
+  flex: 6;
+  align-items: center;
+  justify-content: center;
+}
+input{
+  height: 4vh;
+  width: 30vh;
+  font-size: 2.2vh;
+}
+#profile-save,#dependent-save{
+  width: 10vh;
+}
+#profile-cancel,#dependent-cancel{
+  width: 10vh;
+}
+#profile-edit,#dependent-edit{
+  width: 10vh;
+}
+.image-para{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+th{
+  text-align: left;
+}
+.save-cancel{
+  margin-left: 1vh;
+  margin-right: 1vh;
+}
+#add-view-form input{
+  width: 20vh;
+}
+#relationship,#relationship-name{
+  height: 4vh;
+  font-size: 2.2vh;
+}
+select#dependent-relationship{
+  height: 4vh;
+  width: 30.8vh;
+  font-size: 2.2vh;
+}
+.editvisiblity{
+  visibility: hidden;
+}
+.image-cum-editbtn{
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+

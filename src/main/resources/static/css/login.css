@@ -2,12 +2,27 @@
   height:7vh;
   background-color: green;
   color: white;
-  text-align: center;
+  /*text-align: center;*/
   padding: 1.2vh;
   text-underline-offset: 0.9vh;
   font-size: 5vh;
   font-family: Arial;
   border-radius: 1vh;
+  display: flex;
+}
+.menu-icon{
+  text-align: left;
+  flex: 1;
+  /*visibility: hidden;*/
+}
+.logout-icon{
+  text-align: right;
+  flex: 1;
+  /*visibility: hidden;*/
+}
+.title{
+  text-align: center;
+  flex: 10;
 }
 .login{
   padding: 5vh;
@@ -23,7 +38,7 @@
 .container{
   height:88vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   background-color: aqua;
@@ -38,8 +53,8 @@ tr{
   border: 1px solid red;
   
 }
-td{
-	
+div:empty{
+  display: none;
 }
 #login-s1{
   height: 4vh;

@@ -38,6 +38,7 @@ if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
 jwtToken = requestTokenHeader.substring(7);
 try {
 userEmail = jwtTokenUtil.getUsernameFromToken(jwtToken);
+//System.out.println(userEmail+"dsadasdsa");
 } 
 catch (IllegalArgumentException e) {
 System.out.println("Unable to get JWT Token");
@@ -64,6 +65,7 @@ UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new Us
 userDetails, null, userDetails.getAuthorities());
 usernamePasswordAuthenticationToken
 .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+System.out.println("AFTER CHECK TOKEN");
 
 // After setting the Authentication in the context, we specify
 // that the current user is authenticated. So it passes the

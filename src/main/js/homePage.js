@@ -1,38 +1,29 @@
 
 const homePage = {
-  /*after_render: function () {
-    //login submit button event Listener
-    document.getElementById("login-s1").addEventListener("click", e => {
-      e.preventDefault();
-      loginPage.submitLoginData();
-    });
-
-    //new user registration link event listener 
-    document.getElementById("login-newUser").addEventListener("click", e => {
-      //e.preventDefault();
-      let divele = document.getElementById("login");
-      divele.innerHTML = registrationPage.render();
-      if (registrationPage.after_render()) {
-        registrationPage.after_render();
-      }
-
-
-
-    });
-    //forgot link event listener
-    document.getElementById("login-forgot").addEventListener("click", e => {
-      let forGot = document.getElementById("login");
-      forGot.innerHTML = forgotPage.render();
-      if (forgotPage.after_render()) {
-        forgotPage.after_render();
-      }
-    });
-  },*/
+  after_render: function(){
+  document.getElementById("mainbar").style.flexDirection = "column";
+  },
   render: () => {
 
     return `
-    <h1>You are in</h1>
-    <div id="home-page">Unauthorized Entry</div>
+    <div class="sidebar_one" id="sidebar_one">
+    <a href="#/home" id="home-link">Home</a><br>
+    <a href="#/profile" id="profile-link">Profile</a>
+    </div>
+      <div class="mainbar" id="mainbar">
+        <div class="main_top_row" id="main_top_row">
+          <div class="user_profile" id="user_profile">
+          user profile
+          </div>
+          <div class="welcome_name" id="welcome_name">
+            <br>welcome name
+          </div>
+        </div>
+        <div class="main_mid_row" id="main_mid_row">med history</div>
+        <div class="main_bottom_row" id="main_bottom_row">
+          <input type="button" id="add-medical-history" value="Add Medical History" />
+        </div>
+      </div>
      `;
   },
 
