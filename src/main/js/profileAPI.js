@@ -124,7 +124,7 @@ export const uploadProfilePicture = async(formdata)=>{
         'Authorization' : 'Bearer 9f8d93a300bcdef10c6ba00dcb564480d83e56c1',
         "Access-Control-Allow-Origin" : "*",
         "Access-Control-Allow-Methods": "POST,",
-        "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+        "Access-Control-Allow-Headers": "Content-Type, origin, Access-Control-Allow-Headers, Authorization, X-Requested-With"
       },
       body: formdata
     })

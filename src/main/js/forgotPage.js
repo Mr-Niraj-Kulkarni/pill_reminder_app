@@ -8,20 +8,20 @@ const forgotPage = {
     //save forgot data
     document.getElementById("save-data").addEventListener("click", e => {
       e.preventDefault();
-<<<<<<< HEAD
-      alert("hello darling")
-=======
->>>>>>> cff86cabed5a6066cf6f9767f57845481a6f3c6c
+// <<<<<<< HEAD
+//       alert("hello darling")
+// =======
+// >>>>>>> cff86cabed5a6066cf6f9767f57845481a6f3c6c
       forgotPage.submitForgotData();
     });
 
     //back to login page
     document.getElementById("cancel-data").addEventListener("click", e => {
-<<<<<<< HEAD
-      e.preventDefault();
-=======
+// <<<<<<< HEAD
+//       e.preventDefault();
+// =======
     	//e.preventDefault();
->>>>>>> cff86cabed5a6066cf6f9767f57845481a6f3c6c
+// >>>>>>> cff86cabed5a6066cf6f9767f57845481a6f3c6c
       let divele = document.getElementById("login");
       divele.innerHTML = loginPage.render();
       if (loginPage.after_render()) {
@@ -54,12 +54,7 @@ const forgotPage = {
                 <th>Confirm Password : </th>
                 <td><input id = "oldPass" type = "password" /></td>
               </tr>
-<<<<<<< HEAD
-              <tr>
-                <td><br><a href = "#" ><button id = "save-data" type = "submit" style = "width:100%;">Save</button></a></td>
-                <td  align = "right"><br><a href = "#" ><button id = "cancel-data" style = "width:50%;">Cancel</button></a></td>
-              </tr>
-=======
+
               <tr><nav>
                 <td><br><a href = "#" ><button id = "save-data" type = "submit" style = "width:100%;">Save</button></a></td>
                 <td  align = "right"><br><a href = "#/" ><button id = "cancel-data" style = "width:50%;" onclick="location.href='#/'"> cancel</button></a></td>
@@ -71,7 +66,14 @@ const forgotPage = {
       </div>
     `;
   },
-
+/* after line 56 paste
+// <<<<<<< HEAD
+//               <tr>
+//                 <td><br><a href = "#" ><button id = "save-data" type = "submit" style = "width:100%;">Save</button></a></td>
+//                 <td  align = "right"><br><a href = "#" ><button id = "cancel-data" style = "width:50%;">Cancel</button></a></td>
+//               </tr>
+// =======
+*/ 
   submitForgotData: async function () {
     let mail = document.getElementById("mail").value;
     let Sans = document.getElementById("S-ans").value;

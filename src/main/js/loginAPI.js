@@ -77,3 +77,33 @@ export const postForgotData = async (forgotdata) => {
     console.log("ERROR: ", e);
   }
 }
+
+export const getJwtToken = async (data) => {
+  try {
+    const response = await fetch('http://localhost:8080/login', {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
+    
+    const isRegistrationDataValid = await response.json();
+    console.log("on line 92",isRegistrationDataValid);
+    if(isRegistrationDataValid.token == null){
+      alert("Invalid Creds");
+
+    }
+    else{
+    console.log(isRegistrationDataValid);
+    localStorage.setItem("jwtToken",`Bearer `+isRegistrationDataValid.token);
+    console.log(localStorage.getItem("jwtToken"));
+    window.location.href="#/home";
+    
+    }
+      
+    
+  } catch (e) {
+    console.log("ERROR: ", e);
+  }
+}
