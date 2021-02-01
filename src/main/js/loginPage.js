@@ -1,8 +1,6 @@
 import { postLoginData } from './loginAPI.js';
-import {getJwtToken} from './loginAPI.js';
 import registrationPage from './registrationPage';
 import forgotPage from './forgotPage.js';
-<<<<<<< HEAD
 /*function login_page(){
   return `
       <form id="login-f1" >
@@ -21,9 +19,6 @@ import forgotPage from './forgotPage.js';
 }
 export default login_page;
 */
-=======
-
->>>>>>> cff86cabed5a6066cf6f9767f57845481a6f3c6c
 const loginPage = {
   after_render: function () {
     //login submit button event Listener
