@@ -17,7 +17,7 @@ public class MedicalHistoryDisplayService {
 		
 		ArrayList<MedicalHistoryModel> medicalHistoryData =new MedicalHistoryRepository().getMedicalHistoryDataFromDB(userEmail,dependentRelation,dependentName); 
 		
-		return null ; 
+		return medicalHistoryData ; 
 		
 		
 	}

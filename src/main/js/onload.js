@@ -5,10 +5,12 @@ import homePage from './homePage.js';
 import userProfilePage from './userProfilePage';
 import header from './header.js';
 import sideMenu from './sideMenu.js';
+import medicalHistoryPage from './medicalHistoryPage.js';
 import '../resources/static/css/login.css';
 import '../resources/static/css/registration.css';
 import '../resources/static/css/home.css';
 import '../resources/static/css/profile.css';
+
 /*import '../resources/static/css/w3.css';
 import '../resources/static/css/googleapi.css';*/
 
@@ -23,23 +25,25 @@ import '../resources/static/css/googleapi.css';*/
 rout();*/
 
 const routes = {
-		  '/' : loginPage,
-		  '/signup': registrationPage,
-		  '/forgotpwd' : forgotPage,
-			'/home' : homePage,
-			'/profile' : userProfilePage
-		}
-const parseRequestUrl = () =>{
-		  const url = document.location.hash.toLowerCase();
-		  const request = url.split('/');
-		  return {
-		    resource: request[1],
-		    id: request[2],
-		    verb: request[3]
-		  }
-		  
+	'/': loginPage,
+	'/signup': registrationPage,
+	'/forgotpwd': forgotPage,
+	'/home': homePage,
+	'/profile': userProfilePage,
+	'/medicalhistory': medicalHistoryPage
 }
-		//rootEle.innerHTML=LoginScreen.render();
+const parseRequestUrl = () => {
+
+	const url = document.location.hash.toLowerCase();
+	const request = url.split('/');
+	return {
+		resource: request[1],
+		id: request[2],
+		verb: request[3]
+	}
+
+}
+//rootEle.innerHTML=LoginScreen.render();
 const router = async () => {
 		  const request = parseRequestUrl();
 		  const parseUrl = (request.resource ? `/${request.resource}` : '/') + 
@@ -76,6 +80,6 @@ const router = async () => {
 		  
 }
 
-window.addEventListener("load",router);
-window.addEventListener("hashchange",router);
+window.addEventListener("load", router);
+window.addEventListener("hashchange", router);
 

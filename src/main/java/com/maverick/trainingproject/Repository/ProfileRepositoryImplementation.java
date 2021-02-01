@@ -71,7 +71,7 @@ public class ProfileRepositoryImplementation implements ProfileRepository {
 				
 //				get user dependent no of relations present in Database
 				System.out.println(List.getUserId());
-				String query1 = "select distinct(dependentRelation) from user_dependent where userId = '"+List.getUserId()+"'";
+				String query1 = "select distinct(dependentRelation) from user_dependents where userId = '"+List.getUserId()+"'";
 				rs = statement.executeQuery(query1);
 				System.out.println(List.getUserId());
 				//if (rs.next()) {
@@ -180,7 +180,7 @@ public class ProfileRepositoryImplementation implements ProfileRepository {
 		Connection connect = dbObject.databaseConnection() ;
 		String query = "select i.userId, d.dependentEmail, d.dependentContact, "
 				+ "d.dependentBloodGroup, d.dependentDateOfBirth, d.dependentWeight, d.dependentHeight "
-				+ "from user_info as i inner join user_dependent as d on i.userId = d.userId "
+				+ "from user_info as i inner join user_dependents as d on i.userId = d.userId "
 				+ "where i.userEmail = '"+userEmail+"' and d.dependentRelation = '"+dependentRelation+"' and d.dependentName = '"+dependentName+"'";
 		try {
 			statement = connect.createStatement();
@@ -225,7 +225,7 @@ public class ProfileRepositoryImplementation implements ProfileRepository {
 		
 		 System.out.println(dependentRelation);
 		 System.out.println(dependentName);
-	    String query="select dependentId from user_dependents where dependentuserId='"+userId+"' and dependentRelation='"+dependentRelation+"'"
+	    String query="select dependentId from user_dependentss where dependentuserId='"+userId+"' and dependentRelation='"+dependentRelation+"'"
 	    		     + "and dependentName='"+dependentName+"'";
 	    
 	    ResultSet rs= connect.createStatement().executeQuery(query);
@@ -241,7 +241,7 @@ public class ProfileRepositoryImplementation implements ProfileRepository {
 		DataBaseConnection dbObject = new DataBaseConnection() ;
 		Connection connect = dbObject.databaseConnection() ;
 	
-		//String query = "select * from user_dependent as d, user_dependent as s "
+		//String query = "select * from user_dependents as d, user_dependents as s "
 			//	+ "where d.dependentId != s.dependentId and d.dependentEmail = '"+dependentProfileModel.getDependentEmail()+"' ";
 		
 		int id = 0;
@@ -259,7 +259,7 @@ public class ProfileRepositoryImplementation implements ProfileRepository {
 		//																								  //
 		//################################################################################################//
 		
-		String query1 = "update user_dependent as d, user_info as i "
+		String query1 = "update user_dependents as d, user_info as i "
 				+ "set d.dependentRelation = '"+dependentProfileModel.getDependentRelation()+"', "
 				+ "d.dependentName = '"+dependentProfileModel.getDependentName()+"', d.dependentEmail = '"+dependentProfileModel.getDependentEmail()+"', "
 				+ "d.dependentContact = '"+dependentProfileModel.getDependentContact()+"', d.dependentBloodGroup = '"+dependentProfileModel.getDependentBloodGroup()+"', "
@@ -268,7 +268,7 @@ public class ProfileRepositoryImplementation implements ProfileRepository {
 				+ "where i.userId = d.userId and i.userEmail = '"+dependentProfileModel.getUserEmail()+"' "
 				+ "and d.userId = '"+id+"' ";
 		
-		String query3 = "insert into user_dependent(userId, dependentName, dependentEmail, dependentRelation, "
+		String query3 = "insert into user_dependents(userId, dependentName, dependentEmail, dependentRelation, "
 				+ "dependentContact, dependentBloodGroup, dependentWeight, dependentHeight, dependentDateOfBirth) "
 				+ "values('"+id+"', '"+dependentProfileModel.getDependentName()+"', '"+dependentProfileModel.getDependentEmail()+"', "
 				+ "'"+dependentProfileModel.getDependentRelation()+"', '"+dependentProfileModel.getDependentContact()+"', "

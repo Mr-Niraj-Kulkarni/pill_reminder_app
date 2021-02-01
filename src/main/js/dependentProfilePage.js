@@ -1,8 +1,3 @@
-import { postLoginData } from './loginAPI.js';
-import {getJwtToken} from './loginAPI.js';
-import registrationPage from './registrationPage';
-import forgotPage from './forgotPage.js';
-import {getProfileData} from './loginAPI.js'
 
 const dependentProfilePage = {
   after_render: function () {

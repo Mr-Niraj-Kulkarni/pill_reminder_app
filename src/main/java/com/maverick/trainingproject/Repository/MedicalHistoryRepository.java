@@ -26,21 +26,26 @@ public class MedicalHistoryRepository {
 		
 		 System.out.println(dependentRelation);
 		 System.out.println(dependentName);
-	    String query="select dependentId from user_dependents where dependentuserId='"+userId+"' and dependentRelation='"+dependentRelation+"'"
-	    		     + "and dependentName='"+dependentName+"'";
+	    String query="select dependentId from user_dependents where userId=? and dependentRelation=? and dependentName=?";
 	    
-	    ResultSet rs= connect.createStatement().executeQuery(query);
+	    PreparedStatement pstmt = connect.prepareStatement(query,
+                Statement.RETURN_GENERATED_KEYS);
+	    pstmt.setInt(1, userId);
+	    pstmt.setString(2,dependentRelation);
+	    pstmt.setString(3,dependentName);
+	    ResultSet rs=pstmt.executeQuery();
 		if(rs.next()) {
+			System.out.println("this dependent"+rs.getInt("dependentId"));
 			return rs.getInt("dependentId");
 		}
 		return 0 ;
 	}
 	
-	public boolean InsertUserMedicalDataToDB(MedicalHistoryModel userMedicalHistoryModelObj) throws SQLException {
+	public boolean InsertUserMedicalDataToDB(MedicalHistoryModel userMedicalHistoryModelObj,String userEmail) throws SQLException {
 		DataBaseConnection  dbObj= new DataBaseConnection() ;
 		
 	    Connection connect = dbObj.databaseConnection() ;
-	    int userId=getUserId(userMedicalHistoryModelObj.getUserEmail(),connect);
+	    int userId=getUserId(userEmail,connect);
 	    
 	    //insert query inserting user Medical History 
 	    String query= "insert into user_medical_history (userId_M,userIlliness,userDoctorDetails,userMedicine,"
@@ -61,9 +66,9 @@ public class MedicalHistoryRepository {
 	    pstmt.setDate(6, userMedicalHistoryModelObj.getMedicineEndDate());
 	    pstmt.setInt(7, userMedicalHistoryModelObj.getDosageAmount());
 	    pstmt.setString(8, userMedicalHistoryModelObj.getDosageFrequency());
-	    pstmt.setTime(9, userMedicalHistoryModelObj.getDoageBreakfastTime());
-	    pstmt.setTime(10, userMedicalHistoryModelObj.getDoageLunchTime());
-	    pstmt.setTime(11, userMedicalHistoryModelObj.getDoageDinnerTime());
+	    pstmt.setTime(9, userMedicalHistoryModelObj.getDosageBreakfastTime());
+	    pstmt.setTime(10, userMedicalHistoryModelObj.getDosageLunchTime());
+	    pstmt.setTime(11, userMedicalHistoryModelObj.getDosageDinnerTime());
 	    pstmt.setInt(12, userMedicalHistoryModelObj.getEmailNotification());
 		
 	    int status = pstmt.executeUpdate();
@@ -76,12 +81,12 @@ public class MedicalHistoryRepository {
 		}
 	}
 	
-	public boolean InsertDependentMedicalDataToDB(DependentMedicalHistoryModel dependentMedicalHistoryModelObj) throws SQLException {
+	public boolean InsertDependentMedicalDataToDB(DependentMedicalHistoryModel dependentMedicalHistoryModelObj,String userEmail) throws SQLException {
 		DataBaseConnection  dbObj= new DataBaseConnection() ;
 		
 	    Connection connect = dbObj.databaseConnection() ;
 	    
-	    int userId=getUserId(dependentMedicalHistoryModelObj.getUserEmail(),connect);
+	    int userId=getUserId(userEmail,connect);
 	    
 	    System.out.println(userId);
 	    
@@ -109,9 +114,9 @@ public class MedicalHistoryRepository {
 	    pstmt.setDate(7, dependentMedicalHistoryModelObj.getMedicineEndDate());
 	    pstmt.setInt(8, dependentMedicalHistoryModelObj.getDosageAmount());
 	    pstmt.setString(9, dependentMedicalHistoryModelObj.getDosageFrequency());
-	    pstmt.setTime(10, dependentMedicalHistoryModelObj.getDoageBreakfastTime());
-	    pstmt.setTime(11, dependentMedicalHistoryModelObj.getDoageLunchTime());
-	    pstmt.setTime(12, dependentMedicalHistoryModelObj.getDoageDinnerTime());
+	    pstmt.setTime(10, dependentMedicalHistoryModelObj.getDosageBreakfastTime());
+	    pstmt.setTime(11, dependentMedicalHistoryModelObj.getDosageLunchTime());
+	    pstmt.setTime(12, dependentMedicalHistoryModelObj.getDosageDinnerTime());
 	    pstmt.setInt(13, dependentMedicalHistoryModelObj.getEmailNotification());
 		
 	    int status = pstmt.executeUpdate();
@@ -205,43 +210,45 @@ public class MedicalHistoryRepository {
 		    int userId=getUserId(userEmail,connect);
 		    String query="" ;
 		    PreparedStatement pstmt ;
-		    
+		    System.out.println(userId);
 		    if(dependentRelation!=null && dependentName!=null) {
 		    	int dependentId=getDependentId(userId,dependentRelation,dependentName,connect);
-		    	query="Select * from user_medical_history where dependentUser=? and dependentId=?";
+		    	query="Select * from dependent_medical_history where dependentUser=? and dependentId=?";
 		    	pstmt = connect.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
-		    	pstmt.setInt(1, dependentId);
-		    	pstmt.setInt(2, userId);
-		    
-		    }
-		    else {
+		    	pstmt.setInt(1,userId );
+		    	pstmt.setInt(2, dependentId);
 		    	
-		    			query="Select * from dependent_medical_history where userId_M=?";
-		    			pstmt = connect.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
-		    			pstmt.setInt(1, userId);
-		    }
-		    
-		    ResultSet rs=pstmt.executeQuery(query);
-		   
-		    ArrayList<MedicalHistoryModel> arrlist= new ArrayList<MedicalHistoryModel>();
-		    
-		    MedicalHistoryModel dataObj;
-		    
-		    
-		    while(rs.next()) {
+		    	ResultSet rs=pstmt.executeQuery();
+ 			   
+			    ArrayList<MedicalHistoryModel> arrlist= new ArrayList<MedicalHistoryModel>();
+			    
+			    MedicalHistoryModel dataObj;
+			
+			
+			
+			while(rs.next()) {
 		    	dataObj= new MedicalHistoryModel() ;
 		    	
-		    	dataObj.setMedicalHistoryId(rs.getInt("userMedicalHistoryId"));
-		    	dataObj.setIlliness(rs.getString("userIlliness"));
-		    	dataObj.setDoctorDetails(rs.getString("userDoctorDetails"));
-		    	dataObj.setMedicine(rs.getString("userMedicine"));
-		    	dataObj.setMedicineStartDate(rs.getDate("userMedicineStartDate"));
-		    	dataObj.setMedicineEndDate(rs.getDate("userMedicineEndDate"));
-		    	dataObj.setDosageAmount(rs.getInt("userDosageAmount"));
-		    	dataObj.setDosageFrequency(rs.getString("userDosageFrequency"));
-		    	dataObj.setDoageBreakfastTime(rs.getTime("userDosageBreakfastTime"));
-		    	dataObj.setDoageLunchTime(rs.getTime("userDosageLunchTime"));
-		    	dataObj.setDoageDinnerTime(rs.getTime("userDosageDinnerTime"));
+		    	dataObj.setMedicalHistoryId(rs.getInt("dependentMedicalHistoryId"));
+		    	System.out.println(rs.getInt("dependentMedicalHistoryId"));
+		    	dataObj.setIlliness(rs.getString("dependentIlliness"));
+		    	dataObj.setDoctorDetails(rs.getString("dependentDoctorDetails"));
+		    	dataObj.setMedicine(rs.getString("dependentMedicine"));
+		    	dataObj.setMedicineStartDate(rs.getDate("dependentMedicineStartDate"));
+		    	dataObj.setMedicineEndDate(rs.getDate("dependentMedicineEndDate"));
+		    	dataObj.setDosageAmount(rs.getInt("dependentDosageAmount"));
+		    	dataObj.setDosageFrequency(rs.getString("dependentDosageFrequency"));
+		    	
+		    	if(rs.getTime("dependentDosageBreakfastTime") != null)
+		    		dataObj.setDosageBreakfastTime(rs.getTime("dependentDosageBreakfastTime"));
+		    		
+		    	if(rs.getTime("dependentDosageLunchTime") != null) {
+		    		dataObj.setDosageLunchTime(rs.getTime("dependentDosageLunchTime"));
+		    		System.out.println(dataObj);
+		    	}
+		    	if(rs.getTime("dependentDosageDinnerTime") != null)
+		    		dataObj.setDosageDinnerTime(rs.getTime("dependentDosageDinnerTime"));
+		    	
 		    	dataObj.setEmailNotification(rs.getInt("emailNotification"));
 		    	
 		    	arrlist.add(dataObj) ;
@@ -249,11 +256,66 @@ public class MedicalHistoryRepository {
 		    	
 		    	
 		    }
+			return arrlist;
+		    
+		    }
+		    else {
+		    	
+		    			query="Select * from user_medical_history where userId_M=?";
+		    			pstmt = connect.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+		    			pstmt.setInt(1, userId);
+		    			
+		    			 ResultSet rs=pstmt.executeQuery();
+		    			   
+		    			    ArrayList<MedicalHistoryModel> arrlist= new ArrayList<MedicalHistoryModel>();
+		    			    
+		    			    MedicalHistoryModel dataObj;
+		    			
+		    			
+		    			
+		    			while(rs.next()) {
+		    		    	dataObj= new MedicalHistoryModel() ;
+		    		    	
+		    		    	dataObj.setMedicalHistoryId(rs.getInt("userMedicalHistoryId"));
+		    		    	System.out.println(rs.getInt("userMedicalHistoryId"));
+		    		    	dataObj.setIlliness(rs.getString("userIlliness"));
+		    		    	dataObj.setDoctorDetails(rs.getString("userDoctorDetails"));
+		    		    	dataObj.setMedicine(rs.getString("userMedicine"));
+		    		    	dataObj.setMedicineStartDate(rs.getDate("userMedicineStartDate"));
+		    		    	dataObj.setMedicineEndDate(rs.getDate("userMedicineEndDate"));
+		    		    	dataObj.setDosageAmount(rs.getInt("userDosageAmount"));
+		    		    	dataObj.setDosageFrequency(rs.getString("userDosageFrequency"));
+		    		    	
+		    		    	if(rs.getTime("userDosageBreakfastTime") != null)
+		    		    		dataObj.setDosageBreakfastTime(rs.getTime("userDosageBreakfastTime"));
+		    		    		
+		    		    	if(rs.getTime("userDosageLunchTime") != null) {
+		    		    		dataObj.setDosageLunchTime(rs.getTime("userDosageLunchTime"));
+		    		    		System.out.println(dataObj);
+		    		    	}
+		    		    	if(rs.getTime("userDosageDinnerTime") != null)
+		    		    		dataObj.setDosageDinnerTime(rs.getTime("userDosageDinnerTime"));
+		    		    	
+		    		    	dataObj.setEmailNotification(rs.getInt("emailNotification"));
+		    		    	
+		    		    	arrlist.add(dataObj) ;
+		    		    	
+		    		    	
+		    		    	
+		    		    }
+		    			return arrlist;
+		    }
+		    
+		    
+		   
+		    
+		    
+		    
 		    
 		    
 		
 		
-		return arrlist ;
+		
 		
 	}
 

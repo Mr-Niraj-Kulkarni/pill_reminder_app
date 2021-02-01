@@ -13,9 +13,9 @@ public class MedicalHistoryModel {
 		protected Date medicineEndDate ;
 		protected int dosageAmount ;
 		protected String dosageFrequency ;
-		protected Time doageBreakfastTime ;
-		protected Time doageLunchTime ;
-		protected Time doageDinnerTime ;
+		protected Time dosageBreakfastTime ;
+		protected Time dosageLunchTime ;
+		protected Time dosageDinnerTime ;
 		protected int emailNotification ;
 		
 		
@@ -87,24 +87,26 @@ public class MedicalHistoryModel {
 		public void setDosageFrequency(String dosageFrequency) {
 			this.dosageFrequency = dosageFrequency;
 		}
-		public Time getDoageBreakfastTime() {
-			return doageBreakfastTime;
+		public Time getDosageBreakfastTime() {
+			return dosageBreakfastTime;
 		}
-		public void setDoageBreakfastTime(Time doageBreakfastTime) {
-			this.doageBreakfastTime = doageBreakfastTime;
+		public void setDosageBreakfastTime(Time dosageBreakfastTime) {
+			this.dosageBreakfastTime = dosageBreakfastTime;
 		}
-		public Time getDoageLunchTime() {
-			return doageLunchTime;
+		public Time getDosageLunchTime() {
+			return dosageLunchTime;
 		}
-		public void setDoageLunchTime(Time doageLunchTime) {
-			this.doageLunchTime = doageLunchTime;
+		public void setDosageLunchTime(Time dosageLunchTime) {
+			this.dosageLunchTime = dosageLunchTime;
 		}
-		public Time getDoageDinnerTime() {
-			return doageDinnerTime;
+		public Time getDosageDinnerTime() {
+			return dosageDinnerTime;
 		}
-		public void setDoageDinnerTime(Time doageDinnerTime) {
-			this.doageDinnerTime = doageDinnerTime;
+		public void setDosageDinnerTime(Time dosageDinnerTime) {
+			this.dosageDinnerTime = dosageDinnerTime;
 		}
+		
+		
 		
 		
 	
