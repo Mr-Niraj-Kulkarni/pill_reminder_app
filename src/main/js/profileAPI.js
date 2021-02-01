@@ -10,6 +10,7 @@ export const getProfileData = async()=>{
     })
       const returnFromServer = await response.json();
       console.log(returnFromServer);
+      document.getElementById("profile-photo").setAttribute("src",returnFromServer.userProfilePic);
       document.getElementById("profile-name").value = returnFromServer.userName;
       document.getElementById("profile-email").value = returnFromServer.userEmail;
       document.getElementById("profile-contact").value = returnFromServer.userContact;
@@ -96,3 +97,42 @@ export const updateDependentProfileData = async(data)=>{
 		 console.log("ERROR: ", e);
 	}
 } 
+
+/*export const uploadProfilePicture = async(formdata)=>{
+  try{
+		const response = await fetch('https://api.imgur.com/3/image',{
+      method: 'POST',
+      headers: {
+        'Authorization' : '1d1b829370d66629b69269d956bb32c94c47bd2c'
+      },
+      body: formdata
+    })
+      const returnFromServer = await response.json();
+      alert(returnFromServer.data.link);
+      
+	} catch(e){
+		 console.log("ERROR: ", e);
+	}
+} */
+export const uploadProfilePicture = async(formdata)=>{
+  try{
+    console.log(formdata);
+		const response = await fetch('https://api.imgur.com/3/image',{
+      crossDomain : "true",
+      method: 'POST',
+      headers: {
+        'Authorization' : 'Bearer 9f8d93a300bcdef10c6ba00dcb564480d83e56c1',
+        "Access-Control-Allow-Origin" : "*",
+        "Access-Control-Allow-Methods": "POST,",
+        "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+      },
+      body: formdata
+    })
+    console.log(formdata);
+      const returnFromServer = await response.json();
+      return returnFromServer.data.link;
+      
+	} catch(e){
+		 console.log("ERROR: ", e);
+	}
+}

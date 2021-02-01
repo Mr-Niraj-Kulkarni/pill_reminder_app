@@ -4,6 +4,7 @@ import forgotPage from './forgotPage.js';
 import homePage from './homePage.js';
 import userProfilePage from './userProfilePage';
 import header from './header.js';
+import sideMenu from './sideMenu.js';
 import '../resources/static/css/login.css';
 import '../resources/static/css/registration.css';
 import '../resources/static/css/home.css';
@@ -62,7 +63,8 @@ const router = async () => {
 			}
 			else{
 				//console.log("homeurl")
-				document.getElementById("container").innerHTML= await screen.render();
+				document.getElementById("container").innerHTML = await sideMenu.render();
+				document.getElementById("container").innerHTML += await screen.render();
 				document.getElementById("upper-container").innerHTML = await header.render();
 				header.after_render();
 			}

@@ -1,22 +1,27 @@
-
+import {userpillsa} from './homePillReminder.js';
+import {dependentpills} from './homePillReminder.js';
+import {homePillReminder} from './homePillReminder.js';
+import {getUserInfoHomePage} from './homeAPI.js';
 const homePage = {
-  after_render: function(){
+  after_render: async function(){
   document.getElementById("mainbar").style.flexDirection = "column";
+  document.getElementById("main_mid_row").innerHTML = await homePillReminder.render(dependentpills);
+  document.getElementById("main_mid_row").innerHTML += await homePillReminder.render(userpillsa);
+  document.getElementById("main_mid_row").innerHTML += await homePillReminder.render(userpillsa);
+  homePage.getHomePageUserInfo();
   },
   render: () => {
 
     return `
-    <div class="sidebar_one" id="sidebar_one">
-    <a href="#/home" id="home-link">Home</a><br>
-    <a href="#/profile" id="profile-link">Profile</a>
-    </div>
       <div class="mainbar" id="mainbar">
         <div class="main_top_row" id="main_top_row">
           <div class="user_profile" id="user_profile">
-          user profile
+          Email id: <div id="homepage-useremail"></div><br>
+          Contact Number: <div id="homepage-usercontact"></div><br>
+          BMI: <div id="homepage-userbmi"></div>
           </div>
           <div class="welcome_name" id="welcome_name">
-            <br>welcome name
+            <h2 id="homepage-username"></h2>
           </div>
         </div>
         <div class="main_mid_row" id="main_mid_row">med history</div>
@@ -27,22 +32,10 @@ const homePage = {
      `;
   },
 
- /* submitLoginData: async function () {
-    let email = document.getElementById("login-email").value;
-    let pwd = document.getElementById("login-pwd").value;
+  getHomePageUserInfo: async function () {
+    //await getUserInfoHomePage();
 
-    const data = {
-      "userEmail": email,
-      "userPassword": pwd
-    }
-
-    await postLoginData(data);
-
-  }*/
-
-
-
-
+  }
 }
 
 export default homePage;

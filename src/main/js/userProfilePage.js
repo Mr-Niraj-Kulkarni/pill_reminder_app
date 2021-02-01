@@ -6,6 +6,7 @@ import {getProfileData} from './profileAPI.js';
 import {viewDependentData} from './profileAPI.js';
 import {updateUserProfileData} from './profileAPI.js';
 import dependentProfilePage from './dependentProfilePage.js';
+import {uploadProfilePicture} from './profileAPI.js';
 
 const userProfilePage = {
   after_render: function () {
@@ -23,6 +24,7 @@ const userProfilePage = {
     }
     }
     var arrayBuffer = [];
+  
     document.getElementById("link-hidden").addEventListener("click",e=>{
       document.getElementById("profile-photo-upload").addEventListener("change",()=>{
         readURLs(document.getElementById("profile-photo-upload"));
@@ -30,22 +32,19 @@ const userProfilePage = {
         reader.onload = function() {
 
         arrayBuffer = new Uint8Array(reader.result);
-        console.log(arrayBuffer);
-        
       };
+
      reader.readAsArrayBuffer(document.getElementById("profile-photo-upload").files[0]); 
-        var blob = new Blob(arrayBuffer,{type:"image/jpeg"});
-        console.log(blob);
-        var url = URL.createObjectURL(blob);
-        console.log(url);
-        document.getElementById("testtest").src = url; 
+     console.log("now pic upload");
+     userProfilePage.submitProfilePicture();
+     console.log("whoops");
+     profileeditbtn();
       })
       document.getElementById("profile-photo-upload").click();
       
       //e.preventDefault();
     });
-
-    document.getElementById("profile-edit").addEventListener("click",()=>{
+    const profileeditbtn = ()=>{
       document.getElementById("profile-save").style.visibility = "visible";
       document.getElementById("profile-cancel").style.visibility = "visible";
       document.getElementById("profile-edit").style.visibility = "hidden";
@@ -54,7 +53,9 @@ const userProfilePage = {
       for(var i = 0; i<profileforminputs.length;i++){
         profileforminputs[i].removeAttribute("readonly");
       }
-    })
+    }
+
+    document.getElementById("profile-edit").addEventListener("click",profileeditbtn);
 
     document.getElementById("profile-cancel").addEventListener("click",()=>{
       document.getElementById("profile-save").style.visibility = "hidden";
@@ -84,6 +85,7 @@ const userProfilePage = {
         dependentProfilePage.after_render();
       }
     });
+
     document.getElementById("profile-save").addEventListener("click",()=>{
       userProfilePage.submitProfileUpdateData();
 
@@ -93,10 +95,6 @@ const userProfilePage = {
   render: () => {
 
     return `
-    <div class="sidebar_one" id="sidebar_one">
-    <a href="#/home" id="home-link">Home</a><br>
-    <a href="#/profile" id="profile-link">Profile</a>
-    </div>
     <div class="mainbar" id="mainbar">
     <div class="profile-photos" id="profile-photos">
         <form id="profile-form">
@@ -142,6 +140,7 @@ const userProfilePage = {
   submitProfileUpdateData: async function () {
       //let userProfilePic = document.getElementById("login-email").value;
       const data = {
+        "userProfilePic" : document.getElementById("profile-photo").className,
         "userName" : document.getElementById("profile-name").value,
         "userEmail" : document.getElementById("profile-email").value,
         "userContact" : document.getElementById("profile-contact").value,
@@ -165,7 +164,25 @@ const userProfilePage = {
       "dependentName" : dependentName
     }
     await viewDependentData(data);
+  },
+
+  submitProfilePicture: async function(){
+    var formdata = new FormData();
+    formdata.append("image",document.getElementById("profile-photo-upload").files[0]);
+    console.log(formdata.image);
+    console.log("d");
+    formdata.append("type","file");
+    console.log(formdata.type);
+    formdata.append("name","test1d");
+    
+    console.log(formdata);
+    let link = await uploadProfilePicture(formdata);
+    document.getElementById("profile-photo").className = link;
+    alert(link);
+    alert("Please save changes before exiting");
+    return link;
   }
+  
 }
 
 export default userProfilePage;

@@ -58,7 +58,7 @@ public class ProfileRepositoryImplementation implements ProfileRepository {
 				List.setUserHeight(rs.getFloat(7));
 //
 //				Model class me value dalna baki h
-//				List.setUserProfilePic(rs.getBlob(8));
+				List.setUserProfilePic(rs.getString(8));
 				/*Blob blob = rs.getBlob(8);
 				byte[] bdata = blob.getBytes(1, (int) blob.length());
 				String text = new String(bdata);
@@ -101,7 +101,7 @@ public class ProfileRepositoryImplementation implements ProfileRepository {
 	
 	@Override
 	public int setProfileData(String userName, String userEmail, String userContact, String userBloodGroup,
-			Date date, float userWeight, float userHeight, Blob userProfilePic, int userId,
+			Date date, float userWeight, float userHeight, String userProfilePic, int userId,
 			int userProfileId, String tokenEmail) {
 		// TODO Auto-generated method stub
 		
@@ -120,6 +120,7 @@ public class ProfileRepositoryImplementation implements ProfileRepository {
 		String query2 = "update user_info as i, user_profile as p "
 				+ "set i.userName = ?, i.userContact = ?, i.userDateOfBirth = ?, "
 				+ "p.userBloodGroup =? , p.userWeight = ?, p.userHeight = ?, "
+				+ "p.userProfilePic = ?,"
 				+ "i.userEmail = ?"
 				+ "where i.userId = p.userId and i.userId =  ?";
 		try {
@@ -146,8 +147,9 @@ public class ProfileRepositoryImplementation implements ProfileRepository {
 					pstmt.setString(4, userBloodGroup);
 					pstmt.setFloat(5, userWeight);
 					pstmt.setFloat(6, userHeight);
-					pstmt.setString(7, userEmail);
-					pstmt.setInt(8, id);
+					pstmt.setString(7, userProfilePic);
+					pstmt.setString(8, userEmail);
+					pstmt.setInt(9, id);
 						int status = pstmt.executeUpdate();
 						System.out.println(status+"sasad");
 						if(status !=0) {

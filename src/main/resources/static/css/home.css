@@ -6,6 +6,23 @@
   min-width: 0;
   overflow: hidden;
   min-width: 0px;
+  display:flex;
+  flex-direction: column;
+}
+.sidebar_one a:link,a:visited{
+  border-bottom: 2px solid green;
+  padding-top: 2vh ;
+  padding-bottom: 2vh ;
+  height: 3vh;
+  font-size: 1.5vw;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  text-align: left;
+}
+.sidebar_one a:hover{
+  background-color: green;
+  color: white;
 }
 .mainbar{
   /*background-color: greenyellow;*/
@@ -38,6 +55,14 @@
 .main_mid_row{
   flex: 9;
   border: 1px solid black;
+  display: flex;
+  overflow-y: scroll;
+  flex-wrap: wrap;
+  /*justify-content: center;
+  align-items: center;*/
+}
+.cards{
+  display: flex;
 }
 .main_bottom_row{
   flex: 1;
@@ -50,4 +75,11 @@
 .welcome_name{
   flex: auto;
   border: 1px solid black;
+}
+.card1-cover{
+  border: 1px dotted red;
+  display: flex;
+}
+#card1,#card1 tr,td,th{
+  border: solid 1px red;
 }

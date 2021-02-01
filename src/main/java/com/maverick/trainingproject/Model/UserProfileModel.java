@@ -14,7 +14,7 @@ public class UserProfileModel {
 	private Date userDateOfBirth;
 	private float userWeight;
 	private float userHeight;
-	private Blob userProfilePic;
+	private String userProfilePic;
 	
 	private int userId;
 	private int userProfileId;
@@ -66,7 +66,7 @@ public class UserProfileModel {
 	public void setUserWeight(float userWeight) {
 		this.userWeight = userWeight;
 	}
-	public Blob getUserProfilePic() {
+	public String getUserProfilePic() {
 		return userProfilePic;
 	}
 	public float getUserHeight() {
@@ -75,7 +75,7 @@ public class UserProfileModel {
 	public void setUserHeight(float userHeight) {
 		this.userHeight = userHeight;
 	}
-	public void setUserProfilePic(Blob blob) {
+	public void setUserProfilePic(String blob) {
 		this.userProfilePic = blob;
 	}
 	public int getUserId() {

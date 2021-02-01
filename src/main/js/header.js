@@ -25,7 +25,7 @@ const header = {
     return `
     <span class="menu-icon" id="menu-icon">&#9776;</span>
     <span class="title"><b><u>Pill Reminder App</u></b></span>
-    <span class="logout-icon" id="logout-icon">&#10150; &#127968;</span>
+    <span class="logout-icon" id="logout-icon">&#10150;</span>
     `;
   },
 
