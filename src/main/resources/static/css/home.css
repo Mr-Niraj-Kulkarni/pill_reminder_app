@@ -15,6 +15,7 @@
   height: 87vh;
   border: 1px solid black;
   min-width: 0px;
+  overflow-x: scroll;
  
 }
 .sidebar_two{
@@ -38,6 +39,7 @@
 .main_mid_row{
   flex: 9;
   border: 1px solid black;
+  display: flex;
 }
 .main_bottom_row{
   flex: 1;
@@ -51,3 +53,13 @@
   flex: auto;
   border: 1px solid black;
 }
+
+.card1-cover{
+  border: 1px dotted red;
+  height: 50%;
+}
+#card1,#card1 tr,td,th{
+  border: solid 1px red;
+}
+
+

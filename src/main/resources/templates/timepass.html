@@ -1,0 +1,69 @@
+<table>
+  <tr>
+    <th>Illiness</th>
+    <th>Doctor Details </th>
+    <th>Medicines</th>
+    <th>Start Date </th>
+    <th>End Date</th>
+    <th>Dosage Amount</th>
+    <th>Dosage Frequency</th>
+    <th>Dosage BreakFast Time</th>
+    <th>Dosage Lunch Time</th>
+    <th>Dosage Dinner Time</th>
+    <th>Email Notification</th>
+
+  </tr>
+  ${medicalhistoryData.map(row =>
+  <tr id=${row.medicalHistoryId}>
+    <td>
+      <input type="text" value=${row.illiness} readonly>
+
+    </td>
+    <td>
+      <input type="text" value=${row.doctorDetails} readonly>
+
+    </td>
+    <td>
+      <input type="text" value=${row.medicine} readonly>
+
+    </td>
+    <td>
+      <input type="date" value=${row.medicineStartDate} readonly>
+
+    </td>
+    <td>
+      <input type="date" value=${row.medicineEndDate} readonly>
+
+    </td>
+    <td>
+      <input type="text" value=${row.dosageAmount} readonly>
+
+    </td>
+    <td>
+      <input type="text" value=${row.dosageFrequency} readonly>
+
+    </td>
+    <td>
+      <input type="time" value=${row.doageBreakfastTime} readonly>
+
+    </td>
+    <td>
+      <input type="time" value=${row.doageLunchTime} readonly>
+
+    </td>
+    <td>
+      <input type="time" value=${row.doageDinnerTime} readonly>
+
+    </td>
+    <td>
+      <label class="switch">
+        <input type="checkbox" id=${row.medicalHistoryId}>
+        <span class="slider round"></span>
+      </label>
+    </td>
+    <td>
+      <span id=${row.medicalHistoryId}>&#x1F5D1;</span>
+    </td>
+
+  </tr>
+</table>

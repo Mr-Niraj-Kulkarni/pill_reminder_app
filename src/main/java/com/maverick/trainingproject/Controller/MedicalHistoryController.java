@@ -4,6 +4,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.maverick.trainingproject.Model.DependentMedicalHistoryModel;
 import com.maverick.trainingproject.Model.MedicalHistoryModel;
-
+import com.maverick.trainingproject.Service.JwtTokenUtil;
 import com.maverick.trainingproject.Service.MedicalHistoryAddService;
 import com.maverick.trainingproject.Service.MedicalHistoryDeleteService;
 import com.maverick.trainingproject.Service.MedicalHistoryDisplayService;
@@ -21,28 +24,36 @@ import com.maverick.trainingproject.Service.MedicalHistoryUpdateService;
 
 @Controller
 public class MedicalHistoryController {
+	
+	
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
 
 	@CrossOrigin
-	@RequestMapping(value = "/AddUserMedicalHistory",method= {RequestMethod.POST})
+	@RequestMapping(value = "/addUserMedicalHistory",method= {RequestMethod.POST})
 	@ResponseBody
-	public String addUserMedicalHistory(@RequestBody MedicalHistoryModel usermedicalHistoryModelObj) throws SQLException {
+	public boolean addUserMedicalHistory(HttpServletRequest request,@RequestBody MedicalHistoryModel usermedicalHistoryModelObj) throws SQLException {
 		MedicalHistoryAddService medicalHistoryAddServiceObj= new MedicalHistoryAddService();
+		String userEmail = jwtTokenUtil.getUsernameFromToken(request.getHeader("Authorization").substring(7));
+		System.out.println(usermedicalHistoryModelObj.getDosageLunchTime());
+		System.out.println(usermedicalHistoryModelObj.getDosageDinnerTime());
+		System.out.println(usermedicalHistoryModelObj.getDosageBreakfastTime());
 		
-		boolean status=medicalHistoryAddServiceObj.addUserMedicalHistory(usermedicalHistoryModelObj);
+		boolean status=medicalHistoryAddServiceObj.addUserMedicalHistory(usermedicalHistoryModelObj,userEmail);
 		
-		return  ""+status ;
+		return  status ;
 	}
 	
 	
 	@CrossOrigin
-	@RequestMapping(value = "/AddDependentMedicalHistory",method= {RequestMethod.POST})
+	@RequestMapping(value = "/addDependentMedicalHistory",method= {RequestMethod.POST})
 	@ResponseBody
-	public String addDependentMedicalHistory(@RequestBody DependentMedicalHistoryModel dependentMedicalHistoryModelObj) throws SQLException {
+	public boolean addDependentMedicalHistory(HttpServletRequest request,@RequestBody DependentMedicalHistoryModel dependentMedicalHistoryModelObj) throws SQLException {
 		MedicalHistoryAddService medicalHistoryAddServiceObj= new MedicalHistoryAddService();
+		String userEmail = jwtTokenUtil.getUsernameFromToken(request.getHeader("Authorization").substring(7));
+		boolean status=medicalHistoryAddServiceObj.addDependentMedicalHistory(dependentMedicalHistoryModelObj,userEmail);
 		
-		boolean status=medicalHistoryAddServiceObj.addDependentMedicalHistory(dependentMedicalHistoryModelObj);
-		
-		return  ""+status ;
+		return  status ;
 	}
 	
 	@CrossOrigin
@@ -75,13 +86,16 @@ public class MedicalHistoryController {
 	@CrossOrigin
 	@RequestMapping(value = "/displayMedicalHistory",method= {RequestMethod.POST})
 	@ResponseBody
-	public ArrayList<MedicalHistoryModel> displayMedicalHistory(@RequestBody Map<String,String> medicalHistoryObj) throws SQLException {
-		 
-			
-		return new MedicalHistoryDisplayService().displayMedicalHistoryData(medicalHistoryObj.get("userEmail"),
-																			medicalHistoryObj.get("dependentRelation") , 
-																			medicalHistoryObj.get("dependentName"));
-		
+	public ArrayList<MedicalHistoryModel> displayMedicalHistory(HttpServletRequest request,@RequestBody Map<String,String> medicalHistoryObj) throws SQLException {
+		 System.out.println(medicalHistoryObj.get("dependentRelation"));
+		 System.out.println(medicalHistoryObj.get("dependentName"));
+		String userEmail = jwtTokenUtil.getUsernameFromToken(request.getHeader("Authorization").substring(7));
+		ArrayList<MedicalHistoryModel> arrlist =new MedicalHistoryDisplayService().displayMedicalHistoryData(userEmail,
+				medicalHistoryObj.get("dependentRelation") , 
+				medicalHistoryObj.get("dependentName"));
+
+		//System.out.println(arrlist.size());
+		return  arrlist ;
 	}
 	
 	
@@ -92,12 +106,12 @@ public class MedicalHistoryController {
 	@CrossOrigin
 	@RequestMapping(value = "/deleteSingleMedicalHistory",method= {RequestMethod.POST})
 	@ResponseBody
-	public String deleteSingleUserMedicalHistory(@RequestBody Map<String,Integer> obj) throws SQLException {
+	public boolean deleteSingleUserMedicalHistory(@RequestBody Map<String,Integer> obj) throws SQLException {
 		
 		
 		boolean status=new MedicalHistoryDeleteService().DeleteUserMedicalHistory(obj.get("medicalHistoryId"), obj.get("flag")) ;
 		
-		return  ""+status ;
+		return  status ;
 	}
 	
 	

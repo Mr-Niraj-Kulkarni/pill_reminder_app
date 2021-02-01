@@ -1,7 +1,11 @@
-
+import { pills } from './homePillReminder.js';
+import { pills2 } from './homePillReminder.js';
+import pillCards from './homePillReminder.js';
 const homePage = {
-  after_render: function(){
-  document.getElementById("mainbar").style.flexDirection = "column";
+  after_render: async function () {
+    document.getElementById("mainbar").style.flexDirection = "column";
+    document.getElementById("main_mid_row").innerHTML = await pillCards.render(pills);
+    document.getElementById("main_mid_row").insertAdjacentText('beforeend', await pillCards.render(pills2));
   },
   render: () => {
 
@@ -9,6 +13,7 @@ const homePage = {
     <div class="sidebar_one" id="sidebar_one">
     <a href="#/home" id="home-link">Home</a><br>
     <a href="#/profile" id="profile-link">Profile</a>
+    <a href="#/medicalhistory" id="medicalHistory-link">Medical History</a>
     </div>
       <div class="mainbar" id="mainbar">
         <div class="main_top_row" id="main_top_row">
@@ -27,18 +32,18 @@ const homePage = {
      `;
   },
 
- /* submitLoginData: async function () {
-    let email = document.getElementById("login-email").value;
-    let pwd = document.getElementById("login-pwd").value;
-
-    const data = {
-      "userEmail": email,
-      "userPassword": pwd
-    }
-
-    await postLoginData(data);
-
-  }*/
+  /* submitLoginData: async function () {
+     let email = document.getElementById("login-email").value;
+     let pwd = document.getElementById("login-pwd").value;
+ 
+     const data = {
+       "userEmail": email,
+       "userPassword": pwd
+     }
+ 
+     await postLoginData(data);
+ 
+   }*/
 
 
 
