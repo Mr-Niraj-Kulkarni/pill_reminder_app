@@ -94,4 +94,13 @@
 #card1,#card1 tr,td,th{
   border: solid 1px red;
 }
-
+#cancel-changes-button{
+  visibility: hidden;
+}
+#save-changes-button{
+  visibility: hidden;
+}
+#photo-logout{
+  width: auto;
+  height: 6vh;
+}

@@ -69,8 +69,11 @@ const router = async () => {
 				//console.log("homeurl")
 				document.getElementById("container").innerHTML = await sideMenu.render();
 				document.getElementById("container").innerHTML += await screen.render();
-				document.getElementById("upper-container").innerHTML = await header.render();
-				header.after_render();
+				if(document.getElementById("logout-menu") == null){
+					document.getElementById("upper-container").innerHTML = await header.render();
+					header.after_render();
+				}
+				
 			}
 			
 			

@@ -1,3 +1,4 @@
+import encode from './encodePhoto.js';
 export const getProfileData = async()=>{
   console.log();
   try{
@@ -100,10 +101,15 @@ export const updateDependentProfileData = async(data)=>{
 
 /*export const uploadProfilePicture = async(formdata)=>{
   try{
-		const response = await fetch('https://api.imgur.com/3/image',{
+		const response = await fetch('http://www.whateverorigin.org/get?url=https://api.imgur.com/3/image',{
       method: 'POST',
       headers: {
-        'Authorization' : '1d1b829370d66629b69269d956bb32c94c47bd2c'
+        'Content-Type': 'multipart/form-data',
+        'Authorization' : '1d1b829370d66629b69269d956bb32c94c47bd2c',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'X-PINGOTHER, Content-Type',
+        'Access-Control-Max-Age': '86400'
       },
       body: formdata
     })
@@ -113,18 +119,34 @@ export const updateDependentProfileData = async(data)=>{
 	} catch(e){
 		 console.log("ERROR: ", e);
 	}
-} */
-export const uploadProfilePicture = async(formdata)=>{
+}*/
+/*export const uploadProfilePicture = async(formdata)=>{
   try{
     console.log(formdata);
 		const response = await fetch('https://api.imgur.com/3/image',{
-      crossDomain : "true",
       method: 'POST',
       headers: {
         'Authorization' : 'Bearer 9f8d93a300bcdef10c6ba00dcb564480d83e56c1',
-        "Access-Control-Allow-Origin" : "*",
-        "Access-Control-Allow-Methods": "POST,",
-        "Access-Control-Allow-Headers": "Content-Type, origin, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formdata)
+    })
+    console.log(formdata);
+      const returnFromServer = await response.json();
+      return returnFromServer.data.link;
+      
+	} catch(e){
+		 console.log("ERROR: ", e);
+	}
+}*/
+
+/*export const uploadProfilePicture = async(formdata)=>{
+  try{
+    console.log(formdata);
+		const response = await fetch('https://api.imgur.com/3/image',{
+      method: 'POST',
+      headers: {
+        'Authorization' : 'Bearer 4707cb57268e899e37aa01f887cd0680ec26579c'
       },
       body: formdata
     })
@@ -134,5 +156,48 @@ export const uploadProfilePicture = async(formdata)=>{
       
 	} catch(e){
 		 console.log("ERROR: ", e);
-	}
+  }
+}*/
+export const uploadProfilePicture = async(formdata)=>{
+  try{
+    console.log(formdata);
+		const response = await fetch('http://localhost:8080/uploadImage',{
+      method: 'POST',
+      headers: {
+        'Authorization' : localStorage.getItem("jwtToken")
+      },
+      body: formdata
+    })
+    console.log(formdata);
+      const returnFromServer = await response.json();
+      return returnFromServer;
+      //return returnFromServer.data.link;
+      
+	} catch(e){
+		 console.log("ERROR: ", e);
+  }
+}
+
+export const getProfilePicture = async()=>{
+  
+  console.log("sasa");
+  try{
+		const response = await fetch('http://localhost:8080/getImage',{
+      method: 'GET',
+      headers: {
+        'Authorization' : localStorage.getItem("jwtToken"),
+        'Content-Type': 'application/json'
+      }
+      //body: JSON.stringify(data)
+    })
+    console.log("sasa");
+    var base64String = null;
+      const returnFromServer = await response.arrayBuffer();
+      console.log(returnFromServer);
+      return returnFromServer;
+      /*var img = document.getElementById("profile-photo");
+      img.src = returnFromServer;*/ 
+	} catch(e){
+		 console.log("ERROR: ", e);
+  }
 }

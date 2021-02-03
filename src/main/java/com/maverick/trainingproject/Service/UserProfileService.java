@@ -1,12 +1,16 @@
 package com.maverick.trainingproject.Service;
 
+import java.io.IOException;
 import java.sql.Blob;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 //import com.maverick.trainingproject.Model.UserDependentProfileModel;
 import com.maverick.trainingproject.Model.UserProfileModel;
+import com.maverick.trainingproject.Model.userImageModel;
 import com.maverick.trainingproject.Repository.ProfileRepositoryImplementation;
 
 @Service
@@ -60,6 +64,15 @@ public class UserProfileService {
 			return "Error occurs in connection, Logout and Try again.";
 		}
 		
+	}
+	
+	public boolean setPic(userImageModel Obj, String tokenEmail) throws SQLException {
+		ProfileRepositoryImplementation repo = new ProfileRepositoryImplementation();
+	     return repo.setPicToDB(Obj, tokenEmail);
+	}
+	public Blob getImage(String tokenEmail) throws SQLException, IOException {
+		ProfileRepositoryImplementation repo = new ProfileRepositoryImplementation();
+	     return repo.getImageFromDB(tokenEmail);
 	}
 
 }

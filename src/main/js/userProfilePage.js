@@ -1,47 +1,47 @@
-import { postLoginData } from './loginAPI.js';
-import {getJwtToken} from './loginAPI.js';
-import registrationPage from './registrationPage';
-import forgotPage from './forgotPage.js';
+
 import {getProfileData} from './profileAPI.js';
 import {viewDependentData} from './profileAPI.js';
 import {updateUserProfileData} from './profileAPI.js';
 import dependentProfilePage from './dependentProfilePage.js';
 import {uploadProfilePicture} from './profileAPI.js';
+import {getProfilePicture} from './profileAPI.js';
+import header from './header.js';
+
 
 const userProfilePage = {
   after_render: function () {
     document.getElementById("mainbar").style.flexDirection = "row";
+
     function readURLs(input){
       if (input.files && input.files[0]) {
         var reader = new FileReader();
-    
         reader.onload = function (e) {
             const photo = document.getElementById("profile-photo");
                 photo.setAttribute('src', e.target.result);
         };
     
         reader.readAsDataURL(input.files[0]);
+        localStorage.setItem("image",input.files[0]);
     }
     }
-    var arrayBuffer = [];
+    
   
-    document.getElementById("link-hidden").addEventListener("click",e=>{
-      document.getElementById("profile-photo-upload").addEventListener("change",()=>{
-        readURLs(document.getElementById("profile-photo-upload"));
-        var reader = new FileReader();
-        reader.onload = function() {
+    // <a>  LINK     <input type="file" hidden></input>button file.jpg      </a>   
 
-        arrayBuffer = new Uint8Array(reader.result);
-      };
-
-     reader.readAsArrayBuffer(document.getElementById("profile-photo-upload").files[0]); 
-     console.log("now pic upload");
-     userProfilePage.submitProfilePicture();
-     console.log("whoops");
-     profileeditbtn();
-      })
+    document.getElementById("link-hidden").addEventListener("click",()=>{
       document.getElementById("profile-photo-upload").click();
+      console.log("oj");
+      //ithe onchange wala code hota adhi :)
+     //reader.readAsArrayBuffer(document.getElementById("profile-photo-upload").files[0]); 
+      });
+      let arrayBuffer = [];
+    document.getElementById("profile-photo-upload").addEventListener("change",()=>{
+        console.log("whoops");
+        readURLs(document.getElementById("profile-photo-upload"));
+
+        
       
+      userProfilePage.submitProfilePicture(arrayBuffer);
       //e.preventDefault();
     });
     const profileeditbtn = ()=>{
@@ -90,7 +90,7 @@ const userProfilePage = {
       userProfilePage.submitProfileUpdateData();
 
     })
-
+    userProfilePage.getProfileImage();
   },
   render: () => {
 
@@ -98,8 +98,8 @@ const userProfilePage = {
     <div class="mainbar" id="mainbar">
     <div class="profile-photos" id="profile-photos">
         <form id="profile-form">
-          <span class="image-cum-editbtn"><img src="#" id="profile-photo">
-          <a id="link-hidden"><span>&#x270E;</span><input type="file" id="profile-photo-upload" hidden/></a>
+          <span class="image-cum-editbtn"><img src="" id="profile-photo">
+          <span id="link-hidden">&#x270E;<input type="file" id="profile-photo-upload" hidden/></span>
           </span><br>
           <h2 class="image-para">PROFILE</h2>
             <table id="profile-form">
@@ -166,22 +166,60 @@ const userProfilePage = {
     await viewDependentData(data);
   },
 
-  submitProfilePicture: async function(){
+  submitProfilePicture: async function(arrayBuffer){
+    console.log(arrayBuffer);
     var formdata = new FormData();
     formdata.append("image",document.getElementById("profile-photo-upload").files[0]);
-    console.log(formdata.image);
-    console.log("d");
-    formdata.append("type","file");
-    console.log(formdata.type);
-    formdata.append("name","test1d");
+    //formdata.append("type","file");
+    //formdata.append("name","test1d");
     
     console.log(formdata);
-    let link = await uploadProfilePicture(formdata);
-    document.getElementById("profile-photo").className = link;
-    alert(link);
-    alert("Please save changes before exiting");
-    return link;
-  }
+    const result = await uploadProfilePicture(formdata);
+    if(result == true){
+      //localStorage.setItem("encodedImage",userProfilePage.encode_function(arrayBuffer));
+      await header.getProfileImageOnHomePage();
+      alert("Photo Uploaded Seccessfully!");
+    }
+    else{
+      alert("Error, try again!");
+    }
+    
+  },
+
+  getProfileImage: async function(){
+    if(localStorage.getItem("encodedImage")!=null){
+      let image = document.getElementById("profile-photo");
+      image.src = "data:image/jpg;base64,"+
+      userProfilePage.encode_function(localStorage.getItem("imageInBytes"));
+    }
+  },
+
+  encode_function: function encode (input) {
+    var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+    var output = "";
+    var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+    var i = 0;
+
+    while (i < input.length) {
+        chr1 = input[i++];
+        chr2 = i < input.length ? input[i++] : Number.NaN; // Not sure if the index 
+        chr3 = i < input.length ? input[i++] : Number.NaN; // checks are needed here
+
+        enc1 = chr1 >> 2;
+        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+        enc4 = chr3 & 63;
+
+        if (isNaN(chr2)) {
+            enc3 = enc4 = 64;
+        } else if (isNaN(chr3)) {
+            enc4 = 64;
+        }
+        output += keyStr.charAt(enc1) + keyStr.charAt(enc2) +
+                  keyStr.charAt(enc3) + keyStr.charAt(enc4);
+    }
+    return output;
+}
   
 }
 

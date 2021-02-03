@@ -1,4 +1,4 @@
-
+import {updateDependentProfileData} from './profileAPI.js';
 const dependentProfilePage = {
   after_render: function () {
     

@@ -1,14 +1,21 @@
 import {userpillsa} from './homePillReminder.js';
 import {dependentpills} from './homePillReminder.js';
 import {homePillReminder} from './homePillReminder.js';
+import {getPillInfoHomePage} from './homeAPI.js';
 import {getUserInfoHomePage} from './homeAPI.js';
+
 const homePage = {
-  after_render: async function(){
+  after_render: async ()=>{
   document.getElementById("mainbar").style.flexDirection = "column";
-  document.getElementById("main_mid_row").innerHTML = await homePillReminder.render(dependentpills);
-  document.getElementById("main_mid_row").innerHTML += await homePillReminder.render(userpillsa);
-  document.getElementById("main_mid_row").innerHTML += await homePillReminder.render(userpillsa);
-  homePage.getHomePageUserInfo();
+  homePage.getUserInfoONPage();
+  document.getElementById("main_mid_row").innerHTML = await homePillReminder.render();
+  if(homePillReminder.after_render){
+    homePillReminder.after_render();
+  }
+  //document.getElementById("main_mid_row").innerHTML = await homePillReminder.render(dependentpills);
+  //document.getElementById("main_mid_row").innerHTML += await homePillReminder.render(userpillsa);
+  //document.getElementById("main_mid_row").innerHTML += await homePillReminder.render(userpillsa);
+  //homePage.getHomePageUserInfo();
   },
   render: () => {
 
@@ -32,10 +39,13 @@ const homePage = {
      `;
   },
 
-  getHomePageUserInfo: async function () {
-    //await getUserInfoHomePage();
+  getUserInfoONPage: async ()=>{
+    await getUserInfoHomePage();
+  },
 
-  }
+  /*getPillInformation: async ()=>{
+    return await homePillReminder.render();
+  }*/
 }
 
 export default homePage;

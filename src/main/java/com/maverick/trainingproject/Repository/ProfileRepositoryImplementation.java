@@ -1,5 +1,10 @@
 package com.maverick.trainingproject.Repository;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
@@ -9,15 +14,22 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 //import com.maverick.trainingproject.Model.UserDependentProfileModel;
 import com.maverick.trainingproject.Model.UserProfileModel;
+import com.maverick.trainingproject.Model.userImageModel;
 
 
 public class ProfileRepositoryImplementation implements ProfileRepository {
 
 	private Statement statement = null;
     private ResultSet rs = null;
+    
+   /* @Autowired
+    private MedicalHistoryRepository medicalUserId;*/
     
 	
 	
@@ -290,5 +302,100 @@ public class ProfileRepositoryImplementation implements ProfileRepository {
 		}
 		
 		return 0;
+	}
+
+
+
+
+	public boolean setPicToDB(userImageModel obj, String tokenEmail) throws SQLException {
+		// TODO Auto-generated method stub
+		DataBaseConnection dbObject= new DataBaseConnection() ;
+		Connection connect = dbObject.databaseConnection() ;
+		
+		int userId = new MedicalHistoryRepository().getUserId(tokenEmail, connect);
+		System.out.println("userId from photo to db"+userId);
+		
+		/*String query = "select userProfilePic from user_profile where userId = ?";
+		PreparedStatement pstmt = connect.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+		pstmt.setInt(1,userId);
+		ResultSet rs = pstmt.executeQuery();
+		if(rs.next()) {*/
+			
+			String query2 = "update user_profile set userProfilePic=? where userId = ?";
+			PreparedStatement pstmt2 = connect.prepareStatement(query2,Statement.RETURN_GENERATED_KEYS);
+			pstmt2.setBlob(1, obj.getImage());
+			pstmt2.setInt(2,userId);
+			
+			int status2 = pstmt2.executeUpdate();
+			System.out.println("update####"+status2);
+			if(status2!=0) {
+				return true  ;
+			}
+			else {
+				return false; 
+			}
+			
+		/*}
+		else {
+			String query2 = "insert into user_image values (?,?)";
+			PreparedStatement pstmt2 = connect.prepareStatement(query2,Statement.RETURN_GENERATED_KEYS);
+			pstmt2.setBlob(1, obj.getImage());
+			pstmt2.setInt(2,userId);
+			
+			int status2 = pstmt2.executeUpdate();
+			System.out.println("insert####");
+			if(status2==1) {
+				return true  ;
+			}
+			else {
+				return false; 
+			}
+			
+		}*/
+		
+		
+		
+		
+	}
+
+
+
+
+	public Blob getImageFromDB(String tokenEmail) throws SQLException, IOException {
+		
+		DataBaseConnection dbObject= new DataBaseConnection() ;
+		Connection connect = dbObject.databaseConnection() ;
+		int userId = new MedicalHistoryRepository().getUserId(tokenEmail, connect);
+		System.out.println("userId from db to frontend"+userId);
+			
+		String query2 = "select userProfilePic from user_profile where userId=?";
+		PreparedStatement pstmt = connect.prepareStatement(query2,Statement.RETURN_GENERATED_KEYS);
+		
+		pstmt.setInt(1, userId);
+		ResultSet rs = pstmt.executeQuery();
+		Blob blob = null;
+		if(rs.next()) {
+			if(rs.getBlob("userProfilePic") == null) {
+				System.out.println("dsad");
+			}
+			blob = rs.getBlob("userProfilePic");
+			/*File image = new File("C:\\Users\\anup\\Desktop\\aaa.png");
+		      FileOutputStream fos = new FileOutputStream(image);
+		      //byte[] buffer = new byte[1];
+		      byte byteArray[] = blob.getBytes(1,(int)blob.length());
+		      FileOutputStream outPutStream = new FileOutputStream(image);
+		      outPutStream.write(byteArray);
+		      outPutStream.close();*/
+		      
+		      System.out.println("dasds");
+		      return rs.getBlob("userProfilePic");
+			
+		}
+		else {
+			System.out.println("dasdsqqqqqqq");
+		}
+		return null;
+		
+		
 	}
 }
