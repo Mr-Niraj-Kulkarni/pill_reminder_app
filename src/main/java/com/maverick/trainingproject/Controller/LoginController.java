@@ -1,6 +1,6 @@
 package com.maverick.trainingproject.Controller;
-import com.maverick.trainingproject.Model.UserForgotPasswordModel;
-import com.maverick.trainingproject.Model.UserLoginModel;
+//import com.maverick.trainingproject.Model.UserForgotPasswordModel;
+//import com.maverick.trainingproject.Model.UserLoginModel;
 
 import com.maverick.trainingproject.Model.UserRegistrationInformationModel;
 //<<<<<<< HEAD
@@ -69,7 +69,7 @@ public class LoginController {
 //			
 //		}
 //=======
-	public ResponseEntity<?> login(@RequestBody UserLoginModel login){
+	public ResponseEntity<?> login(@RequestBody UserRegistrationInformationModel login){
 		loginRequestFromUser = new LoginService();
 //>>>>>>> cff86cabed5a6066cf6f9767f57845481a6f3c6c
 		System.out.println(login.getUserEmail());
@@ -114,15 +114,15 @@ public class LoginController {
 	@CrossOrigin
 	@PostMapping(value = "/passwordUpdate")
 	@ResponseBody
-	public String checkUser(@RequestBody UserForgotPasswordModel  userForgotPasswordModelObj ) throws SQLException {
+	public String checkUser(@RequestBody UserRegistrationInformationModel  userForgotPasswordModelObj ) throws SQLException {
 		
 		
-		PasswordEncryption encryption = new PasswordEncryption();
-		 String encryptedPassword=encryption.encryptPassword(userForgotPasswordModelObj.getUserPassword());
+		 PasswordEncryption encryption = new PasswordEncryption();
+		 String encryptedPassword = encryption.encryptPassword(userForgotPasswordModelObj.getUserPassword());
 		 userForgotPasswordModelObj.setUserPassword(encryptedPassword);
 		 
 		 ForgotPasswordService forgotPasswordServiceObj = new ForgotPasswordService() ;
-		 String message =forgotPasswordServiceObj.updateNewPassword(userForgotPasswordModelObj);
+		 String message = forgotPasswordServiceObj.updateNewPassword(userForgotPasswordModelObj);
 		 
 		 return message ;
 		
@@ -148,7 +148,7 @@ public class LoginController {
 	@CrossOrigin
 	@RequestMapping(value = "/getSecretAns" , method= {RequestMethod.POST})
 	@ResponseBody
-	public String showSecretAns(@RequestBody UserLoginModel login) {
+	public String showSecretAns(@RequestBody UserRegistrationInformationModel login) {
 		LoginRepository lr1 = new LoginRepository();
 		String ans = lr1.getsecretpassword(login);
 		 

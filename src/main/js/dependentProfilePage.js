@@ -1,34 +1,177 @@
+import { postLoginData } from './loginAPI.js';
+import {getJwtToken} from './loginAPI.js';
+import registrationPage from './registrationPage';
+import forgotPage from './forgotPage.js';
+import {getProfileData} from './loginAPI.js'
+import userValidation from './userValidation.js';
+import userProfilePage from './userProfilePage.js';
 import {updateDependentProfileData} from './profileAPI.js';
+import {addDependentProfileData} from './profileAPI.js';
+
+
 const dependentProfilePage = {
-  after_render: function () {
+  after_render: function (flag) {
+    
     
 
-     document.getElementById("dependent-edit").addEventListener("click",()=>{
-      document.getElementById("dependent-save").style.visibility = "visible";
-      document.getElementById("dependent-cancel").style.visibility = "visible";
-      document.getElementById("dependent-edit").style.visibility = "hidden";
+    let oldDependentEmail = "defaultValue";
+    if (flag == "updateData") {
+
+      // edit button for update
+      document.getElementById("dependent-edit").addEventListener("click",()=>{
+        oldDependentEmail = document.getElementById("dependent-email").value;
+        document.getElementById("dependent-save").style.visibility = "visible";
+        document.getElementById("dependent-cancel").style.visibility = "visible";
+        document.getElementById("dependent-edit").style.visibility = "hidden";
+        const profileform = document.getElementById("dependent-form");
+        const profileforminputs = profileform.getElementsByTagName("input");
+        for(var i = 0; i<profileforminputs.length;i++){
+          profileforminputs[i].removeAttribute("readonly");
+        }
+
+         // dynamic validation
+        document.getElementById("dependent-name").addEventListener("focusout", userValidation.isValidNameForDependent);
+        document.getElementById("dependent-email").addEventListener("focusout", userValidation.isValidEmailForDependent);
+        document.getElementById("dependent-contact").addEventListener("focusout", userValidation.isValidContactForDependent);
+        document.getElementById("dependent-bloodgroup").addEventListener("focusout", userValidation.isValidBloodGroupForDependent);
+        document.getElementById("dependent-dob").addEventListener("focusout", userValidation.isValidDateofBirthForDependent);
+        document.getElementById("dependent-weight").addEventListener("focusout", userValidation.isValidWeightForDependent);
+        document.getElementById("dependent-height").addEventListener("focusout", userValidation.isValidHeightForDependent);
+
+
+      })
+      // cancel button for update
+      document.getElementById("dependent-cancel").addEventListener("click",()=>{
+        document.getElementById("dependent-save").style.visibility = "hidden";
+        document.getElementById("dependent-cancel").style.visibility = "hidden";
+        document.getElementById("dependent-edit").style.visibility = "visible";
+        
+        const profileform = document.getElementById("dependent-form");
+        const profileforminputs = profileform.getElementsByTagName("input");
+        for(var i = 0; i<profileforminputs.length-3;i++){
+          profileforminputs[i].value="";
+          profileforminputs[i].setAttribute("readonly","readonly");
+        }
+        // call the dependent data
+        userProfilePage.viewDependentData();
+
+        document.getElementById("dpr-1").innerHTML = "";
+        document.getElementById("dpr-2").innerHTML = "";
+        document.getElementById("dpr-3").innerHTML = "";
+        document.getElementById("dpr-4").innerHTML = "";
+        document.getElementById("dpr-5").innerHTML = "";
+        document.getElementById("dpr-6").innerHTML = "";
+        document.getElementById("dpr-7").innerHTML = "";
+
+      }) 
+      // save button for update
+      document.getElementById("dependent-save").addEventListener("click", async ()=>{
+        if (userValidation.isValidNameForDependent() && userValidation.isValidEmailForDependent()) {
+          alert("Data send to Update");
+          await dependentProfilePage.submitDependentUpdateData(oldDependentEmail, flag);
+
+          document.getElementById("dpr-1").innerHTML = "";
+          document.getElementById("dpr-2").innerHTML = "";
+          document.getElementById("dpr-3").innerHTML = "";
+          document.getElementById("dpr-4").innerHTML = "";
+          document.getElementById("dpr-5").innerHTML = "";
+          document.getElementById("dpr-6").innerHTML = "";
+          document.getElementById("dpr-7").innerHTML = "";
+          //readonly property
+          const profileform = document.getElementById("dependent-form");
+          const profileforminputs = profileform.getElementsByTagName("input");
+          for(var i = 0; i<profileforminputs.length-3;i++){
+            profileforminputs[i].value="";
+            profileforminputs[i].setAttribute("readonly","readonly");
+          }
+          // call the dependent data
+          userProfilePage.viewDependentData();
+
+          document.getElementById("dependent-save").style.visibility = "hidden";
+          document.getElementById("dependent-cancel").style.visibility = "hidden";
+          document.getElementById("dependent-edit").style.visibility = "visible";
+        
+
+        }        
+      })
+
+     
+      
+    } 
+    else {
+
       const profileform = document.getElementById("dependent-form");
       const profileforminputs = profileform.getElementsByTagName("input");
       for(var i = 0; i<profileforminputs.length;i++){
         profileforminputs[i].removeAttribute("readonly");
       }
-    })
 
-    document.getElementById("dependent-cancel").addEventListener("click",()=>{
-      document.getElementById("dependent-save").style.visibility = "hidden";
-      document.getElementById("dependent-cancel").style.visibility = "hidden";
-      document.getElementById("dependent-edit").style.visibility = "visible";
-      const profileform = document.getElementById("dependent-form");
-      const profileforminputs = profileform.getElementsByTagName("input");
-      for(var i = 0; i<profileforminputs.length-3;i++){
-        profileforminputs[i].value="";
-        profileforminputs[i].setAttribute("readonly","readonly");
-      }
-    })  
-    document.getElementById("dependent-save").addEventListener("click",()=>{
-      dependentProfilePage.submitDependentUpdateData();
+      // edit button for add new data
+      document.getElementById("dependent-edit").style.visibility = "hidden";
+           
+      // cancel button for add new data
+      document.getElementById("dependent-cancel").style.visibility = "visible";
+      document.getElementById("dependent-cancel").addEventListener("click",()=>{
 
-    })
+        document.getElementById("dpr-1").innerHTML = "&#x274C;";
+        document.getElementById("dpr-2").innerHTML = "&#x274C;";
+        document.getElementById("dpr-3").innerHTML = "&#x274C;";
+        document.getElementById("dpr-4").innerHTML = "&#x274C;";
+        document.getElementById("dpr-5").innerHTML = "&#x274C;";
+        document.getElementById("dpr-6").innerHTML = "&#x274C;";
+        document.getElementById("dpr-7").innerHTML = "&#x274C;";
+
+        const profileform = document.getElementById("dependent-form");
+        const profileforminputs = profileform.getElementsByTagName("input");
+        for(var i = 0; i<profileforminputs.length-3; i++){
+          profileforminputs[i].value="";
+        }
+      }) 
+      // save button for add new data
+      document.getElementById("dependent-save").style.visibility = "visible";
+      document.getElementById("dependent-save").addEventListener("click",async ()=>{
+        if (userValidation.isValidNameForDependent() && userValidation.isValidEmailForDependent()) {
+          alert("Data send to Insert New Entry");
+          await dependentProfilePage.submitDependentUpdateData(oldDependentEmail, flag);
+
+          document.getElementById("dpr-1").innerHTML = "";
+          document.getElementById("dpr-2").innerHTML = "";
+          document.getElementById("dpr-3").innerHTML = "";
+          document.getElementById("dpr-4").innerHTML = "";
+          document.getElementById("dpr-5").innerHTML = "";
+          document.getElementById("dpr-6").innerHTML = "";
+          document.getElementById("dpr-7").innerHTML = "";
+          //readonly property
+          const profileform = document.getElementById("dependent-form");
+          const profileforminputs = profileform.getElementsByTagName("input");
+          for(var i = 0; i<profileforminputs.length-3;i++){
+            profileforminputs[i].value="";
+            profileforminputs[i].setAttribute("readonly","readonly");
+          }
+          // call the dependent data
+          userProfilePage.viewDependentData();
+          userProfilePage.getProfileData();
+
+          document.getElementById("dependent-save").style.visibility = "hidden";
+          document.getElementById("dependent-cancel").style.visibility = "hidden";
+          document.getElementById("dependent-edit").style.visibility = "hidden";
+        
+        }
+      })
+
+      // dynamic validation
+      document.getElementById("dependent-name").addEventListener("keyup", userValidation.isValidNameForDependent);
+      document.getElementById("dependent-email").addEventListener("focusout", userValidation.isValidEmailForDependent);
+      document.getElementById("dependent-contact").addEventListener("keyup", userValidation.isValidContactForDependent);
+      document.getElementById("dependent-bloodgroup").addEventListener("focusout", userValidation.isValidBloodGroupForDependent);
+      document.getElementById("dependent-dob").addEventListener("focusout", userValidation.isValidDateofBirthForDependent);
+      document.getElementById("dependent-weight").addEventListener("keyup", userValidation.isValidWeightForDependent);
+      document.getElementById("dependent-height").addEventListener("keyup", userValidation.isValidHeightForDependent);
+
+
+    }   
+
+    
   },
   render: () => {
 
@@ -47,13 +190,13 @@ const dependentProfilePage = {
                     <option value="Father-Inlaw">Father-Inlaw</option>
                   </select>
                 </td></tr>
-                <tr><th>Name</th><td><input type="text" id="dependent-name" readonly/></td><td id="pr-1">&#x2705;</td></tr>
-                <tr><th>Email id</th><td><input type="email" id="dependent-email" readonly/></td><td id="pr-2"></td></tr>
-                <tr><th>Contact Number</th><td><input type="number" id="dependent-contact" readonly/></td><td id="pr-3"></td></tr>
-                <tr><th>Blood Group</th><td><input type="text" id="dependent-bloodgroup" readonly/></td><td id="pr-4"></td></tr>
-                <tr><th>Date of Birth</th><td><input type="date" id="dependent-dob" readonly/></td><td id="pr-5"></td></tr>
-                <tr><th>Weight</th><td><input type="text" id="dependent-weight" readonly/></td><td id="pr-6"></td></tr>
-                <tr><th>Height</th><td><input type="text" id="dependent-height" readonly/></td><td id="pr-7"></td></tr>
+                <tr><th>Name</th><td><input type="text" id="dependent-name" readonly/></td><td id="dpr-1"></td></tr>
+                <tr><th>Email id</th><td><input type="email" id="dependent-email" readonly/></td><td id="dpr-2"></td></tr>
+                <tr><th>Contact Number</th><td><input type="number" id="dependent-contact" readonly/></td><td id="dpr-3"></td></tr>
+                <tr><th>Blood Group</th><td><input type="text" id="dependent-bloodgroup" readonly/></td><td id="dpr-4"></td></tr>
+                <tr><th>Date of Birth</th><td><input type="date" id="dependent-dob" readonly/></td><td id="dpr-5"></td></tr>
+                <tr><th>Weight</th><td><input type="text" id="dependent-weight" readonly/></td><td id="dpr-6"></td></tr>
+                <tr><th>Height</th><td><input type="text" id="dependent-height" readonly/></td><td id="dpr-7"></td></tr>
               </table><br>
               <span class="image-para">
             <input type="button" class="save-cancel editvisiblity" id="dependent-save" value="Save" />
@@ -63,7 +206,7 @@ const dependentProfilePage = {
     `;
   },
 
-  submitDependentUpdateData: async function () {
+  submitDependentUpdateData: async function (oldDependentEmail, flag) {
     //let userProfilePic = document.getElementById("login-email").value;
     const data = {
       "dependentRelation" : document.getElementById("dependent-relationship").value,
@@ -73,10 +216,18 @@ const dependentProfilePage = {
       "dependentBloodGroup" : document.getElementById("dependent-bloodgroup").value,
       "dependentDateOfBirth" : document.getElementById("dependent-dob").value,
       "dependentWeight" : document.getElementById("dependent-weight").value,
-      "dependentHeight": document.getElementById("dependent-height").value
+      "dependentHeight": document.getElementById("dependent-height").value,
+      "oldDependentEmail" : oldDependentEmail
     }
     console.log(data);
-    await updateDependentProfileData(data);
+    if (flag == "updateData") {
+      console.log(oldDependentEmail+ "update");
+      await updateDependentProfileData(data);
+    }else{
+      console.log(oldDependentEmail+ "add");
+      await addDependentProfileData(data);
+    }
+    
     
 },
   

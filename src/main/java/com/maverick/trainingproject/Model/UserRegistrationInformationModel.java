@@ -67,5 +67,8 @@ public class UserRegistrationInformationModel {
 		this.userPassword = userPassword;
 	}
 	
-	
+	public UserRegistrationInformationModel(String userEmail, String userPassword) {
+		setUserEmail(userEmail);
+		setUserPassword(userPassword);
+	}
 }

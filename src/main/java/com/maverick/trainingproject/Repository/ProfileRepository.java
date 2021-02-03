@@ -12,11 +12,13 @@ public interface ProfileRepository {
 	UserProfileModel getUserProfileData(String email);
 
 	public int setProfileData(String userName, String userEmail, String userContact, String userBloodGroup,
-			Date userDateOfBirth, float userWeight, float userHeight, String userProfilePic, int userId,
+			Date userDateOfBirth, float userWeight, float userHeight, int userId,
 			int userProfileId,String tokenEmail);
 	
 	UserProfileModel getDependentProfileData(String userEmail, String dependentRelation, String dependentName);
 
 	public int setDependentProfileData(UserProfileModel dependentProfileModel, String tokenEmail);
+
+	public int addDependentProfileData(UserProfileModel model, String tokenEmail);
 	
 }

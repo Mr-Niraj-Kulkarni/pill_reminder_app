@@ -30,7 +30,13 @@ public void configure(WebSecurity web) throws Exception {
 	   web.ignoring().antMatchers("/favicon.ico");
 	   web.ignoring().antMatchers("/register");
 	   web.ignoring().antMatchers("/passwordUpdate");
+<<<<<<< HEAD
 	   web.ignoring().antMatchers("/aaa.png");
+=======
+	   web.ignoring().antMatchers("/7492e3ec-facb-4029-a2d8-de263411715b");
+	   web.ignoring().antMatchers("/sendEmail");
+//	   web.ignoring().antMatchers("/emailData");
+>>>>>>> a2dc05a11248c3a38c5d70e7131f64847127c13d
 }
 
 @Autowired

@@ -1,8 +1,12 @@
 
 export const postLoginData = async (data) => {
   try {
+
+    
+
     //console.log(localStorage.getItem("jwtToken"));
     const response = await fetch('http://localhost:8080/login', {
+
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',
@@ -68,9 +72,7 @@ export const postForgotData = async (forgotdata) => {
       body: JSON.stringify(forgotdata)
 
     });
-    console.log("hiiii");
     const msg = await response.text();
-    console.log(msg);
     document.getElementById("responce-msg").innerHTML = msg;
 
   } catch (e) {

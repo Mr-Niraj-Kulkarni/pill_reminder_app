@@ -21,17 +21,15 @@ public class UserProfileService {
 		return repo.getUserProfileData(email);
 	}
 
-//	public String setProfileData(String userName, String userEmail, String userContact, String userBloodGroup,
-//			Date date, float userWeight, float userHeight, Blob userProfilePic, int userId,
-//			int userProfileId) 
-//	
+
 	public String setProfileData(UserProfileModel model, String tokenEmail)
 	{
 		
 		ProfileRepositoryImplementation repo = new ProfileRepositoryImplementation();
 		int status = repo.setProfileData(model.getUserName(), model.getUserEmail(), model.getUserContact(),
 				model.getUserBloodGroup(), model.getUserDateOfBirth(), model.getUserWeight(),
-				model.getUserHeight(), model.getUserProfilePic(), model.getUserId(), model.getUserProfileId(),tokenEmail);
+				model.getUserHeight(), model.getUserProfilePic(), model.getUserId(), model.getUserProfileId(), tokenEmail);
+
 		if (status == 0) {
 			return "New Email Id aldredy exist in database with other user, Try with Another Email Id.";
 		}else if (status == 1) {
@@ -49,19 +47,35 @@ public class UserProfileService {
 		return repo.getDependentProfileData(userEmail, dependentRelation, dependentName);
 	}
 
+
 	public String setDependentProfileData(UserProfileModel dependentProfileModel, String tokenEmail) {
 		
 		ProfileRepositoryImplementation repo = new ProfileRepositoryImplementation();
 		int status = repo.setDependentProfileData(dependentProfileModel, tokenEmail);
+
 		if (status == 0) {
-			return "This Email Id exist in Database with other user, try with another Email Id.";
+			return "Error whle updating data, try again.";
 		}else if (status == 1) {
 			return "Dependent Data Updated Successfully.";
-		}else if (status == 3) {
-			return "New Dependent Data Insert Successfully.";
-		}
-		else{//status == 2
+		}else{//status == 2
 			return "Error occurs in connection, Logout and Try again.";
+		}
+		
+	}
+
+
+	public String addDependentProfileData(UserProfileModel model, String tokenEmail) {
+		
+		ProfileRepositoryImplementation repo = new ProfileRepositoryImplementation();
+		int status = repo.addDependentProfileData(model, tokenEmail);
+
+		//msg correct
+		if (status == 0) {
+			return "Error occurs in connection, Logout and Try again.";
+		}else if (status == 1) {
+			return "New Dependent Data Insert Successfully.";
+		}else {// status == 2
+			return "Error whle inserting data, try again.";
 		}
 		
 	}

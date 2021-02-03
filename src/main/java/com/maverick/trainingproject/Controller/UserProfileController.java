@@ -2,7 +2,6 @@ package com.maverick.trainingproject.Controller;
 
 
 import java.io.File;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,10 +10,9 @@ import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
-
+//import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.rowset.serial.SerialException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -25,12 +23,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-//import com.maverick.trainingproject.Model.UserDependentProfileModel;
+import com.maverick.trainingproject.TrainingprojectApplication;
 import com.maverick.trainingproject.Model.UserProfileModel;
 import com.maverick.trainingproject.Model.userImageModel;
 import com.maverick.trainingproject.Service.JwtRequest;
 import com.maverick.trainingproject.Service.JwtTokenUtil;
+//import com.maverick.trainingproject.Service.SendEmailService;
 import com.maverick.trainingproject.Service.UserProfileService;
 
 @Controller

@@ -1,12 +1,13 @@
 import userValidation from './userValidation.js';
 import loginPage from './loginPage.js';
 import { postRegistrationData } from './loginAPI.js';
+
 const registrationPage = {
 
   after_render: function () {
     document.getElementById("reg-submit").addEventListener("click", e => {
       e.preventDefault();
-      if (userValidation.isValidName() && userValidation.isValidEmail() && userValidation.isValidPassword() && userValidation.passwordCheck()) {
+      if (userValidation.isValidNameForReg() && userValidation.isValidEmailForReg() && userValidation.isValidPasswordForReg() && userValidation.passwordCheck()) {
         alert("Registered Successfully as per excel sheet rules!");
         registrationPage.submitRegistrationData();
       }
@@ -17,9 +18,6 @@ const registrationPage = {
 
     //var name = String(document.getElementById("reg-name").value);
     document.getElementById("reg-name").addEventListener("keyup", userValidation.isValidName);
-
-
-
     document.getElementById("reg-email").addEventListener("focusout", userValidation.isValidEmail);
     document.getElementById("reg-number").addEventListener("keyup", userValidation.isValidContact);
     document.getElementById("reg-dob").addEventListener("focusout", userValidation.isValidDateofBirth);
