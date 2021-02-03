@@ -1,12 +1,12 @@
 
 export const postLoginData = async (data) => {
   try {
-<<<<<<< HEAD
-    const response = await fetch('http://localhost:8090/login', {
-=======
+
+    
+
     //console.log(localStorage.getItem("jwtToken"));
     const response = await fetch('http://localhost:8080/login', {
->>>>>>> cff86cabed5a6066cf6f9767f57845481a6f3c6c
+
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export const postLoginData = async (data) => {
 
 export const postRegistrationData = async (data) => {
   try {
-    const response = await fetch('http://localhost:8090/register', {
+    const response = await fetch('http://localhost:8080/register', {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ export const postRegistrationData = async (data) => {
 
 export const postForgotData = async (forgotdata) => {
   try {
-    const response = await fetch('http://localhost:8090/passwordUpdate', {
+    const response = await fetch('http://localhost:8080/passwordUpdate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

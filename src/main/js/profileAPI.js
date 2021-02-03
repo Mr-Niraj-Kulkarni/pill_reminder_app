@@ -17,12 +17,19 @@ export const getProfileData = async()=>{
       document.getElementById("profile-dob").value = returnFromServer.userDateOfBirth;
       document.getElementById("profile-weight").value = returnFromServer.userWeight;
       document.getElementById("profile-height").value = returnFromServer.userHeight;
+
+      var select = document.getElementById("relationship");
+      var length = select.options.length;
+      for (i = length-1; i >= 0; i--) {
+        select.options[i] = null;
+      }
+
       console.log(returnFromServer.relationsList.length);
       for(var i = 0; i<returnFromServer.relationsList.length;i++){
         const createOption = document.createElement("option");
-      createOption.value = returnFromServer.relationsList[i];
-      createOption.textContent = returnFromServer.relationsList[i];
-      document.getElementById("relationship").appendChild(createOption);
+        createOption.value = returnFromServer.relationsList[i];
+        createOption.textContent = returnFromServer.relationsList[i];
+        document.getElementById("relationship").appendChild(createOption);
       }
 
 
@@ -96,3 +103,23 @@ export const updateDependentProfileData = async(data)=>{
 		 console.log("ERROR: ", e);
 	}
 } 
+
+export const addDependentProfileData = async(data) => {
+  try {
+    const response = await fetch('http://localhost:8080/addDependentProfileData', {
+      method : 'POST',
+      headers : {
+        'Content-Type' : 'application/json',
+        'Authorization' : localStorage.getItem("jwtToken")
+      },
+      body : JSON.stringify(data)
+    })
+    const returnFromServer = await response.text();
+    if (returnFromServer != null) {
+      alert(returnFromServer);
+      console.log(returnFromServer);
+    }
+  } catch (error) {
+    
+  }
+}

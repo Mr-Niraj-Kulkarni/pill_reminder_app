@@ -6,10 +6,12 @@ import {getProfileData} from './profileAPI.js';
 import {viewDependentData} from './profileAPI.js';
 import {updateUserProfileData} from './profileAPI.js';
 import dependentProfilePage from './dependentProfilePage.js';
+import userValidation from './userValidation.js';
 
 const userProfilePage = {
   after_render: function () {
     document.getElementById("mainbar").style.flexDirection = "row";
+    // display profile image
     function readURLs(input){
       if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -20,7 +22,7 @@ const userProfilePage = {
         };
     
         reader.readAsDataURL(input.files[0]);
-    }
+      }
     }
     var arrayBuffer = [];
     document.getElementById("link-hidden").addEventListener("click",e=>{
@@ -45,6 +47,8 @@ const userProfilePage = {
       //e.preventDefault();
     });
 
+
+    // edit button
     document.getElementById("profile-edit").addEventListener("click",()=>{
       document.getElementById("profile-save").style.visibility = "visible";
       document.getElementById("profile-cancel").style.visibility = "visible";
@@ -54,8 +58,18 @@ const userProfilePage = {
       for(var i = 0; i<profileforminputs.length;i++){
         profileforminputs[i].removeAttribute("readonly");
       }
+
+       // validation for profile form
+      document.getElementById("profile-name").addEventListener("focusout", userValidation.isValidName);
+      document.getElementById("profile-email").addEventListener("focusout", userValidation.isValidEmail);
+      document.getElementById("profile-contact").addEventListener("focusout", userValidation.isValidContact);
+      document.getElementById("profile-bloodgroup").addEventListener("focusout", userValidation.isValidBloodGroup);
+      document.getElementById("profile-dob").addEventListener("focusout", userValidation.isValidDateofBirth);
+      document.getElementById("profile-weight").addEventListener("focusout", userValidation.isValidWeight);
+      document.getElementById("profile-height").addEventListener("focusout", userValidation.isValidHeight);
     })
 
+    // cancel button
     document.getElementById("profile-cancel").addEventListener("click",()=>{
       document.getElementById("profile-save").style.visibility = "hidden";
       document.getElementById("profile-cancel").style.visibility = "hidden";
@@ -66,14 +80,58 @@ const userProfilePage = {
         profileforminputs[i].value="";
         profileforminputs[i].setAttribute("readonly","readonly");
       }
+      // call the profile data
+      userProfilePage.getProfileData();
+
+      document.getElementById("pr-1").innerHTML = "";
+      document.getElementById("pr-2").innerHTML = "";
+      document.getElementById("pr-3").innerHTML = "";
+      document.getElementById("pr-4").innerHTML = "";
+      document.getElementById("pr-5").innerHTML = "";
+      document.getElementById("pr-6").innerHTML = "";
+      document.getElementById("pr-7").innerHTML = "";
+
+    })
+    // save button
+    document.getElementById("profile-save").addEventListener("click", async ()=>{
+      if (userValidation.isValidNameForProfile() && userValidation.isValidEmailForProfile() ) {
+        await userProfilePage.submitProfileUpdateData();
+        
+        document.getElementById("pr-1").innerHTML = "";
+        document.getElementById("pr-2").innerHTML = "";
+        document.getElementById("pr-3").innerHTML = "";
+        document.getElementById("pr-4").innerHTML = "";
+        document.getElementById("pr-5").innerHTML = "";
+        document.getElementById("pr-6").innerHTML = "";
+        document.getElementById("pr-7").innerHTML = "";
+        // readlony visible
+        const profileform = document.getElementById("profile-form");
+        const profileforminputs = profileform.getElementsByTagName("input");
+        for(var i = 0; i<profileforminputs.length-3;i++){
+          profileforminputs[i].value="";
+          profileforminputs[i].setAttribute("readonly","readonly");
+        }
+        // call the profile data 
+        userProfilePage.getProfileData();
+        //buttton visiblity
+        document.getElementById("profile-save").style.visibility = "hidden";
+        document.getElementById("profile-cancel").style.visibility = "hidden";
+        document.getElementById("profile-edit").style.visibility = "visible";
+      }
+      
     })
 
+   
+
+    // to relation and name for dependent data
     userProfilePage.getProfileData();
 
+    
     document.getElementById("view-dependents").addEventListener("click",()=>{
       document.getElementById("dependent-form").innerHTML = dependentProfilePage.render();
       if(dependentProfilePage.after_render){
-        dependentProfilePage.after_render();
+        let flag = "updateData";
+        dependentProfilePage.after_render(flag);
         userProfilePage.viewDependentData();
       }
       
@@ -81,13 +139,11 @@ const userProfilePage = {
     document.getElementById("add-dependents").addEventListener("click",()=>{
       document.getElementById("dependent-form").innerHTML = dependentProfilePage.render();
       if(dependentProfilePage.after_render){
-        dependentProfilePage.after_render();
+        let flag = "addData";
+        dependentProfilePage.after_render(flag);
       }
     });
-    document.getElementById("profile-save").addEventListener("click",()=>{
-      userProfilePage.submitProfileUpdateData();
-
-    })
+    
 
   },
   render: () => {
@@ -105,7 +161,7 @@ const userProfilePage = {
           </span><br>
           <h2 class="image-para">PROFILE</h2>
             <table id="profile-form">
-              <tr><th>Name</th><td><input type="text" id="profile-name" readonly/></td><td id="pr-1">&#x2705;</td></tr>
+              <tr><th>Name</th><td><input type="text" id="profile-name" readonly/></td><td id="pr-1"></td></tr>
               <tr><th>Email id</th><td><input type="email" id="profile-email" readonly/></td><td id="pr-2"></td></tr>
               <tr><th>Contact Number</th><td><input type="number" id="profile-contact" readonly/></td><td id="pr-3"></td></tr>
               <tr><th>Blood Group</th><td><input type="text" id="profile-bloodgroup" readonly/></td><td id="pr-4"></td></tr>

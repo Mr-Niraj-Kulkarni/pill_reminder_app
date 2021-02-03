@@ -9,17 +9,17 @@ const forgotPage = {
     //save forgot data
     document.getElementById("save-data").addEventListener("click", e => {
       e.preventDefault();
-<<<<<<< HEAD
 
-      alert("Password Updated")
-=======
->>>>>>> cff86cabed5a6066cf6f9767f57845481a6f3c6c
-      forgotPage.submitForgotData();
+      if (userValidation.isValidEmailForForgotPassword() && userValidation.isValidPasswordForForgotPassword() && userValidation.passwordCheckForForgotPassword()) {
+        alert("Password Updated")
+        forgotPage.submitForgotData();
+      }
+      
     });
 
     //vaildation for forgot password fields
-    document.getElementById("mail").addEventListener("keyup", userValidation.isValidEmailForForgotPassword);
-    document.getElementById("newPass").addEventListener("focusout", userValidation.isValidPasswordForForgotPassword);
+    document.getElementById("mail").addEventListener("keyup", userValidation.isValidEmail);
+    document.getElementById("newPass").addEventListener("focusout", userValidation.isValidPassword);
     document.getElementById("oldPass").addEventListener("keyup", userValidation.passwordCheckForForgotPassword);
 
 

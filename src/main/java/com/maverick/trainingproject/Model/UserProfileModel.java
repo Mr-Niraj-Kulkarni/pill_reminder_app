@@ -19,9 +19,9 @@ public class UserProfileModel {
 	private int userId;
 	private int userProfileId;
 	
+	private String dependentRelation;
 	private String dependentName;
 	private String dependentEmail;
-	private String dependentRelation;
 	private String dependentContact;
 	private String dependentBloodGroup;
 	private Date dependentDateOfBirth;
@@ -29,6 +29,8 @@ public class UserProfileModel {
 	private float dependentHeight;
 	
 	ArrayList<String> relationsList;
+	
+	private String oldDependentEmail;
 	
 	public String getUserName() {
 		return userName;
@@ -143,6 +145,12 @@ public class UserProfileModel {
 	}
 	public void setRelationsList(ArrayList<String> relationsList) {
 		this.relationsList = relationsList;
+	}
+	public String getOldDependentEmail() {
+		return oldDependentEmail;
+	}
+	public void setOldDependentEmail(String oldDependentEmail) {
+		this.oldDependentEmail = oldDependentEmail;
 	}
 	
 	

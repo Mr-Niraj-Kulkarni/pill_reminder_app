@@ -1,19 +1,19 @@
 package com.maverick.trainingproject.Service;
 import org.springframework.stereotype.Service;
 
-import com.maverick.trainingproject.Model.UserLoginModel;
-
+//import com.maverick.trainingproject.Model.UserLoginModel;
+import com.maverick.trainingproject.Model.UserRegistrationInformationModel;
 import com.maverick.trainingproject.Repository.LoginRepository;
 
 @Service
 public class LoginService {
 	
-	public boolean loginValidation(UserLoginModel login) {
+	public boolean loginValidation(UserRegistrationInformationModel login) {
 		return true;
 		
 	}
 	
-	public boolean login(UserLoginModel login) {
+	public boolean login(UserRegistrationInformationModel login) {
 		LoginRepository loginRepo= new LoginRepository();
 		PasswordEncryption encryptionObj= new PasswordEncryption() ;
 		String encryptedPassword = encryptionObj.encryptPassword(login.getUserPassword());

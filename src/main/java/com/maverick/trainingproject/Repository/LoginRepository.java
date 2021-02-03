@@ -4,7 +4,7 @@ import java.sql.*;
 
 
 
-import com.maverick.trainingproject.Model.UserLoginModel;
+//import com.maverick.trainingproject.Model.UserLoginModel;
 
 import com.maverick.trainingproject.Model.UserRegistrationInformationModel;
 
@@ -16,7 +16,7 @@ public class LoginRepository{
     
 
 	
-	public boolean userLoginCredentialCheckInDB(UserLoginModel login) {
+	public boolean userLoginCredentialCheckInDB(UserRegistrationInformationModel login) {
 		try {
 			DataBaseConnection dbObject= new DataBaseConnection() ;
 			Connection connect=dbObject.databaseConnection() ;
@@ -24,7 +24,7 @@ public class LoginRepository{
 			statement = connect.createStatement();
 			rs = statement.executeQuery("select userID from user_info where userEmail ='"+login.getUserEmail()+"' and userPassword = '"+login.getUserPassword()+"'");
             if(rs.next()) {
-            	login.setUserId(rs.getInt("userId"));
+            	login.setUserID(rs.getInt("userId"));
             return true;
             }
 			
@@ -103,7 +103,7 @@ public class LoginRepository{
 		
 	}
 	
-	public String getsecretpassword(UserLoginModel login) {
+	public String getsecretpassword(UserRegistrationInformationModel login) {
 		try {
 			DataBaseConnection dbObject= new DataBaseConnection() ;
 			Connection connect=dbObject.databaseConnection() ;
