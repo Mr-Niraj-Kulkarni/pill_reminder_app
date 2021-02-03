@@ -11,8 +11,8 @@ public class DataBaseConnection {
 
 			
 //			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost/pill_reminder?user=root&password=26091998");
-			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost/pill_reminder?user=akki&password=akki");
-//			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost/pill_reminder?user=root&password=qwert12");
+//			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost/pill_reminder?user=akki&password=akki");
+			Connection connect = DriverManager.getConnection("jdbc:mysql://localhost/pill_reminder?user=root&password=qwert12");
 
 			
 			return connect ;

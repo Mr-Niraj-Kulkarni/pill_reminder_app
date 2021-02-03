@@ -175,8 +175,8 @@ public class SendEmailRepository {
     	};
 
     	// Start the sending mail.
-    	UserSendEmailThread.start();
-    	DependentSendEmailThread.start();
+//    	UserSendEmailThread.start();
+//    	DependentSendEmailThread.start();
     }
 
 }

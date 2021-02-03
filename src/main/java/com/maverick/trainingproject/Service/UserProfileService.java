@@ -28,7 +28,7 @@ public class UserProfileService {
 		ProfileRepositoryImplementation repo = new ProfileRepositoryImplementation();
 		int status = repo.setProfileData(model.getUserName(), model.getUserEmail(), model.getUserContact(),
 				model.getUserBloodGroup(), model.getUserDateOfBirth(), model.getUserWeight(),
-				model.getUserHeight(), model.getUserProfilePic(), model.getUserId(), model.getUserProfileId(), tokenEmail);
+				model.getUserHeight(), model.getUserId(), model.getUserProfileId(), tokenEmail);
 
 		if (status == 0) {
 			return "New Email Id aldredy exist in database with other user, Try with Another Email Id.";

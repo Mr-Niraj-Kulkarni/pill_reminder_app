@@ -88,6 +88,15 @@ public class UserProfileController {
 	}
 	
 	@CrossOrigin
+	@RequestMapping(value = "/addDependentProfileData", method = {RequestMethod.POST})
+	@ResponseBody
+	public String addDependentProfileData(HttpServletRequest request, @RequestBody UserProfileModel model) {
+		
+		String tokenEmail = jwtTokenUtil.getUsernameFromToken(request.getHeader("Authorization").substring(7));
+		return profileService.addDependentProfileData(model, tokenEmail);
+	}
+	
+	@CrossOrigin
 	@RequestMapping(value = "/uploadImage", method = {RequestMethod.POST})
 	@ResponseBody
 	public boolean uploadImage(HttpServletRequest request, @RequestParam Map<String,MultipartFile>Obj ) throws SerialException, SQLException, IOException {
