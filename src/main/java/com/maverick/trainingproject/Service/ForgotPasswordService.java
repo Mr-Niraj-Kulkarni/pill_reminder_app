@@ -14,19 +14,19 @@ import com.maverick.trainingproject.Repository.LoginRepository;
 public class ForgotPasswordService {
 
 		
-	public String updateNewPassword(UserRegistrationInformationModel  userForgotPasswordModelObj) throws SQLException {
+	public int updateNewPassword(UserRegistrationInformationModel  userForgotPasswordModelObj) throws SQLException {
 		LoginRepository loginRepoObj = new LoginRepository() ;
 		int status = loginRepoObj.UpdatePasswordInDB(userForgotPasswordModelObj.getUserEmail(), userForgotPasswordModelObj.getUserPassword(),
 										userForgotPasswordModelObj.getSecretQuestion(),userForgotPasswordModelObj.getSecretAnswer()) ;
 		
 		if(status == 0) {
-			return "User does not exist";
+			return 0;
 		}
 		else if(status == 1) {
-			return "password updated successfully";
+			return 1;
 		}
 		else {
-			return "You can not enter old password again, Try with another password";
+			return 2;
 		}
 	}
 

@@ -22,20 +22,20 @@ public class UserProfileService {
 	}
 
 
-	public String setProfileData(UserProfileModel model, String tokenEmail)
+	public String setProfileData(UserProfileModel model, String tokenEmail) throws SQLException
 	{
 		
 		ProfileRepositoryImplementation repo = new ProfileRepositoryImplementation();
 		int status = repo.setProfileData(model.getUserName(), model.getUserEmail(), model.getUserContact(),
 				model.getUserBloodGroup(), model.getUserDateOfBirth(), model.getUserWeight(),
-				model.getUserHeight(), model.getUserId(), model.getUserProfileId(), tokenEmail);
+				model.getUserHeight(), model.getUserProfileId(), tokenEmail);
 
 		if (status == 0) {
-			return "New Email Id aldredy exist in database with other user, Try with Another Email Id.";
+			return "Cannot update Profile Information";
 		}else if (status == 1) {
-			return "Profile Data Updated Successfully.";
+			return "Profile Data Updated Successfully";
 		}else if (status == 2) {
-			return "Error occur, Logout and try again.";
+			return "Invalid Email address. Try again";
 		}else{ //status == 3
 			return "Error occur while updating, Check the Fields and Try again.";
 		}

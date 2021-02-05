@@ -15,12 +15,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	String[] staticResources  =  {
+	        "/images/**"
+	    };
 	
 @Override
 public void configure(WebSecurity web) throws Exception {
@@ -28,8 +32,11 @@ public void configure(WebSecurity web) throws Exception {
 	   web.ignoring().antMatchers("/login");
 	   web.ignoring().antMatchers("/built/bundle.js");
 	   web.ignoring().antMatchers("/favicon.ico");
+	   //web.ignoring().antMatchers("/images/**");
 	   web.ignoring().antMatchers("/register");
 	   web.ignoring().antMatchers("/passwordUpdate");
+	   
+	   
 }
 
 @Autowired
@@ -63,9 +70,15 @@ return super.authenticationManagerBean();
 
 }
 
+public void addResourceHandlers(ResourceHandlerRegistry registry) {     
+
+registry.addResourceHandler("/images/*").addResourceLocations("/static/images/");
+
+}
+
 @Override
 protected void configure(HttpSecurity httpSecurity) throws Exception {
-
+httpSecurity.authorizeRequests().antMatchers(staticResources).permitAll();
 // We don't need CSRF for this example
 httpSecurity.csrf().disable()
 

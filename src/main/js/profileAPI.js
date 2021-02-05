@@ -11,7 +11,6 @@ export const getProfileData = async()=>{
     })
       const returnFromServer = await response.json();
       console.log(returnFromServer);
-      document.getElementById("profile-photo").setAttribute("src",returnFromServer.userProfilePic);
       document.getElementById("profile-name").value = returnFromServer.userName;
       document.getElementById("profile-email").value = returnFromServer.userEmail;
       document.getElementById("profile-contact").value = returnFromServer.userContact;
@@ -50,15 +49,10 @@ export const viewDependentData = async(data)=>{
       body: JSON.stringify(data)
     })
       const returnFromServer = await response.json();
-      console.log(returnFromServer);
-      document.getElementById("dependent-relationship").value = returnFromServer.dependentRelation;
-      document.getElementById("dependent-name").value = returnFromServer.dependentName;
-      document.getElementById("dependent-email").value = returnFromServer.dependentEmail;
-      document.getElementById("dependent-contact").value = returnFromServer.dependentContact;
-      document.getElementById("dependent-bloodgroup").value = returnFromServer.dependentBloodGroup;
-      document.getElementById("dependent-weight").value = returnFromServer.dependentWeight;
-      document.getElementById("dependent-height").value = returnFromServer.dependentHeight;
-      document.getElementById("dependent-dob").value = returnFromServer.dependentDateOfBirth;
+      //console.log(returnFromServer);
+      //console.log("sasas");
+      return returnFromServer;
+      
 	} catch(e){
 		 console.log("ERROR: ", e);
 	}
@@ -200,7 +194,7 @@ export const getProfilePicture = async()=>{
     console.log("sasa");
     var base64String = null;
       const returnFromServer = await response.arrayBuffer();
-      console.log(returnFromServer);
+      
       return returnFromServer;
       /*var img = document.getElementById("profile-photo");
       img.src = returnFromServer;*/ 

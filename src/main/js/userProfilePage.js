@@ -22,7 +22,6 @@ const userProfilePage = {
         };
     
         reader.readAsDataURL(input.files[0]);
-        localStorage.setItem("image",input.files[0]);
     }
     }
     
@@ -45,8 +44,6 @@ const userProfilePage = {
       userProfilePage.submitProfilePicture(arrayBuffer);
       //e.preventDefault();
     });
-    const profileeditbtn = ()=>{
-
 
     // edit button
       document.getElementById("profile-edit").addEventListener("click",()=>{
@@ -59,8 +56,7 @@ const userProfilePage = {
         profileforminputs[i].removeAttribute("readonly");
       }
     });
-
-    document.getElementById("profile-edit").addEventListener("click",profileeditbtn);
+  
 
        // validation for profile form
       document.getElementById("profile-name").addEventListener("focusout", userValidation.isValidName);
@@ -70,7 +66,7 @@ const userProfilePage = {
       document.getElementById("profile-dob").addEventListener("focusout", userValidation.isValidDateofBirth);
       document.getElementById("profile-weight").addEventListener("focusout", userValidation.isValidWeight);
       document.getElementById("profile-height").addEventListener("focusout", userValidation.isValidHeight);
-    }
+    
 
     // cancel button
     document.getElementById("profile-cancel").addEventListener("click",()=>{
@@ -96,9 +92,19 @@ const userProfilePage = {
 
     })
     // save button
-    document.getElementById("profile-save").addEventListener("click", async ()=>{
-      if (userValidation.isValidNameForProfile() && userValidation.isValidEmailForProfile() ) {
-        await userProfilePage.submitProfileUpdateData();
+    document.getElementById("profile-save").addEventListener("click", ()=>{
+      if (userValidation.isValidNameForProfile() && userValidation.isValidEmailForProfile() && 
+          userValidation.isValidContactForProfile() && userValidation.isValidBloodGroupForProfile() && 
+          userValidation.isValidDateofBirthForProfile() && userValidation.isValidWeightForProfile() && 
+          userValidation.isValidHeightForProfile()) {
+          console.log("ihi");
+          const profileDataUpdate = async ()=>{
+            await userProfilePage.submitProfileUpdateData();
+            await userProfilePage.getProfileData();
+          }
+          profileDataUpdate();
+          
+          
         
         document.getElementById("pr-1").innerHTML = "";
         document.getElementById("pr-2").innerHTML = "";
@@ -111,15 +117,18 @@ const userProfilePage = {
         const profileform = document.getElementById("profile-form");
         const profileforminputs = profileform.getElementsByTagName("input");
         for(var i = 0; i<profileforminputs.length-3;i++){
-          profileforminputs[i].value="";
+          //profileforminputs[i].value="";
           profileforminputs[i].setAttribute("readonly","readonly");
         }
         // call the profile data 
-        userProfilePage.getProfileData();
+        
         //buttton visiblity
         document.getElementById("profile-save").style.visibility = "hidden";
         document.getElementById("profile-cancel").style.visibility = "hidden";
         document.getElementById("profile-edit").style.visibility = "visible";
+      }
+      else{
+        alert("Please fill the data correctly");
       }
       
     })
@@ -131,14 +140,9 @@ const userProfilePage = {
 
     
     document.getElementById("view-dependents").addEventListener("click",()=>{
-      document.getElementById("dependent-form").innerHTML = dependentProfilePage.render();
-      if(dependentProfilePage.after_render){
-        let flag = "updateData";
-        dependentProfilePage.after_render(flag);
-        userProfilePage.viewDependentData();
-      }
-      
+      userProfilePage.viewDependentData();
     });
+
     document.getElementById("add-dependents").addEventListener("click",()=>{
       document.getElementById("dependent-form").innerHTML = dependentProfilePage.render();
       if(dependentProfilePage.after_render){
@@ -147,10 +151,10 @@ const userProfilePage = {
       }
     });
 
-    document.getElementById("profile-save").addEventListener("click",()=>{
+    /*document.getElementById("profile-save").addEventListener("click",()=>{
       userProfilePage.submitProfileUpdateData();
 
-    })
+    })*/
     userProfilePage.getProfileImage();
   },
   render: () => {
@@ -169,8 +173,8 @@ const userProfilePage = {
               <tr><th>Contact Number</th><td><input type="number" id="profile-contact" readonly/></td><td id="pr-3"></td></tr>
               <tr><th>Blood Group</th><td><input type="text" id="profile-bloodgroup" readonly/></td><td id="pr-4"></td></tr>
               <tr><th>Date of Birth</th><td><input type="date" id="profile-dob" readonly/></td><td id="pr-5"></td></tr>
-              <tr><th>Weight</th><td><input type="text" id="profile-weight" readonly/></td><td id="pr-6"></td></tr>
-              <tr><th>Height</th><td><input type="text" id="profile-height" readonly/></td><td id="pr-7"></td></tr>
+              <tr><th>Weight(kg)</th><td><input type="text" id="profile-weight" readonly/></td><td id="pr-6"></td></tr>
+              <tr><th>Height(cm)</th><td><input type="text" id="profile-height" readonly/></td><td id="pr-7"></td></tr>
             </table><br><img id="testtest">
             <span class="image-para">
           <input type="button" class="save-cancel editvisiblity" id="profile-save" value="Save" />
@@ -201,7 +205,6 @@ const userProfilePage = {
   submitProfileUpdateData: async function () {
       //let userProfilePic = document.getElementById("login-email").value;
       const data = {
-        "userProfilePic" : document.getElementById("profile-photo").className,
         "userName" : document.getElementById("profile-name").value,
         "userEmail" : document.getElementById("profile-email").value,
         "userContact" : document.getElementById("profile-contact").value,
@@ -217,6 +220,7 @@ const userProfilePage = {
   getProfileData: async function(){
     await getProfileData();
   },
+
   viewDependentData: async function(){
     const dependentRelation = document.getElementById("relationship").value;
     const dependentName = document.getElementById("relationship-name").value;
@@ -224,21 +228,39 @@ const userProfilePage = {
       "dependentRelation" : dependentRelation,
       "dependentName" : dependentName
     }
-    await viewDependentData(data);
-  },
+    const dependentProfileData = await viewDependentData(data)
+    if(dependentProfileData == null){
+      document.getElementById("dependent-form").innerHTML = "<h2>No dependent data found. Please check dependent relation and dependent name</h2>";
+    }
+    else{
+      document.getElementById("dependent-form").innerHTML = dependentProfilePage.render();
+      document.getElementById("dependent-relationship").value = dependentProfileData.dependentRelation;
+      document.getElementById("dependent-name").value = dependentProfileData.dependentName;
+      document.getElementById("dependent-email").value = dependentProfileData.dependentEmail;
+      document.getElementById("dependent-contact").value = dependentProfileData.dependentContact;
+      document.getElementById("dependent-bloodgroup").value = dependentProfileData.dependentBloodGroup;
+      document.getElementById("dependent-weight").value = dependentProfileData.dependentWeight;
+      document.getElementById("dependent-height").value = dependentProfileData.dependentHeight;
+      document.getElementById("dependent-dob").value = dependentProfileData.dependentDateOfBirth;
+      if(dependentProfilePage.after_render){
+        let flag = "updateData";
+        dependentProfilePage.after_render(flag);
+    }
+  }
+},
 
   submitProfilePicture: async function(arrayBuffer){
-    console.log(arrayBuffer);
+    //console.log(arrayBuffer);
     var formdata = new FormData();
     formdata.append("image",document.getElementById("profile-photo-upload").files[0]);
     //formdata.append("type","file");
     //formdata.append("name","test1d");
     
-    console.log(formdata);
+    //console.log(formdata);
     const result = await uploadProfilePicture(formdata);
     if(result == true){
       //localStorage.setItem("encodedImage",userProfilePage.encode_function(arrayBuffer));
-      await header.getProfileImageOnHomePage();
+      await header.getProfileImageOnHomePage("photo-logout");
       alert("Photo Uploaded Seccessfully!");
     }
     else{
@@ -248,11 +270,27 @@ const userProfilePage = {
   },
 
   getProfileImage: async function(){
-    if(localStorage.getItem("encodedImage")!=null){
-      let image = document.getElementById("profile-photo");
-      image.src = "data:image/jpg;base64,"+
-      userProfilePage.encode_function(localStorage.getItem("imageInBytes"));
-    }
+    await header.getProfileImageOnHomePage("profile-photo");
+    // if(localStorage.getItem("encodedImage")!=null){
+    //   console.log("#####################");
+    //   let image = document.getElementById("profile-photo");
+    //   let bytes = localStorage.getItem("imageInBytes");
+    //   var arr = [];
+    //   arr.push(bytes);
+    //   /*image.src = "data:image/jpg;base64,"+
+    //   userProfilePage.encode_function(arr);*/
+    //   image.src = localStorage.getItem("urlImage");
+    //   console.log(image.src);
+    //   image.setAttribute("src",localStorage.getItem("urlImage"));
+    //   var a = document.createElement("img");
+    //   a.src = localStorage.getItem("urlImage");
+    //   a.id = "profile-photo";
+    //   a.setAttribute("hidden");
+    //   document.getElementById("dependent-form").appendChild(a);
+    //   console.log("#####################");
+      /*console.log(bytes);
+      console.log(userProfilePage.encode_function(arr));*/
+    
   },
 
   encode_function: function encode (input) {

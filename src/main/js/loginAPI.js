@@ -49,9 +49,11 @@ export const postRegistrationData = async (data) => {
     const isRegistrationDataValid = await response.text();
     console.log("login data", isRegistrationDataValid);
 
-
-    //window.location.href = "http://localhost:8080/mainmenu";
-    document.getElementById("login").innerHTML = isRegistrationDataValid;
+    if(isRegistrationDataValid){
+      window.location.href = "#/";
+    }
+    
+    //document.getElementById("login").innerHTML = isRegistrationDataValid;
 
 
 
@@ -72,8 +74,9 @@ export const postForgotData = async (forgotdata) => {
       body: JSON.stringify(forgotdata)
 
     });
-    const msg = await response.text();
-    document.getElementById("responce-msg").innerHTML = msg;
+    const status = await response.text();
+    return status;
+    //document.getElementById("responce-msg").innerHTML = msg;
 
   } catch (e) {
     console.log("ERROR: ", e);

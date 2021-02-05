@@ -2,6 +2,7 @@ package com.maverick.trainingproject.Repository;
 
 import java.sql.Blob;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 //import com.maverick.trainingproject.Model.UserDependentProfileModel;
@@ -12,8 +13,8 @@ public interface ProfileRepository {
 	UserProfileModel getUserProfileData(String email);
 
 	public int setProfileData(String userName, String userEmail, String userContact, String userBloodGroup,
-			Date userDateOfBirth, float userWeight, float userHeight, int userId,
-			int userProfileId,String tokenEmail);
+			Date userDateOfBirth, float userWeight, float userHeight,
+			int userProfileId,String tokenEmail) throws SQLException;
 	
 	UserProfileModel getDependentProfileData(String userEmail, String dependentRelation, String dependentName);
 

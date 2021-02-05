@@ -7,8 +7,8 @@ const registrationPage = {
   after_render: function () {
     document.getElementById("reg-submit").addEventListener("click", e => {
       e.preventDefault();
-      if (userValidation.isValidNameForReg() && userValidation.isValidEmailForReg() && userValidation.isValidPasswordForReg() && userValidation.passwordCheck()) {
-        alert("Registered Successfully as per excel sheet rules!");
+      if (userValidation.isValidNameForReg() && userValidation.isValidEmailForReg() && userValidation.isValidPasswordForReg() && userValidation.passwordCheck() && userValidation.isValidSecretAnswer()) {
+        alert("Registered Successfully as per excel sheet rules! Please Login now");
         registrationPage.submitRegistrationData();
       }
       else {
@@ -23,6 +23,7 @@ const registrationPage = {
     document.getElementById("reg-dob").addEventListener("focusout", userValidation.isValidDateofBirth);
     document.getElementById("reg-pwd1").addEventListener("focusout", userValidation.isValidPassword);
     document.getElementById("reg-pwd2").addEventListener("keyup", userValidation.passwordCheck);
+    document.getElementById("reg-secretAnswer").addEventListener("focusout", userValidation.isValidSecretAnswerReg);
 
     //incomplete logic for non required fields 
 
@@ -49,7 +50,7 @@ const registrationPage = {
             <td id = "reg-td1"></td></tr>
         <tr><td>Email - id *</td><td><input type="text" id = "reg-email"/></td>
             <td id = "reg-td2"></td></tr>
-        <tr><td>Contact Number</td><td> <input type="text" id = "reg-number"/></td>
+        <tr><td>Contact Number</td><td> <input type="number" id = "reg-number"/></td>
             <td id = "reg-td3"></td></tr>
             <!-- <tr><td>Country</td><td><input type="text" id = "country"/></td><td id = "td4"></td></tr> -->
         <tr><td>Country</td><td><select id="reg-country">

@@ -12,12 +12,12 @@ public class MedicalHistoryUpdateService {
 		
 		if(new UserDataValidation().validateUpdateMedicalHistoryData(userObj.getMedicalHistoryId(),userObj.getMedicineStartDate(),userObj.getMedicineEndDate(),
 																	 userObj.getDosageAmount(),userObj.getDosageFrequency(),userObj.getDosageBreakfastTime(),
-												                     userObj.getDosageLunchTime(),userObj.getDosageDinnerTime())) {
+												                     userObj.getDosageLunchTime(),userObj.getDosageDinnerTime(),userObj.getEmailNotification())){
 			
 			
 			return new MedicalHistoryRepository().updateMedicalDataToDB(userObj.getMedicalHistoryId(),userObj.getMedicineStartDate(),userObj.getMedicineEndDate(),
 					 													userObj.getDosageAmount(),userObj.getDosageFrequency(),userObj.getDosageBreakfastTime(),
-					 													userObj.getDosageLunchTime(),userObj.getDosageDinnerTime(),flag);
+					 													userObj.getDosageLunchTime(),userObj.getDosageDinnerTime(),userObj.getEmailNotification(),flag);
 			
 			
 		}

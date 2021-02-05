@@ -12,12 +12,15 @@ const loginPage = {
       if (userValidation.isValidEmailForLogin() && userValidation.isValidPasswordForLogin()) {
         loginPage.submitTokenRequest();
       }
+      else{
+        alert("Invalid Creds");
+      }
 
     });
     
     // login validation
-    document.getElementById("login-email").addEventListener("focusout", userValidation.isValidEmail);
-    document.getElementById("login-pwd").addEventListener("focusout", userValidation.isValidPassword);
+    //document.getElementById("login-email").addEventListener("focusout", userValidation.isValidEmail);
+    //document.getElementById("login-pwd").addEventListener("focusout", userValidation.isValidPassword);
     
     //new user registration link event listener 
     document.getElementById("login-newUser").addEventListener("click", e => {

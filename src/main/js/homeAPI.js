@@ -13,22 +13,26 @@ export const getUserInfoHomePage = async()=>{
     document.getElementById("homepage-username").innerHTML = returnFromServer.userName;
     document.getElementById("homepage-useremail").innerHTML = returnFromServer.userEmail;
     document.getElementById("homepage-usercontact").innerHTML = returnFromServer.userContact;
-    let weight = parseInt(returnFromServer.userWeight);
-    let height = parseInt(returnFromServer.userHeight)/100;
-    let bmi = weight/(height*height);
-    document.getElementById("homepage-userbmi").innerHTML = bmi.toFixed(2);
+    if(returnFromServer.userWeight == null || returnFromServer.userHeight == null){
+      document.getElementById("homepage-userbmi").innerHTML = "Update your profile information to get the BMI";
+    }
+    else{
+      let weight = parseInt(returnFromServer.userWeight);
+      let height = parseInt(returnFromServer.userHeight)/100;
+      let bmi = weight/(height*height);
+      document.getElementById("homepage-userbmi").innerHTML = bmi.toFixed(2);
+    }
+    
   }catch(e){
     console.log("ERROR: ", e);
  }
 }
 
 export const getPillInfoHomePage = async()=>{
-  console.log();
   try{
 		const response = await fetch('http://localhost:8080/getPillInfo',{
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization' : localStorage.getItem("jwtToken")
       },
     })
@@ -36,7 +40,10 @@ export const getPillInfoHomePage = async()=>{
     console.log(returnFromServer);
     return returnFromServer;
   }catch(e){
-    console.log("ERROR: ", e);
+    
+    //console.log("ERROR: ", e);
+    console.log("dsdsa");
+    return null;
  }
 }
 

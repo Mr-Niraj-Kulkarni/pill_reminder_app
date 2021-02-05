@@ -14,7 +14,7 @@ export const displayMedicalHistory = async (data) => {
     const medicalHistoryDataarray = await response.json();
     console.log(medicalHistoryDataarray);
     if (medicalHistoryDataarray != null) {
-      // console.log(medicalHistoryDataarray[0].dosageBreakfastTime);
+       console.log(medicalHistoryDataarray);
       return medicalHistoryDataarray;
     }
 

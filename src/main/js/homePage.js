@@ -7,7 +7,7 @@ import {getUserInfoHomePage} from './homeAPI.js';
 const homePage = {
   after_render: async ()=>{
   document.getElementById("mainbar").style.flexDirection = "column";
-  homePage.getUserInfoONPage();
+  await homePage.getUserInfoONPage();
   document.getElementById("main_mid_row").innerHTML = await homePillReminder.render();
   if(homePillReminder.after_render){
     homePillReminder.after_render();
@@ -31,10 +31,7 @@ const homePage = {
             <h2 id="homepage-username"></h2>
           </div>
         </div>
-        <div class="main_mid_row" id="main_mid_row">med history</div>
-        <div class="main_bottom_row" id="main_bottom_row">
-          <input type="button" id="add-medical-history" value="Add Medical History" />
-        </div>
+        <div class="main_mid_row" id="main_mid_row"></div>
       </div>
      `;
   },

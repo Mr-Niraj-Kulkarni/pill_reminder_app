@@ -6,14 +6,21 @@ import { updateMedicalHistory, updateDependentMedicalHistory } from './medicalHI
 const medicalHistoryPage = {
 
   after_render: async () => {
+    let parentid=null ;
+    
+
     let status = medicalHistoryPage.isDependentMedicalHistory();
     console.log(status);
+    let tableValid = null;
     if (status == 1) {
-      await medicalHistoryTable.createTable(1);
+      tableValid = await medicalHistoryTable.createTable(1);
     }
     else {
-      await medicalHistoryTable.createTable(0);
+      tableValid = await medicalHistoryTable.createTable(0);
     }
+
+    
+    //ADD DATA BUTTON 
     document.getElementById("add-data").innerHTML = `
     <input type="button" value="VIEW DATA" id="view-dependent-data">
     <input type="button" value="ADD DATA" id="add-new-medical-history-data-entry">
@@ -24,28 +31,14 @@ const medicalHistoryPage = {
       if (document.getElementById("new-row") == undefined && parentid == null) {
         console.log("In IFFFF")
         await medicalHistoryTable.addRow();
+        medicalHistoryPage
         document.getElementById("add-new-medical-history-data-entry").value = "Save";
         document.getElementById("cancel-changes-button").style.visibility = "visible";
-        cancelbtn_function();
+        medicalHistoryPage.cancelbtn_function();
         
-        let sidebarone = document.getElementById("sidebar_one");
-        sidebarone.querySelectorAll("a").forEach((e)=>{
-          if(e.getAttribute("listener")!="true"){
-          e.addEventListener("click",function atagalert(e){
-            if(document.getElementById("new-row") == undefined){}
-            else{
-            console.log(e);
-            console.log("sas");
-            e.preventDefault();
-            medicalHistoryPage.alert_popup();
-            }
-          });
-        }
-        e.setAttribute("listener","true");
-        });
       }
       else if(document.getElementById("new-row") == undefined && parentid != null){
-        alert_popup();
+        medicalHistoryPage.alert_popup();
       }
       else {
         // window.addEventListener("load", medicalHistoryPage.alert_popup());
@@ -73,75 +66,25 @@ const medicalHistoryPage = {
         }
         
       }
+    });
+      if(tableValid!=0){
+        console.log(tableValid);
+        medicalHistoryPage.tableEventListeners(parentid,status);
+      }
 
 
 
+
+
+    document.getElementById("view-dependent-data").addEventListener("click", async () => {
+      
+      await medicalHistoryPage.after_render();
+      
 
     });
-    
+  },
 
-    //alert("yes");
-    document.getElementById("render-table").addEventListener("click", async (e) => {
-      const result = e.target.classList.contains("delete-button");
-      if (result) {
-        const id = e.target.getAttribute("id")
-        medicalHistoryPage.deleteMedicalHistoryData(id, status);
-      }
-
-    });
-    var parentid = null;
-    document.getElementById("render-table").addEventListener("dblclick", async (e) => {
-
-      const result = e.target.classList.contains("edit-cell");
-      if (parentid == null && document.getElementById("new-row") == undefined) {
-        if (result) {
-          e.target.removeAttribute("readonly");
-          parentid = e.target.parentNode.parentNode.id;
-          let sidebarone1 = document.getElementById("sidebar_one");
-          sidebarone1.querySelectorAll("a").forEach((e)=>{
-          e.addEventListener("click",(e)=>{
-            if(parentid!=null){
-              console.log(parentid);
-              e.preventDefault();
-              console.log("ithe issue");
-              medicalHistoryPage.alert_popup();
-            }
-            else{}
-            
-          });
-        });
-          document.getElementById("save-changes-button").style.visibility = "visible";
-          document.getElementById("cancel-changes-button").style.visibility = "visible";
-          cancelbtn_function();
-          dblclicksave();
-          
-          console.log("inside if ");
-          console.log(parentid);
-
-
-        }
-      }
-      else if (result && parentid == e.target.parentNode.parentNode.id) {
-        e.target.removeAttribute("readonly");
-        console.log("inside  else if ");
-      }
-      else {
-        console.log("in else");
-      }
-
-
-    });
-    
-    const cancelbtn_function = ()=>{
-      document.getElementById("cancel-changes-button").addEventListener("click",async()=>{
-        document.getElementById("medical-history-table").innerHTML = "";
-        parentid = null;
-        await medicalHistoryPage.after_render();
-        console.log(parentid);
-      });
-    }
-    //medicalHistoryPage.addSaveButtonListner(parentid);
-    const dblclicksave = ()=>{
+  dblclicksave : (parentid,status)=>{
     document.getElementById("save-changes-button").addEventListener("click", () => {
 
       let status2 = medicalHistoryTable.validateRowData(parentid);
@@ -159,35 +102,126 @@ const medicalHistoryPage = {
         alert("please check correct pill timinings");
       }
       else {
+        console.log(parentid);
+        console.log(window.status);
         medicalHistoryPage.UpdateMedicalHistoryData(parentid, status);
       }
-    });
-  }
+    })
+  },
 
-    document.getElementById("view-dependent-data").addEventListener("click", async () => {
-      //let dependentRelation = document.getElementById("dependent-relationship").value;
-      //let dependentName = document.getElementById("dependent-name").value;
-      //if (dependentRelation != "Relation" && dependentRelation != "Self") {
-      //if (dependentRelation == "Children" && dependentName.trim().length == 0) {
-      // alert("Please specify Name of your child");
-      // }
-      //else {
-      // status = 0;
-      // document.getElementById("add-new-medical-history-data-entry").setAttribute("id", "add-new-medical-history-data-exit");
-      // document.getElementById("add-new-medical-history-data-exit").setAttribute("id", "add-new-medical-history-data-entry");
+  cancelbtn_function : (parentid)=>{
+    document.getElementById("cancel-changes-button").addEventListener("click",async()=>{
+      document.getElementById("medical-history-table").innerHTML = "";
+      parentid = null;
       await medicalHistoryPage.after_render();
-      //}
-      //else {
-      //status = 1;
-      //medicalHistoryPage.after_render();
-      //}
-
-    });
+      /*let sidebarone = document.getElementById("sidebar_one");
+      sidebarone.querySelectorAll("a").forEach((e)=>{
+        e.setAttribute("listener","false");
+      })*/
+      console.log(parentid);
+    })
   },
 
   alert_popup: (e)=>{
     alert("You have unsaved changes on this page. Please save or cancel your updates");
     console.log("s");
+  },
+
+  tableEventListeners : (parentid, status)=>{
+    //alert("yes");
+  document.getElementById("render-table").addEventListener("click", async (e) => {
+    const result = e.target.classList.contains("delete-button");
+    if (result) {
+      const id = e.target.getAttribute("id")
+      medicalHistoryPage.deleteMedicalHistoryData(id, status);
+    }
+
+  });
+  document.getElementById("render-table").addEventListener("dblclick", async (e) => {
+
+    const result = e.target.classList.contains("edit-cell");
+    /*let sidebarone1 = document.getElementById("sidebar_one");
+    sidebarone1.querySelectorAll("a").forEach((e)=>{
+      if(e.getAttribute("listener")!="true"){
+    e.addEventListener("click",(e)=>{
+      if(parentid!=null){
+        console.log(parentid);
+        e.preventDefault();
+        console.log("ithe issue");
+        medicalHistoryPage.alert_popup();
+      }
+    });
+  }
+});*/
+
+    if (parentid == null && document.getElementById("new-row") == undefined) {
+      if (result) {
+        e.target.removeAttribute("readonly");
+        window.parentid = e.target.parentNode.parentNode.id;
+        // let sidebarone1 = document.getElementById("sidebar_one");
+        // sidebarone1.querySelectorAll("a").forEach((e)=>{
+        //   if(e.getAttribute("listener")!="true"){
+        // e.addEventListener("click",(e)=>{
+        //   if(parentid!=null){
+        //     console.log(parentid);
+        //     e.preventDefault();
+        //     console.log("ithe issue");
+        //     medicalHistoryPage.alert_popup();
+        //   }
+          
+          
+        //});
+      //}
+     // });
+    
+        document.getElementById("save-changes-button").style.visibility = "visible";
+        document.getElementById("cancel-changes-button").style.visibility = "visible";
+        medicalHistoryPage.cancelbtn_function(window.parentid);
+        medicalHistoryPage.dblclicksave(window.parentid,status);
+        
+        console.log("inside if ");
+        //console.log(winparentid);
+
+
+      }
+    }
+    else if (result && parentid == e.target.parentNode.parentNode.id) {
+      e.target.removeAttribute("readonly");
+      console.log("inside  else if ");
+    
+
+
+      //HERE
+    }
+    else {
+      console.log("in else");
+    }
+
+
+  });
+
+  let sidebarone = document.getElementById("sidebar_one");
+        sidebarone.querySelectorAll("a").forEach((e)=>{
+          if(e.getAttribute("listener")!="true"){
+            console.log(e.getAttribute("listener"));
+          e.addEventListener("click",function atagalert(e){
+            console.log("################");
+            console.log(window.parentid);
+            if((document.getElementById("new-row") != undefined && window.parentid==null) || 
+            (document.getElementById("new-row") == undefined && window.parentid!=null) ){
+            console.log(e);
+            console.log("sas");
+            e.preventDefault();
+            medicalHistoryPage.alert_popup();
+            }
+          });
+        }
+        else{
+          console.log("fis fa");
+        }
+        e.setAttribute("listener","true");
+        });
+
   },
 
   render: async function () {
@@ -239,6 +273,13 @@ const medicalHistoryPage = {
       dinnertime = null;
     }
 
+    var checkbox= rowcellArray[10].checked ;
+    if(checkbox){
+      checkbox = 1;
+    }
+    else{
+      checkbox = 0;
+    }
 
     //console.log(data);
     let status;
@@ -255,6 +296,7 @@ const medicalHistoryPage = {
         "dosageBreakfastTime": breaktime,
         "dosageLunchTime": lunchtime,
         "dosageDinnerTime": dinnertime,
+        "emailNotification": checkbox
 
       }
       status = await addMedicalHistory(data1);
@@ -273,7 +315,7 @@ const medicalHistoryPage = {
         "dosageBreakfastTime": breaktime,
         "dosageLunchTime": lunchtime,
         "dosageDinnerTime": dinnertime,
-
+        "emailNotification": checkbox
       }
       console.log(data);
       status = await addDependentMedicalHistory(data);
@@ -322,6 +364,15 @@ const medicalHistoryPage = {
     if (dinnertime == "") {
       dinnertime = null;
     }
+    var checkbox= rowcellArray[10].checked ;
+    console.log(checkbox);
+    if(checkbox){
+      checkbox = 1;
+    }
+    else{
+      checkbox = 0;
+    }
+    
 
     let data = {
       "medicalHistoryId": id,
@@ -332,12 +383,14 @@ const medicalHistoryPage = {
       "dosageBreakfastTime": breaktime,
       "dosageLunchTime": lunchtime,
       "dosageDinnerTime": dinnertime,
+      "emailNotification": checkbox
 
     }
     console.log(data);
     let status;
     if (flag == 1) {
       status = await updateMedicalHistory(data);
+      console.log(status);
     }
     else {
       status = await updateDependentMedicalHistory(data);

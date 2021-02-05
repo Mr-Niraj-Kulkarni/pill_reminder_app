@@ -36,7 +36,7 @@ public class ProfileRepositoryImplementation implements ProfileRepository {
 			
 			String query = "select i.userName, i.userEmail, i.userContact, p.userBloodGroup, i.userDateOfBirth, " 
 					+ "p.userWeight, p.userHeight, p.userProfilePic, p.userId, p.userProfileId " 
-					+ "from user_info i inner join user_profile p " 
+					+ "from user_info i LEFT JOIN user_profile p " 
 					+ "on i.userId = p.userId where i.userEmail = '"+email+"' ";
 
 //			get user profile data
@@ -95,32 +95,32 @@ public class ProfileRepositoryImplementation implements ProfileRepository {
 
 	@Override
 	public int setProfileData(String userName, String userEmail, String userContact, String userBloodGroup,
-			Date userDateOfBirth, float userWeight, float userHeight, int userId,
-			int userProfileId, String tokenEmail) {
+			Date userDateOfBirth, float userWeight, float userHeight,
+			int userProfileId, String tokenEmail) throws SQLException {
 	
 
 		DataBaseConnection dbObject = new DataBaseConnection() ;
 		Connection connect = dbObject.databaseConnection() ;
-		int id = 0;
 		System.out.println(userName+" "+userEmail);
-		String query = "select userId from user_info where userEmail = '"+tokenEmail+"'";
-		String query1 = "select * from user_info where userId != '"+id+"' and userEmail = '"+userEmail+"'";	
-		String query2 = "update user_info as i, user_profile as p "
+		int userId = new MedicalHistoryRepository().getUserId(userEmail, connect);
+		
+		String query1 = "update user_info as i, user_profile as p "
 				+ "set i.userName = ?, i.userContact = ?, i.userDateOfBirth = ?, "
 				+ "p.userBloodGroup =? , p.userWeight = ?, p.userHeight = ?, "
 				+ "i.userEmail = ?"
 				+ "where i.userId = p.userId and i.userId =  ?";
 		try {
-			
-//				get userid
+			if(userId != 0) {
+				String query = "select * from user_profile where userId = ?";
 				statement = connect.createStatement();
-				rs = statement.executeQuery(query);
-				if (rs.next()) {
-					id = rs.getInt("userId");
-					System.out.println(id);
-					
+				PreparedStatement pstmt2 = connect.prepareStatement(query,
+	                    Statement.RETURN_GENERATED_KEYS);
+				pstmt2.setInt(1, userId);
+				rs = pstmt2.executeQuery();
+				if(rs.next())
+				{
 //					update Profile Data
-					PreparedStatement pstmt = connect.prepareStatement(query2,
+					PreparedStatement pstmt = connect.prepareStatement(query1,
 		                    Statement.RETURN_GENERATED_KEYS);
 					pstmt.setString(1, userName);
 					pstmt.setString(2, userContact);
@@ -129,13 +129,50 @@ public class ProfileRepositoryImplementation implements ProfileRepository {
 					pstmt.setFloat(5, userWeight);
 					pstmt.setFloat(6, userHeight);
 					pstmt.setString(7, userEmail);
-					pstmt.setInt(8, id);
+					pstmt.setInt(8, userId);
 					int status = pstmt.executeUpdate();
 					System.out.println(status+"sasad");
 					if(status != 0) {
 						return 1;
 					}
-					return 0;
+					else {
+						return 0;
+					}
+				}
+				else {
+					String query3 = "insert into user_profile (userId, userBloodGroup, userWeight, userHeight)"
+							        +"values (?,?,?,?)";
+					PreparedStatement pstmt3 = connect.prepareStatement(query3,
+		                    Statement.RETURN_GENERATED_KEYS);
+					pstmt3.setInt(1, userId);
+					pstmt3.setString(2,userBloodGroup);
+					pstmt3.setFloat(3,userWeight);
+					pstmt3.setFloat(4,userHeight);
+					
+					int status = pstmt3.executeUpdate();
+					
+					String query4 = "update user_info set userName ='"+userName+"' ,userContact ='"+userContact+"' ,"
+							        +"userDateOfBirth ='"+userDateOfBirth+"' ,userEmail ='"+userEmail+"' where userId ='"+userId+"'";
+					pstmt3 = connect.prepareStatement(query3,
+		                    Statement.RETURN_GENERATED_KEYS);
+					pstmt3.setString(1, userName);
+					pstmt3.setString(2, userContact);
+					pstmt3.setDate(3, userDateOfBirth);
+					pstmt3.setString(4, userEmail);
+					pstmt3.setInt(5, userId);
+					
+					int status2 = pstmt3.executeUpdate();
+					
+					if(status !=0 && status2 !=0) {
+						return 1;
+					}
+					else {
+						return 0;
+					}
+					
+					
+				}
+	
 				}
 				else {
 					return 2;
@@ -172,19 +209,21 @@ public class ProfileRepositoryImplementation implements ProfileRepository {
 				dependentProfileModel.setDependentDateOfBirth(rs.getDate(5));
 				dependentProfileModel.setDependentWeight(rs.getFloat(6));
 				dependentProfileModel.setDependentHeight(rs.getFloat(7));
-				
+				//System.out.println("dsdasdasdssad");
 				return dependentProfileModel;
+			
+			}
+			else {
+				System.out.println("dsdasdasdssad");
+				return null;
 			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return dependentProfileModel;
 		
-		
-		
-		
-		return null;
 	}
 
 

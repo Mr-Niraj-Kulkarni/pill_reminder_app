@@ -1,4 +1,5 @@
 import { displayMedicalHistory } from './medicalHIstoryAPI.js';
+import medicalHistoryPage from './medicalHistoryPage.js';
 
 
 const medicalHistoryTable = {
@@ -22,11 +23,11 @@ const medicalHistoryTable = {
     }
     const medicalhistoryData = await displayMedicalHistory(data);
     //if null display no medical history and button to add history
-    if (medicalhistoryData == null) { //change condition
+    if (medicalhistoryData == "") { //change condition
       //display no data available 
       // button press 
       document.getElementById("medical-history-table").innerHTML = "<h2>No medical History Recorded</h2>"
-
+      return 0;
 
     }
     else {
@@ -45,7 +46,9 @@ const medicalHistoryTable = {
         <th>Email Notification</th>
     
       </tr>
-      ${medicalhistoryData.map(row => `
+      ${medicalhistoryData.map(row => 
+        `
+        
       <tr id=${row.medicalHistoryId}>
         <td>
           <input type="text" value=${row.illiness} readonly>
@@ -89,7 +92,7 @@ const medicalHistoryTable = {
         </td>
         <td>
           <label class="switch">
-            <input type="checkbox" id=${row.medicalHistoryId}>
+            <input type="checkbox" class="edit-cell" id=${row.medicalHistoryId} ${row.emailNotification==1 ? "checked":""} readonly>
             <span class="slider round"></span>
           </label>
         </td>
@@ -102,6 +105,7 @@ const medicalHistoryTable = {
         }
     </table >
   `;
+  
     }
     //else display data fetched in table format
 
@@ -151,8 +155,30 @@ const medicalHistoryTable = {
     let span2 = label2.appendChild(document.createElement("span"));
     span2.className = "slider round";
     tr.appendChild(td2);
-
+    if(document.getElementById("render-table") !=null){
     document.getElementById("render-table").appendChild(tr);
+    }
+    else{
+      document.getElementById("medical-history-table").innerHTML = `<table id="render-table">
+      <tr>
+        <th>Illiness</th>
+        <th>Doctor Details </th>
+        <th>Medicines</th>
+        <th>Start Date </th>
+        <th>End Date</th>
+        <th>Dosage Amount</th>
+        <th>Dosage Frequency</th>
+        <th>Dosage BreakFast Time</th>
+        <th>Dosage Lunch Time</th>
+        <th>Dosage Dinner Time</th>
+        <th>Email Notification</th>
+    
+      </tr>
+      </table>`
+      document.getElementById("render-table").appendChild(tr);
+      //medicalHistoryPage.tableEventListeners(parentid);
+    }
+    
   },
 
   validateRowData: function (id) {
@@ -240,9 +266,6 @@ const medicalHistoryTable = {
 
   },
 
-  updateRowData: function () {
-
-  },
 
 
 

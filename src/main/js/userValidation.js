@@ -9,9 +9,6 @@ const isBlank = function (str) {
 }
 
 const userValidation = {
-
-
-
   isValidName: function () {
     // var name = document.getElementById("reg-name").value;
     // var name = this.options[this.selectedIndex].value;
@@ -52,26 +49,37 @@ const userValidation = {
   },
 
   isValidBloodGroup: function () {
-    var BG = this.value;
+    var BG = this.value.toUpperCase();
+    console.log(BG);
     let BGRegex = "^(A|B|AB|O)[-+]$";
-    if (isBlank(BG)) {
+    if (isBlank(BG) || !BG.match(BGRegex)) {
       if (document.getElementById("profile-bloodgroup") != null) {
         document.getElementById("pr-4").innerHTML = "&#x274C;";
       }
       return false;
     }
-    if (BG.match(BGRegex)) {
-      if (document.getElementById("profile-bloodgroup") != null) {
-        document.getElementById("pr-4").innerHTML = "&#x2705;";
-      }
+    else{
+      document.getElementById("pr-4").innerHTML = "&#x2705;";
       return true;
     }
-    
-    return false;
   },
+
+  isValidBloodGroupForProfile: function () {
+    var BG = document.getElementById("profile-bloodgroup").value.toUpperCase();
+    console.log(BG);
+    let BGRegex = "^(A|B|AB|O)[-+]$";
+    if (isBlank(BG) || !BG.match(BGRegex)) {
+      return false;
+    }
+    else{
+      return true;
+    }
+  },
+    
 
   isValidEmail: function () {
     var email = this.value;
+    var element = this;
     let emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
       "[a-zA-Z0-9_+&*-]+)*@" +
       "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
@@ -89,6 +97,7 @@ const userValidation = {
       if (document.getElementById("profile-email") != null) {
         document.getElementById("pr-2").innerHTML = "&#x274C;";
       }
+      //element.parentNode.parentNode.lastChild.innerHTML = "&#x274C;";
       return false;
     }
     if (email.match(emailRegex)) {
@@ -104,6 +113,8 @@ const userValidation = {
       if (document.getElementById("profile-email") != null) {
         document.getElementById("pr-2").innerHTML = "&#x2705;";
       }
+      /*console.log("dsads");
+      element.parentNode.parentNode.lastChild.innerHTML = "&#x2705;";*/
       return true;
     }
     else {
@@ -126,19 +137,44 @@ const userValidation = {
 
   isValidWeight: function () {
     var wt = this.value;
-    // let wtRegex = "((?:\d+\.)?\d+ \w{3})";
+    let wtRegex = "[0-9]+";
     if (isBlank(wt)) {
       if (document.getElementById("profile-weight") != null) {
         document.getElementById("pr-6").innerHTML = "&#x274C;";
       }
       return false;
     }
-    if (wt > 2 && wt < 200) {
+    if (wt.match(wtRegex)) {
+      if (wt>1 && wt<595) {
       if (document.getElementById("profile-weight") != null) {
         document.getElementById("pr-6").innerHTML = "&#x2705;";
       }
       return true;
     }
+    else{
+      if (document.getElementById("profile-weight") != null) {
+        document.getElementById("pr-6").innerHTML = "&#x274C;";
+      }
+      return false;
+    }
+  }
+    return false;
+  }, 
+
+  isValidWeightForProfile: function () {
+    var wt = document.getElementById("profile-weight").value;
+    let wtRegex = "[0-9]+";
+    if (isBlank(wt)) {
+      return false;
+    }
+    if (wt.match(wtRegex)) {
+      if (wt>1 && wt<595) {
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
     return false;
   }, 
 
@@ -152,7 +188,7 @@ const userValidation = {
       return false;
     }
     if (ht.match(htRegex)) {
-      if (ht > 29 && ht < 201) {
+      if (ht > 30 && ht < 300) {
         if (document.getElementById("profile-height") != null) {
           document.getElementById("pr-7").innerHTML = "&#x2705;";
         }
@@ -169,9 +205,26 @@ const userValidation = {
     return false;
   },
 
+  isValidHeightForProfile: function () {
+    var ht = document.getElementById("profile-height").value;
+    let htRegex = "[0-9]";
+    if (isBlank(ht)) {
+      return false;
+    }
+    if (ht.match(htRegex)) {
+      if (ht > 30 && ht < 300) {
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    return false;
+  },
+
   isValidContact: function () {
     var contact = this.value;
-    let digitRegex = "[0-9]+";
+    let digitRegex = /^\d{10}$/;
     if (isBlank(contact)) {
       if (document.getElementById("reg-number") != null) {
         document.getElementById("reg-td3").innerHTML = "&#x274C;";
@@ -182,7 +235,8 @@ const userValidation = {
       return false;
     }
     if (contact.match(digitRegex)) {
-      if (contact.length > 9) {
+      console.log(contact.match(digitRegex));
+      if (contact.length ==10) {
         if (document.getElementById("reg-number") != null) {
           document.getElementById("reg-td3").innerHTML = "&#x2705;";
         }
@@ -212,16 +266,38 @@ const userValidation = {
     }
   },
 
+  isValidContactForProfile: function () {
+    var contact = document.getElementById("profile-contact").value;
+    let digitRegex = /^\d{10}$/;
+    if (isBlank(contact)) {
+      return false;
+    }
+    if (contact.match(digitRegex)) {
+      console.log(contact.match(digitRegex));
+      if (contact.length ==10) {
+        return true;
+      }else{
+        return false;
+      } 
+    }
+    else {
+      return false;
+    }
+  },
+
   isValidDateofBirth: function () {
     var dob = this.value;
-    if (dob.length == 0) {
+    let date = new Date();
+   
+    //.getDate().toString().substr(0,9)
+    if (dob.length == 0 || dob>date.toISOString().substr(0,10)) {
       if (document.getElementById("reg-dob") != null) {
         document.getElementById("reg-td5").innerHTML = "&#x274C;";
       }
       if (document.getElementById("profile-dob") != null) {
         document.getElementById("pr-5").innerHTML = "&#x274C;";
       }
-      return true;
+      return false;
     }
     else {
       if (document.getElementById("reg-dob") != null) {
@@ -230,7 +306,20 @@ const userValidation = {
       if (document.getElementById("profile-dob") != null) {
         document.getElementById("pr-5").innerHTML = "&#x2705;";
       }
+      return true;
+    }
+  },
+
+  isValidDateofBirthForProfile: function () {
+    var dob = document.getElementById("profile-dob").value;
+    let date = new Date();
+   
+    //.getDate().toString().substr(0,9)
+    if (dob.length == 0 || dob>date.toISOString().substr(0,10)) {
       return false;
+    }
+    else {
+      return true;
     }
   },
 
@@ -238,9 +327,10 @@ const userValidation = {
     
     var password = this.value;
     let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/;
-    if (isBlank(password)) {
+    if (isBlank(password) || !password.match(passwordRegex)) {
       if (document.getElementById("reg-pwd1") != null) {
         document.getElementById("reg-td6").innerHTML = "&#x274C;";
+        document.getElementById("reg-td7").innerHTML = "&#x274C;";
       }
       if (document.getElementById("login-pwd") != null) {
         document.getElementById("log-pwd").innerHTML = "&#x274C;";
@@ -248,28 +338,19 @@ const userValidation = {
       if (document.getElementById("newPass") != null) {
         document.getElementById("for-npass").innerHTML = "&#x274C;";
       }     
-      return false;
-    }
-    if (password.match(passwordRegex)) {
-      if (document.getElementById("reg-pwd1") != null) {
-        document.getElementById("reg-td6").innerHTML = "&#x2705;";
-      }
-      if (document.getElementById("login-pwd") != null) {
-        document.getElementById("log-pwd").innerHTML = "&#x2705;";
-      }
-      if (document.getElementById("newPass") != null) {
-        document.getElementById("for-npass").innerHTML = "&#x2705;";
-      }      
-      return true;
-    }
-    else {
-
       alert("1 Uppercase, 1 lowercase and 1 number along with 8-20 characters");
       return false;
     }
-
-
-
+    else {
+      if (document.getElementById("newPass") != null) {
+        document.getElementById("for-npass").innerHTML = "&#x2705;";
+      } 
+      if (document.getElementById("reg-pwd1") != null) {
+        document.getElementById("reg-td6").innerHTML = "&#x2705;";
+        document.getElementById("reg-td7").innerHTML = "&#x2705;";
+      }
+      return true;
+    }
   },
 
   passwordCheck: function () {
@@ -282,6 +363,55 @@ const userValidation = {
     else {
       document.getElementById("reg-td7").innerHTML = "&#x274C;";
       return false;
+    }
+  },
+
+  isValidSecretAnswerReg: function(){
+    var secretans = this.value;
+    var element = this;
+    console.log(this);
+    if(isBlank(secretans)){
+      alert("Secret answer cannot be empty");
+      //this.pare.innerHTML = "&#x274C;";
+      //this.parent
+      element.parentNode.parentNode.lastChild.innerHTML = "&#x274C;";
+      //document.getElementById("").parentNode.pa
+      return false;
+    }
+    else{
+      element.parentNode.parentNode.lastChild.innerHTML = "&#x2705;";
+      //document.getElementById("reg-td9").innerHTML = "&#x2705;";
+      return true;
+    }
+  },
+
+  isValidSecretAnswer: function(){
+    var secretans = document.getElementById("reg-secretAnswer").value;
+    if(secretans == null){
+      alert("Secret answer cannot be empty");
+      return false;
+    }
+    if(isBlank(secretans)){
+      alert("Secret answer cannot be empty");
+      return false;
+    }
+    else{
+      return true;
+    }
+  },
+
+  isValidSecretAnswerForgot: function(){
+    var secretans = document.getElementById("S-Answer").value;
+    if(secretans == null){
+      alert("Secret answer cannot be empty");
+      return false;
+    }
+    if(isBlank(secretans)){
+      alert("Secret answer cannot be empty");
+      return false;
+    }
+    else{
+      return true;
     }
   },
 
@@ -364,7 +494,7 @@ const userValidation = {
       return true;
     }else {
 
-      alert("1 Uppercase, 1 lowercase and 1 number along with 8-20 characters");
+      //alert("1 Uppercase, 1 lowercase and 1 number along with 8-20 characters");
       return false;
     }
   },
@@ -492,7 +622,7 @@ const userValidation = {
 
   isValidContactForDependent: function () {
     var contact = document.getElementById("dependent-contact").value;
-    let digitRegex = "[0-9]+";
+    let digitRegex = /^\d{10}$/;
     if (isBlank(contact)) {
       document.getElementById("dpr-3").innerHTML = "&#x274C;";
       return false;
@@ -515,55 +645,56 @@ const userValidation = {
 
 
   isValidBloodGroupForDependent: function () {
-    var BG = document.getElementById("dependent-bloodgroup").value;
+    var BG = document.getElementById("dependent-bloodgroup").value.toUpperCase();
     let BGRegex = "^(A|B|AB|O)[-+]$";
-    if (isBlank(BG)) {
+    if (isBlank(BG) || !BG.match(BGRegex)) {
       document.getElementById("dpr-4").innerHTML = "&#x274C;";
       return false;
     }
-    if (BG.match(BGRegex)) {
+    else{
       document.getElementById("dpr-4").innerHTML = "&#x2705;";
-     return true;
+      return true;
     }
-    
-    return false;
   },
 
   isValidDateofBirthForDependent: function () {
     var dob = document.getElementById("dependent-dob").value;
-    if (dob.length == 0) {
+    let date = new Date();
+    if (dob.length == 0 || dob>date.toISOString().substr(0,10)) {
       document.getElementById("dpr-5").innerHTML = "&#x274C;";
-      return true;
+      return false;
     }
     else {
       document.getElementById("dpr-5").innerHTML = "&#x2705;";
-      return false;
+      return true;
     }
   },
 
   isValidWeightForDependent: function () {
     var wt = document.getElementById("dependent-weight").value;
-    // let wtRegex = "((?:\d+\.)?\d+ \w{3})";
+    let wtRegex = "[0-9]+";
     if (isBlank(wt)) {
       document.getElementById("dpr-6").innerHTML = "&#x274C;";
       return false;
     }
-    if (wt > 2 && wt < 200) {
-      document.getElementById("dpr-6").innerHTML = "&#x2705;";
-      return true;
+    if(wt.match(wtRegex)){
+      if (wt > 2 && wt < 595) {
+        document.getElementById("dpr-6").innerHTML = "&#x2705;";
+        return true;
+      }
+      return false;
     }
-    return false;
   },
 
   isValidHeightForDependent: function () {
     var ht = document.getElementById("dependent-height").value;
-    let htRegex = "[0-9]";
+    let htRegex = "[0-9]+";
     if (isBlank(ht)) {
       document.getElementById("dpr-7").innerHTML = "&#x274C;";
       return false;
     }
     if (ht.match(htRegex)) {
-      if (ht > 29 && ht < 201) {
+      if (ht > 30 && ht < 300) {
         document.getElementById("dpr-7").innerHTML = "&#x2705;";
         return true;
       }

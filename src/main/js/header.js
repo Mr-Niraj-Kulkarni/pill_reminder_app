@@ -22,37 +22,36 @@ const header = {
     
   })
 
-  header.getProfileImageOnHomePage();
+  header.getProfileImageOnHomePage("photo-logout");
   },
   render: () => {
     return `
-    <span class="menu-icon" id="menu-icon">&#9776;</span>
+    <span class="menu-icon" id="menu-icon"><div id="menu-click-icon">&#9776;</div></span>
     <span class="title"><b><u>Pill Reminder App</u></b></span>
     <span class="logout-icon" id="logout-icon">
-    <div id="logout-menu">LOGOUT</div><img src="" id="photo-logout"></span>
+    <div id="logout-hover-menu"><img src="" id="photo-logout"></div>
+    <div id="logout-menu">
+    Logout
+    </div></span>
     `;
   },
-
-  getProfileImageOnHomePage: async function(){
-    if(localStorage.getItem("image")==null){
-      const serverResponse = await getProfilePicture();
-    var bytes = new Uint8Array(serverResponse);
-    var image = document.getElementById('photo-logout');
-    // image.src = 'data:image/jpg;base64,'+encode(bytes);
-    let encodedImage = userProfilePage.encode_function(bytes);
-    image.src = 'data:image/jpg;base64,'+encodedImage;
-    localStorage.setItem("imageInBytes",bytes);
+//<div id="logout-menu">LOGOUT</div><img src="" id="photo-logout"></span>
+  getProfileImageOnHomePage: async function(imgId){
+    const serverResponse = await getProfilePicture();
+    console.log(serverResponse);
+    console.log(serverResponse.byteLength);
+    if(serverResponse.byteLength<11000){
+      var image = document.getElementById(imgId);
+      image.src = "/images/defaultAvtar.png";
     }
     else{
-      var reader = new FileReader();
-      reader.onload = function (e) {
-          const photo = document.getElementById("profile-photo");
-              photo.setAttribute('src', e.target.result);
-      };
-      reader.readAsDataURL(localStorage.getItem("image"));
+      var bytes = new Uint8Array(serverResponse);
+      var image = document.getElementById(imgId);
+      image.src = 'data:image/jpg;base64,'+userProfilePage.encode_function(bytes);
+      //console.log(bytes);
     }
     
-  },
+    }
   
 }
 //<span class="logout-icon" id="logout-icon">&#10150;</span>

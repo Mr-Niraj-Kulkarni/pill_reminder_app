@@ -46,7 +46,8 @@ public class HomeController {
 	@ResponseBody
 	public ArrayList<HomePageModel> getPillInfo(HttpServletRequest request) throws SQLException {
 		String userEmail = jwtTokenUtil.getUsernameFromToken(request.getHeader("Authorization").substring(7));
-		return new HomePageService().getPillInfo(userEmail);
+		ArrayList<HomePageModel> pillArray = new HomePageService().getPillInfo(userEmail);
+		return pillArray;
 }
 	
 	@CrossOrigin

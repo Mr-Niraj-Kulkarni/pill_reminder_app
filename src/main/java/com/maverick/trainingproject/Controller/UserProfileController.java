@@ -44,8 +44,6 @@ public class UserProfileController {
 	@RequestMapping(value = "/getProfileData", method = {RequestMethod.GET})
 	@ResponseBody
 	public UserProfileModel getProfileData(HttpServletRequest request) {
-		//JwtRequest getEmailForRequest = new JwtRequest();
-		//String email = ("akk@gmail.com").trim();
 		String userEmail = jwtTokenUtil.getUsernameFromToken(request.getHeader("Authorization").substring(7));
 		System.out.println(userEmail+"asasa");
 		UserProfileModel model = new UserProfileModel();
@@ -61,7 +59,12 @@ public class UserProfileController {
 	@ResponseBody
 	public String setProfileData(HttpServletRequest request, @RequestBody UserProfileModel model) {
 		String tokenEmail = jwtTokenUtil.getUsernameFromToken(request.getHeader("Authorization").substring(7));
-		return profileService.setProfileData(model,tokenEmail);
+		try {
+			return profileService.setProfileData(model,tokenEmail);
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return "Error occured at server side";
+		}
 	}
 	
 	
@@ -71,9 +74,17 @@ public class UserProfileController {
 	@ResponseBody
 	public UserProfileModel getDependentProfileData(HttpServletRequest request, @RequestBody Map<String,String> dependentObj) {
 		String userEmail = jwtTokenUtil.getUsernameFromToken(request.getHeader("Authorization").substring(7));
-		UserProfileModel dependentProfileModel;
+		UserProfileModel dependentProfileModel = new UserProfileModel();
 		dependentProfileModel = profileService.getDependentProfileData(userEmail, dependentObj.get("dependentRelation"), dependentObj.get("dependentName"));
-		return dependentProfileModel;
+		if(dependentProfileModel == null) {
+			System.out.println("dAAAAA");
+			return null;
+		}
+		else {
+			System.out.println(dependentProfileModel);
+			return dependentProfileModel;
+		}
+		
 	}
 	
 	

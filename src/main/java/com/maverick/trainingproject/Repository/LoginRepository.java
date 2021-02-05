@@ -47,12 +47,12 @@ public class LoginRepository{
 		Connection connect=dbObject.databaseConnection() ;
 		
 		// check user is a valid user using user Email
-		String query = "select userId,userPassword from user_info where userEmail ='"+userEmail+"' and secreteQuestion='"+secretQuestion+"' and secreteAnswer='"+secretAnswer+"' ";
+		String query = "select userId,userPassword from user_info where userEmail ='"+userEmail+"' and secreteQuestion='"+secretQuestion+"' and secreteAnswer='"+secretAnswer+"'";
 		statement = connect.createStatement();
 		rs = statement.executeQuery(query);
-		boolean isValidUser = rs.next();
+		//boolean isValidUser = rs.next();
 		
-		if(isValidUser) {
+		if(rs.next()) {
 			int userId= rs.getInt("userId");
 			String userOldPassword= rs.getString("userPassword");
 			

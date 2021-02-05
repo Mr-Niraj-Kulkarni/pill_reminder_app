@@ -4,7 +4,8 @@ import {sendPillTakenStatus} from './homeAPI.js';
 
 export const homePillReminder = {
   after_render : ()=>{
-    var today = new Date();
+    if(document.getElementById("cards")!=null){
+      var today = new Date();
     today.setHours(0, 0, 0, 0);
     document.getElementById("date-on-card").innerHTML = today.toDateString().substring(0,15);
 
@@ -24,17 +25,19 @@ export const homePillReminder = {
         homePillReminder.sendPillUpdateStatus(id,checkvalue);
       }
     })
+    }
+    
   
   },
 
   render: async () => {
     const pilldata = await getPillInfoHomePage();
-    let array = homePillReminder.arraymanipulation(pilldata);
-
-    
-    //console.log(dependentpills);
-    //console.log(dependentpills.length);
-    ///////////////////////////////////////////////////////////////
+    if(pilldata == ""){
+      return`<h2>No Pill Data Available. Please Update the medical history</h2>`;
+    }
+    else{
+      let array = homePillReminder.arraymanipulation(pilldata);
+      console.log(array);
     return `
     <div>
     ${array.map(pills=>`
@@ -57,26 +60,8 @@ export const homePillReminder = {
       `).join("")}
     </div>
     `;
-    /////////////////////////////////////////////////////////////////////////
-    // return `
-    // <div id="cards">
-    //   <div class="card1-cover" id="class1-cover">
-    //         <div>&#x26a0;</div>&nbsp;Pill Schedule:&nbsp;<div id="name-on-card" class="name-on-card">Wilson, Richard </div><div>&nbsp;(Self)&nbsp;</div><br><br>
-    //         <div class="date-on-card" id="date-on-card">Today, 25 Aug 2020</div>
-    //   </div>
-    //         <table id="card1">
-    //           <tr><th></th><th>Medicine</th><th>Dosage</th><th>Time</th></tr>
-    //           ${
-    //             pilldata.map(pill =>`
-    //           <tr><td><input type="checkbox" id="chk${pill.userId}" value = "${pill.pillName}"></td>
-    //           <td>${pill.pillName}</td><td>${pill.dosageAmount}</td><td>${pill.pillTime}</td></tr>
-          
-    //     `).join("")
-    //   }
-    //         </table>
+    }
     
-    // </div>
-    // `;
   },
 
   arraymanipulation: (pilldata)=>{
@@ -115,9 +100,13 @@ export const homePillReminder = {
         obj.checkbox = "";
       }
     })
-    arr3.push(arr2);
-    
+    if(arr2.length !=0){
+      arr3.push(arr2);
+    }
+    console.log(arr3);
+    console.log(arr1[0]);
     arr1[0]["dependentName"] = document.getElementById("homepage-username").innerHTML;
+    console.log(document.getElementById("homepage-username").innerHTML);
     arr1[0]["dependentRelation"] = "Self";
     console.log(arr1[0]["dependentName"]);
     arr3.unshift(arr1);

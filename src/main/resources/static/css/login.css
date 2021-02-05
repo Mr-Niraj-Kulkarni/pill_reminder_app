@@ -11,45 +11,60 @@
   display: flex;
 }
 .menu-icon{
-  text-align: center;
-  flex: 0.5;
-  border-radius: 10%;
+  text-align: left;
+  padding-left: 0;
+  flex: 4;
   /*visibility: hidden;*/
 }
-.menu-icon:hover{
+#menu-click-icon{
+  padding-left: 0.5vw;
+  padding-right: 0.5vw;
+  display: inline-block;
+}
+#menu-click-icon:hover{
+  border-radius: 10%;
   background-color: white;
   color: green;
+  min-width: 0px;
   /*visibility: hidden;*/
 }
 .logout-icon{
-  flex: 0.5;
+  flex: 4;
   border-radius: 10%;
-  display:flex;
+  /*display:flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center;*/
   min-height: 0px;
   /*right: 5vw;*/
   /*visibility: hidden;*/
 }
-.logout-icon div{
-  visibility: hidden;
-}
-.logout-icon:hover{
-  background-color: white;
-  color: green;
-  visibility: visible;
-  left: 5vw;
-  /*visibility: hidden;*/
-}
-.logout-icon:hover div{
-  visibility: visible;
-}
 #logout-menu{
-  font-size: 2vh !important;
+  display: none;
+  font-size: 3vh !important;
+  color: black !important;
 }
+.hover{
+  background-color: white;
+  display:block;
+}
+/*#logout-hover-menu:hover #logout-menu{
+  background-color: white;
+  display:block;
+}*/
+/*#logout-hover-menu:hover{
+  background-color: white;
+}*/
+#logout-hover-menu{
+  padding-right: 0px;
+  
+  display: inline-block;
+  position: relative;
+  z-index:5;
+}
+
 .title{
   text-align: center;
-  flex: 11;
+  flex: 4;
 }
 .login{
   padding: 5vh;
@@ -69,6 +84,7 @@
   justify-content: center;
   align-items: center;
   background-color: aqua;
+  
 }
 #login-email, #login-pwd{
   height: 4vh;

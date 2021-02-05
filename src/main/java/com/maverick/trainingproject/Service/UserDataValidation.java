@@ -194,7 +194,7 @@ public boolean validateUserMedicalHistory(MedicalHistoryModel userObj) {
 	
 	
 	public boolean validateUpdateMedicalHistoryData(int medicalHistoryId,Date medicineStartDate,Date medicineEndDate,int dosageAmount,String dosageFrequency,
-															Time doageBreakfastTime,Time doageLunchTime,Time doageDinnerTime) {
+															Time doageBreakfastTime,Time doageLunchTime,Time doageDinnerTime,int emailNotification) {
 		if(medicalHistoryId==0 ) {
 			System.out.println("id");
 			return false;
@@ -218,6 +218,10 @@ public boolean validateUserMedicalHistory(MedicalHistoryModel userObj) {
 			if(medicineStartDate.after(medicineEndDate)) {
 				return false ;
 			}
+		}
+		if(emailNotification!=0 &&emailNotification!=1) {
+			System.out.println("notification" );
+			return false; 
 		}
 		
 		return true ;

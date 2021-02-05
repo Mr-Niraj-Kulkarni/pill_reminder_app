@@ -10,8 +10,7 @@ const forgotPage = {
     document.getElementById("save-data").addEventListener("click", e => {
       e.preventDefault();
 
-      if (userValidation.isValidEmailForForgotPassword() && userValidation.isValidPasswordForForgotPassword() && userValidation.passwordCheckForForgotPassword()) {
-        alert("Password Updated")
+      if (userValidation.isValidEmailForForgotPassword() && userValidation.isValidPasswordForForgotPassword() && userValidation.passwordCheckForForgotPassword() && userValidation.isValidSecretAnswerForgot()) {
         forgotPage.submitForgotData();
       }
       
@@ -21,6 +20,7 @@ const forgotPage = {
     document.getElementById("mail").addEventListener("keyup", userValidation.isValidEmail);
     document.getElementById("newPass").addEventListener("focusout", userValidation.isValidPassword);
     document.getElementById("oldPass").addEventListener("keyup", userValidation.passwordCheckForForgotPassword);
+    document.getElementById("S-Answer").addEventListener("focusout", userValidation.isValidSecretAnswerReg);
 
 
     //back to login page
@@ -51,9 +51,9 @@ const forgotPage = {
                 <th>Secret Question : </th>
                 <td>
                   <select  id="S-Question">
-                    <option value = "whats is your first Teacher Name">whats is your first Teacher Name?</option>
-                    <option value = "which is your favourite color">which is your favourite color?</option>
-                    <option value = "what is your firsts pets name">what is your firsts pets name?</option>
+                    <option value = "whats is your first Teacher Name">whats is your first Teacher Name</option>
+                    <option value = "which is your favourite color">which is your favourite color</option>
+                    <option value = "what is your firsts pets name">what is your firsts pets name</option>
                   </select>
                 </td>
                 <td id = "for-S-que"></td>
@@ -102,16 +102,26 @@ const forgotPage = {
     if (Npwd == Opwd) {
       const forgotdata = {
         "userEmail": mail,
-        "userQuestion" : Squestion,
-        "userAnswer": Sans,
+        "secretQuestion" : Squestion,
+        "secretAnswer": Sans,
         "userPassword": Npwd
       }
       console.log(forgotdata);
-      await postForgotData(forgotdata);
+      let response = await postForgotData(forgotdata);
+      if(response == 0){
+        alert("User does not exist. Try again or register as a new user");
+      }
+      else if(response == 1){
+        alert("Password updated successfully. Please login");
+        window.location.href = "#/";
+      }
+      else{
+        alert("New password cannot be same as old password");
+      }
 
-    } else {
+    } /*else {
       alert("new password does not match with confirm password ");
-    }
+    }*/
   }
 
 }

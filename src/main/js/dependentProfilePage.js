@@ -1,8 +1,4 @@
-import { postLoginData } from './loginAPI.js';
-import {getJwtToken} from './loginAPI.js';
-import registrationPage from './registrationPage';
-import forgotPage from './forgotPage.js';
-import {getProfileData} from './loginAPI.js'
+
 import userValidation from './userValidation.js';
 import userProfilePage from './userProfilePage.js';
 import {updateDependentProfileData} from './profileAPI.js';
@@ -65,10 +61,18 @@ const dependentProfilePage = {
 
       }) 
       // save button for update
-      document.getElementById("dependent-save").addEventListener("click", async ()=>{
-        if (userValidation.isValidNameForDependent() && userValidation.isValidEmailForDependent()) {
-          alert("Data send to Update");
-          await dependentProfilePage.submitDependentUpdateData(oldDependentEmail, flag);
+      document.getElementById("dependent-save").addEventListener("click", ()=>{
+        if (userValidation.isValidNameForDependent() && userValidation.isValidEmailForDependent()&& 
+        userValidation.isValidContactForDependent() && userValidation.isValidBloodGroupForDependent() && 
+        userValidation.isValidDateofBirthForDependent() && userValidation.isValidWeightForDependent() && 
+        userValidation.isValidHeightForDependent())
+        {
+          const dependenttData = async()=>{
+            await dependentProfilePage.submitDependentUpdateData(oldDependentEmail, flag);
+            await userProfilePage.viewDependentData();
+          }
+          dependenttData();
+          
 
           document.getElementById("dpr-1").innerHTML = "";
           document.getElementById("dpr-2").innerHTML = "";
@@ -81,11 +85,11 @@ const dependentProfilePage = {
           const profileform = document.getElementById("dependent-form");
           const profileforminputs = profileform.getElementsByTagName("input");
           for(var i = 0; i<profileforminputs.length-3;i++){
-            profileforminputs[i].value="";
+            //profileforminputs[i].value="";
             profileforminputs[i].setAttribute("readonly","readonly");
           }
           // call the dependent data
-          userProfilePage.viewDependentData();
+          
 
           document.getElementById("dependent-save").style.visibility = "hidden";
           document.getElementById("dependent-cancel").style.visibility = "hidden";
@@ -93,6 +97,9 @@ const dependentProfilePage = {
         
 
         }        
+        else{
+          alert("Please fill the data correctly");
+        }
       })
 
      
@@ -130,9 +137,16 @@ const dependentProfilePage = {
       // save button for add new data
       document.getElementById("dependent-save").style.visibility = "visible";
       document.getElementById("dependent-save").addEventListener("click",async ()=>{
-        if (userValidation.isValidNameForDependent() && userValidation.isValidEmailForDependent()) {
-          alert("Data send to Insert New Entry");
+        if (userValidation.isValidNameForDependent() && userValidation.isValidEmailForDependent()&& 
+        userValidation.isValidContactForDependent() && userValidation.isValidBloodGroupForDependent() && 
+        userValidation.isValidDateofBirthForDependent() && userValidation.isValidWeightForDependent() && 
+        userValidation.isValidHeightForDependent()){
+        const dependenttData = async()=>{
           await dependentProfilePage.submitDependentUpdateData(oldDependentEmail, flag);
+          await userProfilePage.viewDependentData();
+          await userProfilePage.getProfileData();
+        }
+        dependenttData();
 
           document.getElementById("dpr-1").innerHTML = "";
           document.getElementById("dpr-2").innerHTML = "";
@@ -149,13 +163,15 @@ const dependentProfilePage = {
             profileforminputs[i].setAttribute("readonly","readonly");
           }
           // call the dependent data
-          userProfilePage.viewDependentData();
-          userProfilePage.getProfileData();
+          
+          
 
           document.getElementById("dependent-save").style.visibility = "hidden";
           document.getElementById("dependent-cancel").style.visibility = "hidden";
           document.getElementById("dependent-edit").style.visibility = "hidden";
-        
+        }
+        else{
+          alert("Please fill the data correctly");
         }
       })
 

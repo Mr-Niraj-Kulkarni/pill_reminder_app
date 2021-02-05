@@ -98,33 +98,37 @@ public class LoginController {
 	@CrossOrigin
 	@RequestMapping(value = "/register",method= {RequestMethod.POST})
 	@ResponseBody
-	public String RegisterUser(@RequestBody UserRegistrationInformationModel userObj) {
+	public boolean RegisterUser(@RequestBody UserRegistrationInformationModel userObj) {
 		UserRegistrationService  userRegistrationServiceObject= new UserRegistrationService() ;
 		System.out.println(userObj.getUserCountry());
 		System.out.println(userObj.getUserContact());
 		System.out.println("NIraj");
 		boolean status=userRegistrationServiceObject.registerUser(userObj) ;
 		if(status) {
-			return "home" ;
+			return true ;
 		}
-		return "Error at the server side" ;
+		return false ;
 	}
 	
 	
 	@CrossOrigin
 	@PostMapping(value = "/passwordUpdate")
 	@ResponseBody
-	public String checkUser(@RequestBody UserRegistrationInformationModel  userForgotPasswordModelObj ) throws SQLException {
+	public int checkUser(@RequestBody UserRegistrationInformationModel  userForgotPasswordModelObj ) throws SQLException {
 		
 		
 		 PasswordEncryption encryption = new PasswordEncryption();
 		 String encryptedPassword = encryption.encryptPassword(userForgotPasswordModelObj.getUserPassword());
+		 System.out.println(encryptedPassword);
+		 System.out.println(userForgotPasswordModelObj.getSecretAnswer());
+		 System.out.println(userForgotPasswordModelObj.getSecretQuestion());
+		 System.out.println(userForgotPasswordModelObj.getUserEmail());
 		 userForgotPasswordModelObj.setUserPassword(encryptedPassword);
 		 
 		 ForgotPasswordService forgotPasswordServiceObj = new ForgotPasswordService() ;
-		 String message = forgotPasswordServiceObj.updateNewPassword(userForgotPasswordModelObj);
+		 int status = forgotPasswordServiceObj.updateNewPassword(userForgotPasswordModelObj);
 		 
-		 return message ;
+		 return status ;
 		
 		
 		

@@ -159,7 +159,7 @@ public class MedicalHistoryRepository {
 	
 	
 	public boolean updateMedicalDataToDB(int medicalHistoryId,Date medicineStartDate,Date medicineEndDate,int dosageAmount,String dosageFrequency,
-										Time doageBreakfastTime,Time doageLunchTime,Time doageDinnerTime,int flag) throws SQLException {
+										Time doageBreakfastTime,Time doageLunchTime,Time doageDinnerTime,int emailNotification,int flag) throws SQLException {
 		DataBaseConnection  dbObj= new DataBaseConnection() ;
 		
 	    Connection connect = dbObj.databaseConnection() ;
@@ -168,10 +168,10 @@ public class MedicalHistoryRepository {
 	     
 	    if(flag==1) { 
 	     query= "UPDATE dependent_medical_history SET dependentMedicineStartDate=?,dependentMedicineEndDate=? ,dependentDosageAmount=?,dependentDosageFrequency=?"
-	    		    + ",dependentDosageBreakfastTime=? ,dependentDosageLunchTime=?,dependentDosageDinnerTime=? where dependentMedicalHistoryId=?";
+	    		    + ",dependentDosageBreakfastTime=? ,dependentDosageLunchTime=?,dependentDosageDinnerTime=?, emailNotification=? where dependentMedicalHistoryId=?";
 	    }else {
 	    	query= "UPDATE user_medical_history SET userMedicineStartDate=?,userMedicineEndDate=? ,userDosageAmount=?,userDosageFrequency=?"
-	    		    + ",userDosageBreakfastTime=? ,userDosageLunchTime=?,userDosageDinnerTime=? where userMedicalHistoryId=?";
+	    		    + ",userDosageBreakfastTime=? ,userDosageLunchTime=?,userDosageDinnerTime=?, emailNotification=? where userMedicalHistoryId=?";
 		}
 	    System.out.println("2");
 	    PreparedStatement pstmt = connect.prepareStatement(query,
@@ -186,7 +186,9 @@ public class MedicalHistoryRepository {
 	    pstmt.setTime(5, doageBreakfastTime);
 	    pstmt.setTime(6, doageLunchTime);
 	    pstmt.setTime(7, doageDinnerTime);
-	    pstmt.setInt(8,medicalHistoryId);
+	    pstmt.setInt(8, emailNotification);
+	    pstmt.setInt(9,medicalHistoryId);
+	    
 	    System.out.println("4");
 	    int status = pstmt.executeUpdate();
 	    System.out.println("5");
