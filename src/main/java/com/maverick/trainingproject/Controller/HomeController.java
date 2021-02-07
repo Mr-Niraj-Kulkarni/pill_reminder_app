@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.maverick.trainingproject.Model.HomePageModel;
 import com.maverick.trainingproject.Model.UserProfileModel;
 import com.maverick.trainingproject.Model.UserRegistrationInformationModel;
-import com.maverick.trainingproject.Service.HomePageService;
-import com.maverick.trainingproject.Service.JwtTokenUtil;
-import com.maverick.trainingproject.Service.UserRegistrationService;
+import com.maverick.trainingproject.Service.Authorization.JwtTokenUtil;
+import com.maverick.trainingproject.Service.Login.UserRegistrationService;
+import com.maverick.trainingproject.Service.Profile.HomePageService;
 
 @Controller
 public class HomeController {

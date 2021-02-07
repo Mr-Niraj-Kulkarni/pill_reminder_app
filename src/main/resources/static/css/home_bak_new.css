@@ -2,7 +2,7 @@
   /*background-color: red;*/
   flex: 1.5;
   height: 87vh;
-  border: 1px solid black;
+  border: 2px solid black;
   min-width: 0;
   overflow: hidden;
   min-width: 0px;
@@ -30,16 +30,18 @@
   flex-direction: column;
   flex: 9;
   height: 87vh;
-  border: 1px solid black;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  border-right: 2px solid black;
   min-width: 0px;
-  overflow: auto;
+  overflow-x: auto;
  
 }
 .sidebar_two{
   /*background-color: brown;*/
   flex: 1.5;
   height: 87vh;
-  border: 1px solid black;
+  border: 2px solid black;
   min-width: 0;
   overflow: hidden;
   /*flex-wrap: wrap;*/
@@ -51,14 +53,15 @@
   flex: 2;
   display:flex;
   flex-direction: row;
-  border: 1px solid black;
+  border-bottom: 2px solid black;
+  /*border: 1px solid black;*/
 }
 .main_mid_row{
   flex: 9;
-  border: 1px solid black;
+  /*border: 1px solid black;*/
   display: flex;
 
-  overflow: auto;
+  overflow-y: auto;
   flex-wrap: wrap;
   /*justify-content: center;
   align-items: center;*/
@@ -74,11 +77,11 @@
 }
 .user_profile{
   flex:auto;
-  border: 1px solid black;
+  /*border: 2px solid black;*/
 }
 .welcome_name{
   flex: auto;
-  border: 1px solid black;
+  border-left: 2px solid black;
 }
 
 .card1-cover{
@@ -101,6 +104,7 @@
   visibility: hidden;
 }
 #photo-logout{
+  padding-right: 0px;
   width: auto;
   height: 6vh;
 }

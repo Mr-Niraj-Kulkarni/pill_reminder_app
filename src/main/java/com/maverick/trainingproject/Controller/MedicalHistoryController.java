@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.maverick.trainingproject.Model.DependentMedicalHistoryModel;
 import com.maverick.trainingproject.Model.MedicalHistoryModel;
-import com.maverick.trainingproject.Service.JwtTokenUtil;
-import com.maverick.trainingproject.Service.MedicalHistoryAddService;
-import com.maverick.trainingproject.Service.MedicalHistoryDeleteService;
-import com.maverick.trainingproject.Service.MedicalHistoryDisplayService;
-import com.maverick.trainingproject.Service.MedicalHistoryUpdateService;
+import com.maverick.trainingproject.Service.Authorization.JwtTokenUtil;
+import com.maverick.trainingproject.Service.MedicalHistory.MedicalHistoryAddService;
+import com.maverick.trainingproject.Service.MedicalHistory.MedicalHistoryDeleteService;
+import com.maverick.trainingproject.Service.MedicalHistory.MedicalHistoryDisplayService;
+import com.maverick.trainingproject.Service.MedicalHistory.MedicalHistoryUpdateService;
 
 @Controller
 public class MedicalHistoryController {

@@ -26,10 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.maverick.trainingproject.TrainingprojectApplication;
 import com.maverick.trainingproject.Model.UserProfileModel;
 import com.maverick.trainingproject.Model.userImageModel;
-import com.maverick.trainingproject.Service.JwtRequest;
-import com.maverick.trainingproject.Service.JwtTokenUtil;
-//import com.maverick.trainingproject.Service.SendEmailService;
-import com.maverick.trainingproject.Service.UserProfileService;
+import com.maverick.trainingproject.Service.Authorization.JwtRequest;
+import com.maverick.trainingproject.Service.Authorization.JwtTokenUtil;
+import com.maverick.trainingproject.Service.Profile.UserProfileService;
 
 @Controller
 public class UserProfileController {

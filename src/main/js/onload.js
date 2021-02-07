@@ -1,28 +1,21 @@
-import loginPage from './loginPage.js';
-import registrationPage from './registrationPage';
-import forgotPage from './forgotPage.js';
-import homePage from './homePage.js';
-import userProfilePage from './userProfilePage';
-import header from './header.js';
-import sideMenu from './sideMenu.js';
-import medicalHistoryPage from './medicalHistoryPage.js';
+import loginPage from './Login/loginPage.js';
+import registrationPage from './Login/registrationPage';
+import forgotPage from './Login/forgotPage.js';
+import homePage from './Home/homePage.js';
+import userProfilePage from './Profile/userProfilePage';
+import header from './Home/header.js';
+import sideMenu from './Home/sideMenu.js';
+import medicalHistoryPage from './MedicalHistory/medicalHistoryPage.js';
+import Error404Screen from './Login/error404.js';
+import {authenticateUser} from './API/loginAPI.js';
+
+//Imports for CSS
+
 import '../resources/static/css/login.css';
 import '../resources/static/css/registration.css';
 import '../resources/static/css/home.css';
 import '../resources/static/css/profile.css';
 
-/*import '../resources/static/css/w3.css';
-import '../resources/static/css/googleapi.css';*/
-
-
-/*const rout = async () => {
-	document.getElementById("login").innerHTML = loginPage.render();
-	console.log("inside the function");
-	if (loginPage.after_render()) {
-		loginPage.after_render();
-	}
-}
-rout();*/
 
 const routes = {
 	'/': loginPage,
@@ -43,17 +36,14 @@ const parseRequestUrl = () => {
 	}
 
 }
-//rootEle.innerHTML=LoginScreen.render();
 const router = async () => {
 		  const request = parseRequestUrl();
 		  const parseUrl = (request.resource ? `/${request.resource}` : '/') + 
 		  (request.id ? '/:id' : '')+
 		  (request.verb ? `/${request.verb}` : '');
-			//alert(parseUrl);
 			const screen = routes[parseUrl] ? routes[parseUrl]: Error404Screen;
 			
 			if(parseUrl == "/" || parseUrl == "/signup" || parseUrl == "/forgotpwd"){
-				//const logindiv = document.getElementById("login");
 				console.log("ithe ka jatoy yacha pahile");
 				if(document.getElementById("login") == null){
 					console.log("ithe ka jatoy");
@@ -64,25 +54,42 @@ const router = async () => {
 					document.getElementById("container").appendChild(createlogindiv);
 				}
 				document.getElementById("login").innerHTML= await screen.render();
+				if(screen.after_render){
+					screen.after_render();
+				}
+			}
+			else if(screen == Error404Screen){
+				document.querySelector(".full").innerHTML = Error404Screen.render();
 			}
 			else{
-				//console.log("homeurl")
+				const response =await authenticateUser() ;
+				if(response==null){
+				
 				document.getElementById("container").innerHTML = await sideMenu.render();
 				document.getElementById("container").innerHTML += await screen.render();
 				if(document.getElementById("logout-menu") == null){
 					document.getElementById("upper-container").innerHTML = await header.render();
 					header.after_render();
+					//menus.menus();	
 				}
+				if(screen.after_render){
+					screen.after_render();
+				}
+			}
+			else if(response.status!=200){
+				document.getElementById("container").innerHTML = "<h1>Not Authorized. Login and try again</h1>"// call error page or redirect to login
+				setTimeout(()=>{
+					alert("You will now be redirected to login page");
+					window.location.href= "#/";
+				},500);
+				
 				
 			}
-			
-			
-		  if(screen.after_render){
-		    screen.after_render();
-		  }
-		  
+				
+			}
+
 }
 
-window.addEventListener("load", router);
+window.addEventListener("load", router());
 window.addEventListener("hashchange", router);
 
