@@ -176,7 +176,7 @@ public boolean validateUserMedicalHistory(MedicalHistoryModel userObj) {
 			System.out.println("freq");
 			return false ;
 		}else {
-			if(!dependentObj.getDosageFrequency().equals("once")&&!dependentObj.getDosageFrequency().equals("twice")&&dependentObj.getDosageFrequency().equals("thrice")) {
+			if(!dependentObj.getDosageFrequency().equals("once")&&!dependentObj.getDosageFrequency().equals("twice")&&!dependentObj.getDosageFrequency().equals("thrice")) {
 				System.out.println("ur wrong");
 				return false ;
 			}	

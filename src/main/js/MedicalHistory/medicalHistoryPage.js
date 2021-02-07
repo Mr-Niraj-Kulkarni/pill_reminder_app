@@ -298,6 +298,7 @@ console.log(parentid+"niraj is here");
       }
       console.log(data);
       status = await addDependentMedicalHistory(data);
+      console.log(status);
     }
     if (status) {
       await medicalHistoryPage.after_render();
